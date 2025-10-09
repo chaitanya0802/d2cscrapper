@@ -26,7 +26,7 @@ public class mamaearth {
         "FaceCare+Facial Kits", "https://mamaearth.in/product-category/facial-kits",
         "FaceCare+Face Scrub", "https://mamaearth.in/product-category/face-scrub",
 
-        "HairCare+Shampoo", "https://mamaearth.in/product-category/hair-shampoo",
+        "HairCare+Shampoo", "https://mamaearth.in/product-category/hair-shampoo"
     );
 
     String storename = "Mamaearth";

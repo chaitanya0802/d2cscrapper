@@ -111,6 +111,9 @@ public class boat {
 
             List<WebElement> products = driver.findElements(By.xpath("//*[@id='Huratips_Loop']//product-item"));
             for (int i = prevProductCount; i < products.size(); i++) {
+
+                System.out.println("$$$current product count: " + products.size());
+
                 try {
                     //actual data
 
@@ -204,5 +207,10 @@ public class boat {
             e.printStackTrace();
         }
 
+    }
+
+    public static void main(String[] args) {
+        boat b = new boat();
+        b.scrapProdData();      
     }
 }
