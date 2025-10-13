@@ -129,9 +129,9 @@ public class boat {
                     String rt = products.get(i).findElement(By.xpath(".//div/div[2]/div/span/div/div")).getText().trim();
                     Float rating = (Float) Float.parseFloat(rt);
 
-                    WebElement container = products.get(i).findElement(By.xpath(".//div/div[2]/div/div/div[2]"));
-                    String tag = container.findElement(By.xpath("./*")).getTagName();
-                    boolean isAvailable = tag.equals("form");  // true if form → available
+                    boolean isAvailable = !products.get(i).findElements(By.xpath(
+                    ".//descendant::*[contains(text(), 'Add to cart')]"
+                    )).isEmpty();
 
                     Product p = new Product(id, name, url, imageurl, mainCategory, subcat, prodprice, des, rating, isAvailable);
                     productList.add(p);

@@ -11,6 +11,10 @@ import org.testng.annotations.Test;
 import io.github.bonigarcia.wdm.WebDriverManager;
 import utils.ConfigReader;
 import utils.Product;
+import org.openqa.selenium.support.ui.ExpectedConditions;
+import java.time.Duration;
+import org.openqa.selenium.support.ui.WebDriverWait;
+
 
 public class demo {
 
@@ -21,21 +25,26 @@ public class demo {
     String productContainerElement = "//*[@id='facet-main']/product-list";
     String productItemElement = "//*[@id='Huratips_Loop']//product-item";
 
-    String productNameElement = "";
-    String productURLElement = "";
-    String productImageURLElement = "";
-    String productPriceElement = "";
-    String productDesElement = "";
-    String productratingElement = "";
-    String productAvailElement = "";
-
-    // catname , catlink
+    // format = catname , catlink
     Map<String, String> subcat = Map.of(
-            "Party Speakers" , "https://www.boat-lifestyle.com/collections/party-speakers"
-            // "Bluetooth Neckbands Earphones" , "http://boat-lifestyle.com/collections/bluetooth-neckbands-earphones",
-            // "Wireless Earbuds", "https://www.boat-lifestyle.com/collections/true-wireless-earbuds",
-            // "Wireless Speakers", "https://www.boat-lifestyle.com/collections/wireless-speakers"
+            "Speakers+Party Speakers" , "https://www.boat-lifestyle.com/collections/party-speakers"
+            // "Chargers", "https://www.boat-lifestyle.com/collections/chargers",
+            // "FaceCare+FaceWash", "https://mamaearth.in/product-category/face-wash"
+            );
+
+    Map<String, String> boatlocators =  Map.of(
+        "productsection", "//*[@id='facet-main']/product-list",
+        "productitem", "//*[@id='Huratips_Loop']//product-item",
+
+        "name", ".//div/div[2]/div/div/a",
+        "price",".//div/div[2]/div/div/div[1]/div[1]/span[1]",
+        "description", ".//div/div[2]/div/div/div[1]/div[2]",
+        "url", ".//div/div[2]/div/div/a",
+        "imageurl", ".//div/div[1]/div/a/img",
+        "rating", ".//div/div[2]/div/span/div/div",
+        "availablity_idf", "Add to cart"
     );
+
 
     WebDriver driver;
 
@@ -57,11 +66,11 @@ public class demo {
 
         for (Map.Entry<String, String> m : subcat.entrySet()) {
             System.out.println("==> " + m.getKey() + " ==>" + m.getValue());
-            scrapCategoryData(m.getKey(), m.getValue());
+            scrapCategoryData(m.getKey(), m.getValue(), boatlocators);
         }
     }
 
-    public void scrapCategoryData(String subcat, String catURL) {
+    public void scrapCategoryData(String subcat, String catURL, Map<String, String> locators) {
         List<Product> productList = new ArrayList<>();
         int prevProductCount = 0, sameCountTries = 0, scrolls = 0, maxScrolls = 100;
 
@@ -73,7 +82,7 @@ public class demo {
             // scroll to bottom of product container
             JavascriptExecutor js = (JavascriptExecutor) driver;
             try {
-                WebElement loopElement = driver.findElement(By.xpath(productContainerElement));
+                WebElement loopElement = driver.findElement(By.xpath(locators.get("productsection")));  //scroll
                 js.executeScript("arguments[0].scrollIntoView(false);", loopElement);
 
             } catch (NoSuchElementException e) {
@@ -91,7 +100,7 @@ public class demo {
             // track total products loaded in current scroll
             int currProducts;
             try {
-                currProducts = driver.findElements(By.xpath(productItemElement)).size();
+                currProducts = driver.findElements(By.xpath(locators.get("productitem"))).size();
             } catch (NoSuchElementException e) {
                 System.out.println("ProductItemElement not found in DOM");
                 break;
@@ -117,39 +126,188 @@ public class demo {
         Assert.assertNotEquals(prevProductCount, 0);
 
         // extract the product data
-        List<WebElement> products = driver.findElements(By.xpath(productItemElement));
+        List<WebElement> products = driver.findElements(By.xpath(locators.get("productitem")));
 
-        System.out.println("##=== Total products for("+ subcat + ")category are: " + products.size());
+        System.out.println("===> Total products for("+ subcat + ")category are: " + products.size());
 
         for (int i = 0; i < products.size(); i++) {
+            System.out.println("===> getting "+ i + " th prod");
             try {
 
-                WebElement link = products.get(i).findElement(By.xpath(".//div/div[2]/div/div/a"));
+                // WebElement link = products.get(i).findElement(By.xpath(".//div/div[2]/div/div/a"));
 
-                String name = link.getText().trim();
-                String url = link.getAttribute("href");
-                String id = storename + Math.abs(url.hashCode());
-                String imageurl = products.get(i).findElement(By.xpath(".//div/div[1]/div/a/img")).getAttribute("src");
-                String price = products.get(i).findElement(By.xpath(".//div/div[2]/div/div/div[1]/div[1]/span[1]"))
-                        .getAttribute("data-price").trim();
-                int prodprice = Integer.parseInt(price.replaceAll("[^0-9]", "")) / 100;
-                String des = products.get(i).findElement(By.xpath(".//div/div[2]/div/div/div[1]/div[2]")).getText()
-                        .trim().replaceAll("[™®]", "").trim();
-                String rt = products.get(i).findElement(By.xpath(".//div/div[2]/div/span/div/div")).getText().trim();
-                Float rating = (Float) Float.parseFloat(rt);
+                // String name = link.getText().trim();
+                // String url = link.getAttribute("href");
+                // String id = storename + Math.abs(url.hashCode());
+                // String imageurl = products.get(i).findElement(By.xpath(".//div/div[1]/div/a/img")).getAttribute("src");
+                // String price = products.get(i).findElement(By.xpath(".//div/div[2]/div/div/div[1]/div[1]/span[1]"))
+                //         .getAttribute("data-price").trim();
+                // int prodprice = Integer.parseInt(price.replaceAll("[^0-9]", "")) / 100;
+                // String des = products.get(i).findElement(By.xpath(".//div/div[2]/div/div/div[1]/div[2]")).getText()
+                //         .trim().replaceAll("[™®]", "").trim();
+                // String rt = products.get(i).findElement(By.xpath(".//div/div[2]/div/span/div/div")).getText().trim();
+                // Float rating = (Float) Float.parseFloat(rt);
                                 
-                boolean isAvailable = !products.get(i).findElements(By.xpath(
-                    ".//descendant::*[contains(text(), 'Add to cart')]"
-                )).isEmpty();
+                // boolean isAvailable = !products.get(i).findElements(By.xpath(
+                //     ".//descendant::*[contains(text(), 'Add to cart')]"
+                // )).isEmpty();
 
-                Product p = new Product(id, name, url, imageurl, maincat, subcat, prodprice, des, rating, isAvailable);
+                WebElement currproduct = products.get(i);
+                WebDriverWait wait = new WebDriverWait(driver, Duration.ofSeconds(5));
+
+                // ---- name ----
+                String name = null;
+                try {
+                    String xp = locators.get("name");
+                    if (xp == null || xp.trim().isEmpty()) {
+                        System.out.println("[name] Empty XPath — skipping");
+                    } else {
+                        name = currproduct.findElement(By.xpath(xp)).getText().trim();
+                    }
+                } catch (Exception e) {
+                    System.out.println("[name] XPATH=" + locators.get("name") + " | " + e.getClass().getSimpleName() + " - " + e.getMessage());
+                }
+
+                // ---- url ----
+                String url = null;
+                try {
+                    String urlXp = locators.get("url");
+                    if (urlXp == null || urlXp.trim().isEmpty()) {
+                        System.out.println("[url] Empty XPath — skipping");
+                    } else if (!urlXp.equalsIgnoreCase("routertype")) {
+                        url = currproduct.findElement(By.xpath(urlXp)).getAttribute("href");
+                    } else {
+                        // Router-type navigation and back (uses image/title)
+                        String clickXp = locators.get("imageurl");
+                        if (clickXp == null || clickXp.trim().isEmpty()) {
+                            System.out.println("[url/routertype] Empty click XPath (imageurl) — cannot navigate");
+                        } else {
+                            String listingUrl = driver.getCurrentUrl();
+                            try {
+                                WebElement clickTarget = currproduct.findElement(By.xpath(clickXp)); // or title
+                                ((JavascriptExecutor) driver).executeScript("arguments[0].scrollIntoView({block:'center'});", clickTarget);
+                                clickTarget.click();
+                                wait.until(ExpectedConditions.not(ExpectedConditions.urlToBe(listingUrl)));
+                                url = driver.getCurrentUrl();
+                            } catch (Exception e) {
+                                System.out.println("[url/routertype] click failed XPATH=" + clickXp
+                                        + " | " + e.getClass().getSimpleName() + " - " + e.getMessage());
+                            } finally {
+                                try {
+                                    driver.navigate().back();
+                                    wait.until(ExpectedConditions.urlToBe(listingUrl));
+                                } catch (Exception backEx) {
+                                    System.out.println("[navigation] back to listing failed | "
+                                            + backEx.getClass().getSimpleName() + " - " + backEx.getMessage());
+                                }
+                            }
+                        }
+                    }
+                } catch (Exception e) {
+                    System.out.println("[url] XPATH=" + locators.get("url") + " | " + e.getClass().getSimpleName() + " - " + e.getMessage());
+                }
+
+                // Essential-only skip (product unusable if name or url missing)
+                if (name == null || url == null) {
+                    System.out.println("Skipping product #" + (i + 1) + " — missing essential field(s): "
+                            + (name == null ? "name " : "") + (url == null ? "url" : ""));
+                    System.out.println("---------------------------");
+                    continue;
+                }
+
+                // ---- id ----
+                String id = storename + Math.abs(url.hashCode());
+
+                // ---- price ----
+                int price = 0;
+                try {
+                    String priceXp = locators.get("price");
+                    if (priceXp == null || priceXp.trim().isEmpty()) {
+                        System.out.println("[price] Empty XPath — skipping");
+                    } else {
+                        String pr = currproduct.findElement(By.xpath(priceXp)).getText().trim();
+                        try {
+                            // Minimal: keep digits + dot; adjust as per your formatting needs
+                            price = (int) Math.round(Double.parseDouble(pr.replaceAll("[^0-9.]", "")));
+                        } catch (NumberFormatException nfe) {
+                            System.out.println("[price] parse failed for value: '" + pr + "' | " + nfe.getClass().getSimpleName());
+                        }
+                    }
+                } catch (Exception e) {
+                    System.out.println("[price] XPATH=" + locators.get("price") + " | " + e.getClass().getSimpleName() + " - " + e.getMessage());
+                }
+
+                // ---- imageurl ----
+                String imageurl = "";
+                try {
+                    String imgXp = locators.get("imageurl");
+                    if (imgXp == null || imgXp.trim().isEmpty()) {
+                        System.out.println("[imageurl] Empty XPath — skipping");
+                    } else {
+                        imageurl = currproduct.findElement(By.xpath(imgXp)).getAttribute("src");
+                        if (imageurl == null) imageurl = "";
+                    }
+                } catch (Exception e) {
+                    System.out.println("[imageurl] XPATH=" + locators.get("imageurl") + " | " + e.getClass().getSimpleName() + " - " + e.getMessage());
+                }
+
+                // ---- description ----
+                String des = "";
+                try {
+                    String xp = locators.get("description");
+                    if (xp == null || xp.trim().isEmpty()) {
+                        System.out.println("[description] Empty XPath — skipping");
+                    } else {
+                        des = currproduct.findElement(By.xpath(xp)).getText().trim();
+                    }
+                } catch (Exception e) {
+                    System.out.println("[description] XPATH=" + locators.get("description") + " | " + e.getClass().getSimpleName() + " - " + e.getMessage());
+                }
+
+                // ---- rating ----
+                float rating = 0.0f;
+                try {
+                    String xp = locators.get("rating");
+                    if (xp == null || xp.trim().isEmpty()) {
+                        System.out.println("[rating] Empty XPath — skipping");
+                    } else {
+                        String rt = currproduct.findElement(By.xpath(xp)).getText().trim();
+                        try {
+                            rating = Float.parseFloat(rt.replaceAll("[^0-9.]", ""));
+                        } catch (NumberFormatException nfe) {
+                            // keep default 0.0
+                        }
+                    }
+                } catch (Exception e) {
+                    System.out.println("[rating] XPATH=" + locators.get("rating") + " | " + e.getClass().getSimpleName() + " - " + e.getMessage());
+                }
+
+                // ---- availability ----
+                boolean isAvailable = false;
+                try {
+                    String idf = locators.get("availablity_idf");
+                    if (idf == null || idf.trim().isEmpty()) {
+                        System.out.println("[availability] Empty identifier — skipping");
+                    } else {
+                        isAvailable = !currproduct.findElements(By.xpath(
+                                ".//descendant::*[contains(text(), '" + idf + "')]"
+                        )).isEmpty();
+                    }
+                } catch (Exception e) {
+                    System.out.println("[availability] evaluation failed | " + e.getClass().getSimpleName() + " - " + e.getMessage());
+                }
+
+
+
+                //display
+                Product p = new Product(id, name, url, imageurl, maincat, subcat, price, des, rating, isAvailable);
                 productList.add(p);
-
+                System.out.println("DATA >>>");
                 System.out.println(p);
-                System.out.println("==========================");
+                System.out.println("=====================================");
 
             } catch (NoSuchElementException e) {
-                System.out.println("Product structure mismatch");
+                System.out.println("===> Product structure mismatch: " + e.toString());
             } catch (Exception e) {
                 System.out.println(e.toString());
             }
