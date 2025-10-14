@@ -10,6 +10,7 @@ public class Product {
     private String selectCategory;     // Main Category
     private String subCategory;        // Sub Category
     private int productPrice;       // Product Price (mandatory)
+    private int discount_percent;
     private String productDescription; // Product Description (mandatory)
     private float productRating;         // Product Rating (int)
     private boolean isAvailable;       // Availability (true/false)
@@ -17,7 +18,7 @@ public class Product {
     // Constructor
     public Product(String productId, String productName, String productUrl,
                    String productImageUrl, String selectCategory, String subCategory,
-                   int productPrice, String productDescription, float productRating,
+                   int productPrice, int discount_percent, String productDescription, float productRating,
                    boolean isAvailable) {
         this.productId = productId;
         this.productName = productName;
@@ -26,6 +27,7 @@ public class Product {
         this.selectCategory = selectCategory;
         this.subCategory = subCategory;
         this.productPrice = productPrice;
+        this.discount_percent = discount_percent;
         this.productDescription = productDescription;
         this.productRating = productRating;
         this.isAvailable = isAvailable;
@@ -125,6 +127,7 @@ public class Product {
                 ", \nselectCategory=" + selectCategory +
                 ", \nsubCategory=" + subCategory +
                 ", \nproductPrice=" + productPrice +
+                ", \ndiscount_percent=" + discount_percent +
                 ", \nproductDescription=" + productDescription +
                 ", \nproductRating=" + productRating +
                 ", \nisAvailable=" + isAvailable;

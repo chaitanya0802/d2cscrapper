@@ -133,7 +133,7 @@ public class boat {
                     ".//descendant::*[contains(text(), 'Add to cart')]"
                     )).isEmpty();
 
-                    Product p = new Product(id, name, url, imageurl, mainCategory, subcat, prodprice, des, rating, isAvailable);
+                    Product p = new Product(id, name, url, imageurl, mainCategory, subcat, prodprice, 0,  des, rating, isAvailable);
                     productList.add(p);
 
                     System.out.println(p);

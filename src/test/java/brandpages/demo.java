@@ -23,8 +23,8 @@ public class demo {
 
     // format = catname , catlink
     Map<String, String> subcat = Map.of(
-            // "Speakers+Party Speakers" , "https://www.boat-lifestyle.com/collections/party-speakers"
-            "FaceCare+FaceWash", "https://mamaearth.in/product-category/face-wash"
+             "Speakers+Party Speakers" , "https://www.boat-lifestyle.com/collections/party-speakers"
+//            "FaceCare+FaceWash", "https://mamaearth.in/product-category/face-wash"
     );
 
     Map<String, String> boatlocators =  Map.of(
@@ -33,40 +33,27 @@ public class demo {
 
         "name", ".//div/div[2]/div/div/a",
         "price",".//div/div[2]/div/div/div[1]/div[1]/span[1]",
+        "discount_percent" , ".//div/div[2]/div/div/div[1]/div[1]/p",
         "description", ".//div/div[2]/div/div/div[1]/div[2]",
         "url", ".//div/div[2]/div/div/a",
         "imageurl", ".//div/div[1]/div/a/img",
         "rating", ".//div/div[2]/div/span/div/div",
-        "discount_percent", "",
         "availablity_idf", "Add to cart"
     );
 
-    // Map<String, String> melocators = Map.of(
-    //     "productsection", "//*[@id='__next']/div[6]/div[8]/section",
-    //     "productitem", "//*[@id='__next']/div[6]/div[8]/section/section/div",
+     Map<String, String> melocators = Map.of(
+         "productsection", "//*[@id='__next']/div[6]/div[8]/section",
+         "productitem", "//*[@id='__next']/div[6]/div[8]/section/section/div",
 
-    //     "name", ".//div[2]/div/div[1]/div[1]",
-    //     "price",".//div[2]/div/div[1]/div[5]/div[1]",
-    //     "description", ".//div[2]/div/div[1]/div[2]",
-    //     "url", "routertype",
-    //     "imageurl", ".//div[1]/div/img",
-    //     "rating", ".//div[2]/div/div[1]/div[4]/span[1]",
-    //     "availablity_idf", "Add To Cart"
-    // );
-
-    Map<String, String> melocators = Map.of(
-        "productsection", "//*[@class='sc-cAJUJo dutoTZ']",
-        "productitem", "//*[@class='sc-ugnQR bvqGTJ search-cards']",
-
-        "name", ".//*[@class='title']",
-        "price",".//*[@class='price special']",
-        "description", ".//*[@class='subtitle']",
-        "url", "routertype",
-        "imageurl", ".//*[@class='ProductCard_Wrapper_DisplayArea']//img",
-        "rating", ".//*[@class='rating']",
-        "availablity_idf", "Add To Cart"
-    );
-    
+         "name", ".//div[2]/div/div[1]/div[1]",
+         "price",".//div[2]/div/div[1]/div[5]/div[1]",
+             "discount_percent" , ".//div[2]/div/div[1]/div[5]/div[3]",
+         "description", ".//div[2]/div/div[1]/div[2]",
+         "url", "routertype",
+         "imageurl", ".//div[1]/div/img",
+         "rating", ".//div[2]/div/div[1]/div[4]/span[1]",
+         "availablity_idf", "Add To Cart"
+     );
 
     WebDriver driver;
 
@@ -89,7 +76,7 @@ public class demo {
 
         for (Map.Entry<String, String> m : subcat.entrySet()) {
             System.out.println("==> " + m.getKey() + " ==>" + m.getValue());
-            scrapCategoryData(m.getKey(), m.getValue(), melocators);
+            scrapCategoryData(m.getKey(), m.getValue(), boatlocators);
         }
     }
 
@@ -249,6 +236,25 @@ public class demo {
                     System.out.println("!!! [price] XPATH=" + locators.get("price") + " | " + e.getClass().getSimpleName() + " - " + e.getMessage());
                 }
 
+                // ---- discount_percent ----
+                int discount_percent = 0;
+                try {
+                    String dp = locators.get("discount_percent");
+                    if (dp == null || dp.trim().isEmpty()) {
+                        System.out.println("[discount_percent] Empty XPath — skipping");
+                    } else {
+                        String disp = currproduct.findElement(By.xpath(dp)).getText().trim();
+                        try {
+                            // Minimal: keep digits + dot; adjust as per your formatting needs
+                            discount_percent = Math.round(Integer.parseInt(disp.replaceAll("[^0-9.]", "")));
+                        } catch (NumberFormatException nfe) {
+                            System.out.println("!!! [discount_percent] parse failed for value: '" + disp + "' | " + nfe.getClass().getSimpleName());
+                        }
+                    }
+                } catch (Exception e) {
+                    System.out.println("!!! [discount_percent] XPATH=" + locators.get("discount_percent") + " | " + e.getClass().getSimpleName() + " - " + e.getMessage());
+                }
+
                 // ---- imageurl ----
                 String imageurl = "";
                 try {
@@ -313,14 +319,14 @@ public class demo {
 
 
                 //display
-                Product p = new Product(id, name, url, imageurl, maincat, subcat, price, des, rating, isAvailable);
+                Product p = new Product(id, name, url, imageurl, maincat, subcat, price ,discount_percent, des, rating, isAvailable);
                 productList.add(p);
                 System.out.println("DATA >>>");
                 System.out.println(p);
                 System.out.println("=====================================");
 
             } catch (NoSuchElementException e) {
-                System.out.println("===> Product structure mismatch: " + e.toString());
+                System.out.println("===> Product structure mismatch: " + e);
             } catch (Exception e) {
                 System.out.println("!!!" + e.toString());
             }
