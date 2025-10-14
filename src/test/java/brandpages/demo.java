@@ -37,25 +37,35 @@ public class demo {
         "url", ".//div/div[2]/div/div/a",
         "imageurl", ".//div/div[1]/div/a/img",
         "rating", ".//div/div[2]/div/span/div/div",
+        "discount_percent", "",
         "availablity_idf", "Add to cart"
     );
 
-//*[@id="__next"]/div[6]/div[8]/section/section/div[46]/div[2]/div/div[1]/div[4]/span[1]
-    Map<String, String> melocators = Map.of(
-        "productsection", "//*[@id='__next']/div[6]/div[8]/section",
-        "productitem", "//*[@id='__next']/div[6]/div[8]/section/section/div",
+    // Map<String, String> melocators = Map.of(
+    //     "productsection", "//*[@id='__next']/div[6]/div[8]/section",
+    //     "productitem", "//*[@id='__next']/div[6]/div[8]/section/section/div",
 
-        "name", ".//div[2]/div/div[1]/div[1]",
-        "price",".//div[2]/div/div[1]/div[5]/div[1]",
-        "description", ".//div[2]/div/div[1]/div[2]",
+    //     "name", ".//div[2]/div/div[1]/div[1]",
+    //     "price",".//div[2]/div/div[1]/div[5]/div[1]",
+    //     "description", ".//div[2]/div/div[1]/div[2]",
+    //     "url", "routertype",
+    //     "imageurl", ".//div[1]/div/img",
+    //     "rating", ".//div[2]/div/div[1]/div[4]/span[1]",
+    //     "availablity_idf", "Add To Cart"
+    // );
+
+    Map<String, String> melocators = Map.of(
+        "productsection", "//*[@class='sc-cAJUJo dutoTZ']",
+        "productitem", "//*[@class='sc-ugnQR bvqGTJ search-cards']",
+
+        "name", ".//*[@class='title']",
+        "price",".//*[@class='price special']",
+        "description", ".//*[@class='subtitle']",
         "url", "routertype",
-        "imageurl", ".//div[1]/div/img",
-        "rating", ".//div[2]/div/div[1]/div[4]/span[1]",
+        "imageurl", ".//*[@class='ProductCard_Wrapper_DisplayArea']//img",
+        "rating", ".//*[@class='rating']",
         "availablity_idf", "Add To Cart"
     );
-
-    //*[@id="__next"]/div[6]/div[8]/section/section/div[46]/div[2]/div/div[1]/div[4]/span[1]/text()[2]
-
     
 
     WebDriver driver;
