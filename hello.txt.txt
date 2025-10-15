@@ -1,6 +1,60 @@
-package brandpages;
+package brandpageswhile (scrolls < maxScrolls) {
+    JavascriptExecutor js = (JavascriptExecutor) driver;
+    String section = locators.get("productcardsection");
+    boolean isWindowType = section.equalsIgnoreCase("windowtype");
 
-import java.util.*;
+    try {
+        if (isWindowType) {
+            js.executeScript("window.scrollBy(0, 100);");
+        } else {
+            WebElement loopElement = driver.findElement(By.xpath(section));
+            js.executeScript("arguments[0].scrollIntoView(false);", loopElement);
+        }
+        sameCountTries = 0;
+    } catch (NoSuchElementException e) {
+        System.out.println("!!! Product container Element not found in DOM");
+        break;
+    }
+
+    try {
+        Thread.sleep(2000);
+    } catch (InterruptedException e) {
+        e.printStackTrace();
+    }
+
+    int currProducts;
+    try {
+        currProducts = driver.findElements(By.xpath(locators.get("productcard"))).size();
+    } catch (NoSuchElementException e) {
+        System.out.println("!!! productcardElement not found in DOM");
+        break;
+    }
+
+    if (currProducts == prevProductCount) {
+        sameCountTries++;
+        if (sameCountTries >= 5) {
+            System.out.println("breaking scrolling as samecounttries>=5");
+            break;
+        }
+    } else {
+        sameCountTries = 0;
+    }
+
+    prevProductCount = currProducts;
+    scrolls++;
+
+    if (isWindowType) {
+        Long scrollHeight = (Long) js.executeScript("return document.body.scrollHeight;");
+        Long scrollPos = (Long) js.executeScript("return window.pageYOffset + window.innerHeight;");
+        if (scrollPos >= scrollHeight - 50) {
+            sameCountTries++;
+            if (sameCountTries >= 3) {
+                System.out.println("Reached bottom of page, no more products");
+                break;
+            }
+        }
+    }
+}mport java.util.*;
 import org.openqa.selenium.By;
 import org.openqa.selenium.JavascriptExecutor;
 import org.openqa.selenium.WebDriver;
@@ -361,3 +415,61 @@ public static void main(String[] args) {
     d.scrapProdData();  
 }
 
+/////@@@
+while (scrolls < maxScrolls) {
+    JavascriptExecutor js = (JavascriptExecutor) driver;
+    String section = locators.get("productcardsection");
+    boolean isWindowType = section.equalsIgnoreCase("windowtype");
+
+    try {
+        if (isWindowType) {
+            js.executeScript("window.scrollBy(0, 100);");
+        } else {
+            WebElement loopElement = driver.findElement(By.xpath(section));
+            js.executeScript("arguments[0].scrollIntoView(false);", loopElement);
+        }
+        sameCountTries = 0;
+    } catch (NoSuchElementException e) {
+        System.out.println("!!! Product container Element not found in DOM");
+        break;
+    }
+
+    try {
+        Thread.sleep(2000);
+    } catch (InterruptedException e) {
+        e.printStackTrace();
+    }
+
+    int currProducts;
+    try {
+        currProducts = driver.findElements(By.xpath(locators.get("productcard"))).size();
+    } catch (NoSuchElementException e) {
+        System.out.println("!!! productcardElement not found in DOM");
+        break;
+    }
+
+    if (currProducts == prevProductCount) {
+        sameCountTries++;
+        if (sameCountTries >= 5) {
+            System.out.println("breaking scrolling as samecounttries>=5");
+            break;
+        }
+    } else {
+        sameCountTries = 0;
+    }
+
+    prevProductCount = currProducts;
+    scrolls++;
+
+    if (isWindowType) {
+        Long scrollHeight = (Long) js.executeScript("return document.body.scrollHeight;");
+        Long scrollPos = (Long) js.executeScript("return window.pageYOffset + window.innerHeight;");
+        if (scrollPos >= scrollHeight - 50) {
+            sameCountTries++;
+            if (sameCountTries >= 3) {
+                System.out.println("Reached bottom of page, no more products");
+                break;
+            }
+        }
+    }
+}
