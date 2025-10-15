@@ -22,7 +22,7 @@ public class demo {
 
     // format = catname , catlink
     Map<String, String> subcat = Map.of(
-            "Eyeglasses+men", "https://www.lenskart.com/eyeglasses/marketing/vc-air-bestseller-eyeglasses.html"
+            "Eyeglasses+men", "https://www.lenskart.com/eyeglasses/promotions/all-kids-computer-glasses.html"
             // "Speakers+Party Speakers", "https://www.boat-lifestyle.com/collections/party-speakers"
             // "Wireless earbuds" , "https://www.boat-lifestyle.com/collections/true-wireless-earbuds"
             // "FaceCare+FaceWash", "https://mamaearth.in/product-category/face-wash"
@@ -56,7 +56,7 @@ public class demo {
 
     // [@id="main-content"]/div/div/div[2]/div/div
     Map<String, String> lklocators = Map.of(
-            "productcardsection", "//*[@id='card-wrapper-parent']",
+            "productcardsection", "windowtype",     //need to scroll by some length
             "productcard", "//*[@id='card-wrapper-parent']/div/div/div/div",
 
             "name", ".//a/div[3]/p",
@@ -98,22 +98,24 @@ public class demo {
     public void scrapCategoryData(String subcat, String catURL, Map<String, String> locators) {
         List<Product> productList = new ArrayList<>();
         int prevProductCount = 0, sameCountTries = 0, scrolls = 0, maxScrolls = 1000;
+        int sameCountTries_windowtype=0;
 
         driver.navigate().to(catURL);
 
         // scroll at the end
         while (scrolls < maxScrolls) {
-
-            // scroll to bottom of product container
             JavascriptExecutor js = (JavascriptExecutor) driver;
             try {
-                WebElement loopElement = driver.findElement(By.xpath(locators.get("productcardsection"))); // scroll
-                // js.executeScript("arguments[0].scrollIntoView(false);", loopElement);
-                js.executeScript("window.scrollBy(0, 100);");
-                sameCountTries = 0;
+                if(locators.get("productcardsection").equalsIgnoreCase("windowtype")){
+                    js.executeScript("window.scrollBy(0, 300);");
+                }
+                // scroll to bottom of product container
+                else{
+                    WebElement loopElement = driver.findElement(By.xpath(locators.get("productcardsection"))); 
+                    js.executeScript("arguments[0].scrollIntoView(false);", loopElement);
+                }
 
                 System.out.println("Scrolling...");
-
             } catch (NoSuchElementException e) {
                 System.out.println("!!! Product container Element not found in DOM");
                 break;
@@ -136,9 +138,8 @@ public class demo {
                 break;
             }
 
-            // scroll by 10 for lazy loading check if product container cannot be loaded
-            // more
-            if (currProducts == prevProductCount) {
+            // scroll by 10 for lazy loading check if product container cannot be loaded more (not for windowtype)
+            if (currProducts == prevProductCount && !locators.get("productcardsection").equalsIgnoreCase("windowtype")) {
                 js.executeScript("window.scrollBy(0, 10);");
                 sameCountTries++;
                 if (sameCountTries >= 5){
@@ -148,6 +149,17 @@ public class demo {
             } else {
                 sameCountTries = 0;
             }
+
+            if (currProducts == prevProductCount && locators.get("productcardsection").equalsIgnoreCase("windowtype")) {
+                sameCountTries_windowtype++;
+                if (sameCountTries_windowtype >= 10){
+                    System.out.println("breaking scrolling as sameCountTries_windowtype>=10");
+                    break;
+                }
+            } else {
+                sameCountTries_windowtype = 0;
+            }
+
             // update
             prevProductCount = currProducts;
             scrolls++;
