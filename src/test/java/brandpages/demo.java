@@ -23,7 +23,9 @@ public class demo {
 
     // format = catname , catlink
     Map<String, String> subcat = Map.of(
-             "Speakers+Party Speakers" , "https://www.boat-lifestyle.com/collections/party-speakers"
+        // "Eyeglasses+men", "https://www.lenskart.com/eyeglasses/marketing/vc-air-bestseller-eyeglasses.html"
+            //  "Speakers+Party Speakers" , "https://www.boat-lifestyle.com/collections/party-speakers"
+             "Wireless earbuds" , "https://www.boat-lifestyle.com/collections/true-wireless-earbuds"
 //            "FaceCare+FaceWash", "https://mamaearth.in/product-category/face-wash"
     );
 
@@ -53,6 +55,20 @@ public class demo {
          "imageurl", ".//div[1]/div/img",
          "rating", ".//div[2]/div/div[1]/div[4]/span[1]",
          "availablity_idf", "Add To Cart"
+     );
+//*[@id="main-content"]/div/div/div[2]/div/div
+     Map<String, String> lklocators = Map.of(
+         "productsection", "//*[@id='card-wrapper-parent']/div",
+         "productitem", "//*[@id='card-wrapper-parent']/div/div/div/div",
+
+         "name", ".//a/div[3]/p",
+         "price",".//a/div[3]/div[3]/div",
+             "discount_percent" , ".//a/div[3]/div[3]/h5",
+         "description", ".//a/div[3]/div[2]/span",
+         "url", ".//a",
+         "imageurl", ".//a/div[2]/img",
+         "rating", ".//span[1]",
+         "availablity_idf", "₹"
      );
 
     WebDriver driver;
@@ -86,6 +102,7 @@ public class demo {
 
         driver.navigate().to(catURL);
 
+
         // scroll at the end
         while (scrolls < maxScrolls) {
 
@@ -94,7 +111,6 @@ public class demo {
             try {
                 WebElement loopElement = driver.findElement(By.xpath(locators.get("productsection")));  //scroll
                 js.executeScript("arguments[0].scrollIntoView(false);", loopElement);
-
             } catch (NoSuchElementException e) {
                 System.out.println("!!! Product container Element not found in DOM");
                 break;
