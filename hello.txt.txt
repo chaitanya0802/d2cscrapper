@@ -1,9 +1,49 @@
-try {
-    WebElement scrollContainer = driver.findElement(By.xpath(locators.get("productcardsection")));
-    // Scroll the element itself, not the window
-    js.executeScript("arguments[0].scrollTop = arguments[0].scrollHeight;", scrollContainer);
-    System.out.println("Scrolling inside container...");
-} catch (NoSuchElementException e) {
-    System.out.println("!!! Scroll container not found — trying window scroll fallback");
-    js.executeScript("window.scrollTo(0, document.body.scrollHeight);");
+public void scrollToLoadProducts(WebDriver driver, Map<String, String> locators, String storeName) {
+    JavascriptExecutor js = (JavascriptExecutor) driver;
+    int prevCount = 0, stableTries = 0;
+    int maxScrolls = 100;
+
+    for (int i = 0; i < maxScrolls; i++) {
+        int currentCount = driver.findElements(By.xpath(locators.get("productcard"))).size();
+
+        try {
+            if (storeName.equalsIgnoreCase("Lenskart")) {
+                // Lenskart: Scroll inside product container incrementally
+                WebElement container = driver.findElement(By.xpath(locators.get("productcardsection")));
+                js.executeScript(
+                    "for (let y = arguments[0].scrollTop; y < arguments[0].scrollHeight; y += 300) { arguments[0].scrollTop = y; }",
+                    container
+                );
+            } else {
+                // Boat, Mamaearth: window scroll
+                js.executeScript("window.scrollTo(0, document.body.scrollHeight);");
+            }
+
+            Thread.sleep(2500);
+
+            int newCount = driver.findElements(By.xpath(locators.get("productcard"))).size();
+            System.out.println("Scroll #" + i + ": products=" + newCount);
+
+            // Check URL change for lenskart
+            if (storeName.equalsIgnoreCase("Lenskart")) {
+                String currentUrl = driver.getCurrentUrl();
+                if (currentUrl.contains("?pageCount="))
+                    System.out.println("Current URL: " + currentUrl);
+            }
+
+            if (newCount == prevCount) {
+                stableTries++;
+                if (stableTries >= 4) break;  // stop when product count stops increasing
+            } else {
+                stableTries = 0;
+            }
+            prevCount = newCount;
+
+        } catch (Exception e) {
+            System.out.println("Scroll error: " + e.getMessage());
+            break;
+        }
+    }
+
+    System.out.println("✅ Final total products loaded: " + prevCount);
 }
