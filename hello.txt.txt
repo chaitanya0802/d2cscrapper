@@ -1,0 +1,9 @@
+try {
+    WebElement scrollContainer = driver.findElement(By.xpath(locators.get("productcardsection")));
+    // Scroll the element itself, not the window
+    js.executeScript("arguments[0].scrollTop = arguments[0].scrollHeight;", scrollContainer);
+    System.out.println("Scrolling inside container...");
+} catch (NoSuchElementException e) {
+    System.out.println("!!! Scroll container not found — trying window scroll fallback");
+    js.executeScript("window.scrollTo(0, document.body.scrollHeight);");
+}
