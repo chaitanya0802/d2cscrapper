@@ -23,9 +23,9 @@ public class demo {
 
     // format = catname , catlink
     Map<String, String> subcat = Map.of(
-        // "Eyeglasses+men", "https://www.lenskart.com/eyeglasses/marketing/vc-air-bestseller-eyeglasses.html"
+        "Eyeglasses+men", "https://www.lenskart.com/eyeglasses/marketing/vc-air-bestseller-eyeglasses.html"
             //  "Speakers+Party Speakers" , "https://www.boat-lifestyle.com/collections/party-speakers"
-             "Wireless earbuds" , "https://www.boat-lifestyle.com/collections/true-wireless-earbuds"
+            //  "Wireless earbuds" , "https://www.boat-lifestyle.com/collections/true-wireless-earbuds"
 //            "FaceCare+FaceWash", "https://mamaearth.in/product-category/face-wash"
     );
 
@@ -92,7 +92,9 @@ public class demo {
 
         for (Map.Entry<String, String> m : subcat.entrySet()) {
             System.out.println("==> " + m.getKey() + " ==>" + m.getValue());
-            scrapCategoryData(m.getKey(), m.getValue(), boatlocators);
+            // scrapCategoryData(m.getKey(), m.getValue(), boatlocators);
+            scrapCategoryData(m.getKey(), m.getValue(), lklocators);
+
         }
     }
 
@@ -111,6 +113,8 @@ public class demo {
             try {
                 WebElement loopElement = driver.findElement(By.xpath(locators.get("productsection")));  //scroll
                 js.executeScript("arguments[0].scrollIntoView(false);", loopElement);
+                System.out.println("Scrolling...");
+                
             } catch (NoSuchElementException e) {
                 System.out.println("!!! Product container Element not found in DOM");
                 break;
