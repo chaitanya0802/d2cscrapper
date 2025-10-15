@@ -23,15 +23,15 @@ public class demo {
 
     // format = catname , catlink
     Map<String, String> subcat = Map.of(
-        "Eyeglasses+men", "https://www.lenskart.com/eyeglasses/marketing/vc-air-bestseller-eyeglasses.html"
-            //  "Speakers+Party Speakers" , "https://www.boat-lifestyle.com/collections/party-speakers"
+        // "Eyeglasses+men", "https://www.lenskart.com/eyeglasses/marketing/vc-air-bestseller-eyeglasses.html"
+             "Speakers+Party Speakers" , "https://www.boat-lifestyle.com/collections/party-speakers"
             //  "Wireless earbuds" , "https://www.boat-lifestyle.com/collections/true-wireless-earbuds"
 //            "FaceCare+FaceWash", "https://mamaearth.in/product-category/face-wash"
     );
 
     Map<String, String> boatlocators =  Map.of(
-        "productsection", "//*[@id='facet-main']/product-list",
-        "productitem", "//*[@id='Huratips_Loop']//product-item",
+        "productcardsection", "//*[@id='facet-main']/product-list",
+        "productcard", "//*[@id='Huratips_Loop']//product-item",
 
         "name", ".//div/div[2]/div/div/a",
         "price",".//div/div[2]/div/div/div[1]/div[1]/span[1]",
@@ -44,8 +44,8 @@ public class demo {
     );
 
      Map<String, String> melocators = Map.of(
-         "productsection", "//*[@id='__next']/div[6]/div[8]/section",
-         "productitem", "//*[@id='__next']/div[6]/div[8]/section/section/div",
+         "productcardsection", "//*[@id='__next']/div[6]/div[8]/section",
+         "productcard", "//*[@id='__next']/div[6]/div[8]/section/section/div",
 
          "name", ".//div[2]/div/div[1]/div[1]",
          "price",".//div[2]/div/div[1]/div[5]/div[1]",
@@ -58,8 +58,8 @@ public class demo {
      );
 //*[@id="main-content"]/div/div/div[2]/div/div
      Map<String, String> lklocators = Map.of(
-         "productsection", "//*[@id='footerContent']",
-         "productitem", "//*[@id='card-wrapper-parent']/div/div/div/div",
+         "productcardsection", "//*[@id='footerContent']",
+         "productcard", "//*[@id='card-wrapper-parent']/div/div/div/div",
 
          "name", ".//a/div[3]/p",
          "price",".//a/div[3]/div[3]/div",
@@ -93,7 +93,7 @@ public class demo {
         for (Map.Entry<String, String> m : subcat.entrySet()) {
             System.out.println("==> " + m.getKey() + " ==>" + m.getValue());
             // scrapCategoryData(m.getKey(), m.getValue(), boatlocators);
-            scrapCategoryData(m.getKey(), m.getValue(), lklocators);
+            scrapCategoryData(m.getKey(), m.getValue(), boatlocators);
 
         }
     }
@@ -111,11 +111,8 @@ public class demo {
             // scroll to bottom of product container
             JavascriptExecutor js = (JavascriptExecutor) driver;
             try {
-                WebElement loopElement = driver.findElement(By.xpath(locators.get("productsection")));  //scroll
-                // js.executeScript("arguments[0].scrollIntoView(false);", loopElement);
-                js.executeScript("return document.body.scrollHeight");
-                js.executeScript("window.scrollBy(0, -1000);");
-
+                WebElement loopElement = driver.findElement(By.xpath(locators.get("productcardsection")));  //scroll
+                js.executeScript("arguments[0].scrollIntoView(false);", loopElement);
 
                 System.out.println("Scrolling...");
                 
@@ -134,9 +131,9 @@ public class demo {
             // track total products loaded in current scroll
             int currProducts;
             try {
-                currProducts = driver.findElements(By.xpath(locators.get("productitem"))).size();
+                currProducts = driver.findElements(By.xpath(locators.get("productcard"))).size();
             } catch (NoSuchElementException e) {
-                System.out.println("!!! ProductItemElement not found in DOM");
+                System.out.println("!!! productcardElement not found in DOM");
                 break;
             }
 
@@ -160,7 +157,7 @@ public class demo {
         Assert.assertNotEquals(prevProductCount, 0);
 
         // extract the product data
-        List<WebElement> products = driver.findElements(By.xpath(locators.get("productitem")));
+        List<WebElement> products = driver.findElements(By.xpath(locators.get("productcard")));
 
         System.out.println("===> Total products for("+ subcat + ")category are: " + products.size());
 
@@ -226,7 +223,7 @@ public class demo {
                 //as dom is refreshed
                 if (locators.get("url").equalsIgnoreCase("routertype")){
                     Thread.sleep(2000);
-                    products = driver.findElements(By.xpath(locators.get("productitem")));
+                    products = driver.findElements(By.xpath(locators.get("productcard")));
                     currproduct = products.get(i);
                 }
 
