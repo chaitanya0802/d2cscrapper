@@ -15,7 +15,6 @@ import org.openqa.selenium.support.ui.ExpectedConditions;
 import java.time.Duration;
 import org.openqa.selenium.support.ui.WebDriverWait;
 
-
 public class demo {
 
     String storename = "Mamaearth";
@@ -23,53 +22,51 @@ public class demo {
 
     // format = catname , catlink
     Map<String, String> subcat = Map.of(
-        // "Eyeglasses+men", "https://www.lenskart.com/eyeglasses/marketing/vc-air-bestseller-eyeglasses.html"
-             "Speakers+Party Speakers" , "https://www.boat-lifestyle.com/collections/party-speakers"
-            //  "Wireless earbuds" , "https://www.boat-lifestyle.com/collections/true-wireless-earbuds"
-//            "FaceCare+FaceWash", "https://mamaearth.in/product-category/face-wash"
+            "Eyeglasses+men", "https://www.lenskart.com/eyeglasses/marketing/vc-air-bestseller-eyeglasses.html"
+            // "Speakers+Party Speakers", "https://www.boat-lifestyle.com/collections/party-speakers"
+            // "Wireless earbuds" , "https://www.boat-lifestyle.com/collections/true-wireless-earbuds"
+            // "FaceCare+FaceWash", "https://mamaearth.in/product-category/face-wash"
     );
 
-    Map<String, String> boatlocators =  Map.of(
-        "productcardsection", "//*[@id='facet-main']/product-list",
-        "productcard", "//*[@id='Huratips_Loop']//product-item",
+    Map<String, String> boatlocators = Map.of(
+            "productcardsection", "//*[@id='facet-main']/product-list",
+            "productcard", "//*[@id='Huratips_Loop']//product-item",
 
-        "name", ".//div/div[2]/div/div/a",
-        "price",".//div/div[2]/div/div/div[1]/div[1]/span[1]",
-        "discount_percent" , ".//div/div[2]/div/div/div[1]/div[1]/p",
-        "description", ".//div/div[2]/div/div/div[1]/div[2]",
-        "url", ".//div/div[2]/div/div/a",
-        "imageurl", ".//div/div[1]/div/a/img",
-        "rating", ".//div/div[2]/div/span/div/div",
-        "availablity_idf", "Add to cart"
-    );
+            "name", ".//div/div[2]/div/div/a",
+            "price", ".//div/div[2]/div/div/div[1]/div[1]/span[1]",
+            "discount_percent", ".//div/div[2]/div/div/div[1]/div[1]/p",
+            "description", ".//div/div[2]/div/div/div[1]/div[2]",
+            "url", ".//div/div[2]/div/div/a",
+            "imageurl", ".//div/div[1]/div/a/img",
+            "rating", ".//div/div[2]/div/span/div/div",
+            "availablity_idf", "Add to cart");
 
-     Map<String, String> melocators = Map.of(
-         "productcardsection", "//*[@id='__next']/div[6]/div[8]/section",
-         "productcard", "//*[@id='__next']/div[6]/div[8]/section/section/div",
+    Map<String, String> melocators = Map.of(
+            "productcardsection", "//*[@id='__next']/div[6]/div[8]/section",
+            "productcard", "//*[@id='__next']/div[6]/div[8]/section/section/div",
 
-         "name", ".//div[2]/div/div[1]/div[1]",
-         "price",".//div[2]/div/div[1]/div[5]/div[1]",
-             "discount_percent" , ".//div[2]/div/div[1]/div[5]/div[3]",
-         "description", ".//div[2]/div/div[1]/div[2]",
-         "url", "routertype",
-         "imageurl", ".//div[1]/div/img",
-         "rating", ".//div[2]/div/div[1]/div[4]/span[1]",
-         "availablity_idf", "Add To Cart"
-     );
-//*[@id="main-content"]/div/div/div[2]/div/div
-     Map<String, String> lklocators = Map.of(
-         "productcardsection", "//*[@id='footerContent']",
-         "productcard", "//*[@id='card-wrapper-parent']/div/div/div/div",
+            "name", ".//div[2]/div/div[1]/div[1]",
+            "price", ".//div[2]/div/div[1]/div[5]/div[1]",
+            "discount_percent", ".//div[2]/div/div[1]/div[5]/div[3]",
+            "description", ".//div[2]/div/div[1]/div[2]",
+            "url", "routertype",
+            "imageurl", ".//div[1]/div/img",
+            "rating", ".//div[2]/div/div[1]/div[4]/span[1]",
+            "availablity_idf", "Add To Cart");
 
-         "name", ".//a/div[3]/p",
-         "price",".//a/div[3]/div[3]/div",
-             "discount_percent" , ".//a/div[3]/div[3]/h5",
-         "description", ".//a/div[3]/div[2]/span",
-         "url", ".//a",
-         "imageurl", ".//a/div[2]/img",
-         "rating", ".//span[1]",
-         "availablity_idf", "₹"
-     );
+    // [@id="main-content"]/div/div/div[2]/div/div
+    Map<String, String> lklocators = Map.of(
+            "productcardsection", "//*[@id='card-wrapper-parent']",
+            "productcard", "//*[@id='card-wrapper-parent']/div/div/div/div",
+
+            "name", ".//a/div[3]/p",
+            "price", ".//a/div[3]/div[3]/div",
+            "discount_percent", ".//a/div[3]/div[3]/h5",
+            "description", ".//a/div[3]/div[2]/span",
+            "url", ".//a",
+            "imageurl", ".//a/div[2]/img",
+            "rating", ".//span[1]",
+            "availablity_idf", "₹");
 
     WebDriver driver;
 
@@ -83,7 +80,7 @@ public class demo {
 
     }
 
-    //parse the file and scrap data
+    // parse the file and scrap data
     public void scrapProdData() {
 
         // driver config
@@ -93,17 +90,16 @@ public class demo {
         for (Map.Entry<String, String> m : subcat.entrySet()) {
             System.out.println("==> " + m.getKey() + " ==>" + m.getValue());
             // scrapCategoryData(m.getKey(), m.getValue(), boatlocators);
-            scrapCategoryData(m.getKey(), m.getValue(), boatlocators);
+            scrapCategoryData(m.getKey(), m.getValue(), lklocators);
 
         }
     }
 
     public void scrapCategoryData(String subcat, String catURL, Map<String, String> locators) {
         List<Product> productList = new ArrayList<>();
-        int prevProductCount = 0, sameCountTries = 0, scrolls = 0, maxScrolls = 100;
+        int prevProductCount = 0, sameCountTries = 0, scrolls = 0, maxScrolls = 1000;
 
         driver.navigate().to(catURL);
-
 
         // scroll at the end
         while (scrolls < maxScrolls) {
@@ -111,22 +107,25 @@ public class demo {
             // scroll to bottom of product container
             JavascriptExecutor js = (JavascriptExecutor) driver;
             try {
-                WebElement loopElement = driver.findElement(By.xpath(locators.get("productcardsection")));  //scroll
-                js.executeScript("arguments[0].scrollIntoView(false);", loopElement);
+                WebElement loopElement = driver.findElement(By.xpath(locators.get("productcardsection"))); // scroll
+                // js.executeScript("arguments[0].scrollIntoView(false);", loopElement);
+                js.executeScript("window.scrollBy(0, 100);");
+                sameCountTries = 0;
 
                 System.out.println("Scrolling...");
-                
+
             } catch (NoSuchElementException e) {
                 System.out.println("!!! Product container Element not found in DOM");
                 break;
             }
-
+            
             // sleep
             try {
                 Thread.sleep(2000);
             } catch (InterruptedException e) {
                 e.printStackTrace();
             }
+
 
             // track total products loaded in current scroll
             int currProducts;
@@ -142,8 +141,10 @@ public class demo {
             if (currProducts == prevProductCount) {
                 js.executeScript("window.scrollBy(0, 10);");
                 sameCountTries++;
-                if (sameCountTries >= 5)
+                if (sameCountTries >= 5){
+                    System.out.println("breaking scrolling as samecounttries>=5");
                     break;
+                }
             } else {
                 sameCountTries = 0;
             }
@@ -159,10 +160,10 @@ public class demo {
         // extract the product data
         List<WebElement> products = driver.findElements(By.xpath(locators.get("productcard")));
 
-        System.out.println("===> Total products for("+ subcat + ")category are: " + products.size());
+        System.out.println("===> Total products for(" + subcat + ")category are: " + products.size());
 
         for (int i = 0; i < products.size(); i++) {
-            System.out.println("===> getting "+ i + " th prod");
+            System.out.println("===> getting " + i + " th prod");
             try {
 
                 WebElement currproduct = products.get(i);
@@ -178,7 +179,8 @@ public class demo {
                         name = currproduct.findElement(By.xpath(xp)).getText().trim();
                     }
                 } catch (Exception e) {
-                    System.out.println("!!! [name] XPATH=" + locators.get("name") + " | " + e.getClass().getSimpleName() + " - " + e.getMessage());
+                    System.out.println("!!! [name] XPATH=" + locators.get("name") + " | " + e.getClass().getSimpleName()
+                            + " - " + e.getMessage());
                 }
 
                 // ---- url ----
@@ -198,7 +200,8 @@ public class demo {
                             String listingUrl = driver.getCurrentUrl();
                             try {
                                 WebElement clickTarget = currproduct.findElement(By.xpath(clickXp)); // or title
-                                ((JavascriptExecutor) driver).executeScript("arguments[0].scrollIntoView({block:'center'});", clickTarget);
+                                ((JavascriptExecutor) driver)
+                                        .executeScript("arguments[0].scrollIntoView({block:'center'});", clickTarget);
                                 clickTarget.click();
                                 wait.until(ExpectedConditions.not(ExpectedConditions.urlToBe(listingUrl)));
                                 url = driver.getCurrentUrl();
@@ -217,11 +220,12 @@ public class demo {
                         }
                     }
                 } catch (Exception e) {
-                    System.out.println("!!! [url] XPATH=" + locators.get("url") + " | " + e.getClass().getSimpleName() + " - " + e.getMessage());
+                    System.out.println("!!! [url] XPATH=" + locators.get("url") + " | " + e.getClass().getSimpleName()
+                            + " - " + e.getMessage());
                 }
-                
-                //as dom is refreshed
-                if (locators.get("url").equalsIgnoreCase("routertype")){
+
+                // as dom is refreshed
+                if (locators.get("url").equalsIgnoreCase("routertype")) {
                     Thread.sleep(2000);
                     products = driver.findElements(By.xpath(locators.get("productcard")));
                     currproduct = products.get(i);
@@ -250,11 +254,13 @@ public class demo {
                             // Minimal: keep digits + dot; adjust as per your formatting needs
                             price = (int) Math.round(Double.parseDouble(pr.replaceAll("[^0-9.]", "")));
                         } catch (NumberFormatException nfe) {
-                            System.out.println("!!! [price] parse failed for value: '" + pr + "' | " + nfe.getClass().getSimpleName());
+                            System.out.println("!!! [price] parse failed for value: '" + pr + "' | "
+                                    + nfe.getClass().getSimpleName());
                         }
                     }
                 } catch (Exception e) {
-                    System.out.println("!!! [price] XPATH=" + locators.get("price") + " | " + e.getClass().getSimpleName() + " - " + e.getMessage());
+                    System.out.println("!!! [price] XPATH=" + locators.get("price") + " | "
+                            + e.getClass().getSimpleName() + " - " + e.getMessage());
                 }
 
                 // ---- discount_percent ----
@@ -269,11 +275,13 @@ public class demo {
                             // Minimal: keep digits + dot; adjust as per your formatting needs
                             discount_percent = Math.round(Integer.parseInt(disp.replaceAll("[^0-9.]", "")));
                         } catch (NumberFormatException nfe) {
-                            System.out.println("!!! [discount_percent] parse failed for value: '" + disp + "' | " + nfe.getClass().getSimpleName());
+                            System.out.println("!!! [discount_percent] parse failed for value: '" + disp + "' | "
+                                    + nfe.getClass().getSimpleName());
                         }
                     }
                 } catch (Exception e) {
-                    System.out.println("!!! [discount_percent] XPATH=" + locators.get("discount_percent") + " | " + e.getClass().getSimpleName() + " - " + e.getMessage());
+                    System.out.println("!!! [discount_percent] XPATH=" + locators.get("discount_percent") + " | "
+                            + e.getClass().getSimpleName() + " - " + e.getMessage());
                 }
 
                 // ---- imageurl ----
@@ -284,10 +292,12 @@ public class demo {
                         System.out.println("[imageurl] Empty XPath — skipping");
                     } else {
                         imageurl = currproduct.findElement(By.xpath(imgXp)).getAttribute("src");
-                        if (imageurl == null) imageurl = "";
+                        if (imageurl == null)
+                            imageurl = "";
                     }
                 } catch (Exception e) {
-                    System.out.println("!!! [imageurl] XPATH=" + locators.get("imageurl") + " | " + e.getClass().getSimpleName() + " - " + e.getMessage());
+                    System.out.println("!!! [imageurl] XPATH=" + locators.get("imageurl") + " | "
+                            + e.getClass().getSimpleName() + " - " + e.getMessage());
                 }
 
                 // ---- description ----
@@ -300,10 +310,10 @@ public class demo {
                         des = currproduct.findElement(By.xpath(xp)).getText().trim();
                     }
                 } catch (Exception e) {
-                    System.out.println("!!! [description] XPATH=" + locators.get("description") + " | " + e.getClass().getSimpleName() + " - " + e.getMessage());
+                    System.out.println("!!! [description] XPATH=" + locators.get("description") + " | "
+                            + e.getClass().getSimpleName() + " - " + e.getMessage());
                 }
 
-                
                 // ---- rating ----
                 float rating = 0.0f;
                 try {
@@ -319,7 +329,8 @@ public class demo {
                         }
                     }
                 } catch (Exception e) {
-                    System.out.println("!!! [rating] XPATH=" + locators.get("rating") + " | " + e.getClass().getSimpleName() + " - " + e.getMessage());
+                    System.out.println("!!! [rating] XPATH=" + locators.get("rating") + " | "
+                            + e.getClass().getSimpleName() + " - " + e.getMessage());
                 }
 
                 // ---- availability ----
@@ -330,17 +341,16 @@ public class demo {
                         System.out.println("!!! [availability] Empty identifier — skipping");
                     } else {
                         isAvailable = !currproduct.findElements(By.xpath(
-                                ".//descendant::*[contains(text(), '" + idf + "')]"
-                        )).isEmpty();
+                                ".//descendant::*[contains(text(), '" + idf + "')]")).isEmpty();
                     }
                 } catch (Exception e) {
-                    System.out.println("!!! [availability] evaluation failed | " + e.getClass().getSimpleName() + " - " + e.getMessage());
+                    System.out.println("!!! [availability] evaluation failed | " + e.getClass().getSimpleName() + " - "
+                            + e.getMessage());
                 }
 
-
-
-                //display
-                Product p = new Product(id, name, url, imageurl, maincat, subcat, price ,discount_percent, des, rating, isAvailable);
+                // display
+                Product p = new Product(id, name, url, imageurl, maincat, subcat, price, discount_percent, des, rating,
+                        isAvailable);
                 productList.add(p);
                 System.out.println("DATA >>>");
                 System.out.println(p);
@@ -359,4 +369,5 @@ public class demo {
         demo d = new demo();
         d.scrapProdData();
     }
+
 }
