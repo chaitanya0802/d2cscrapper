@@ -58,7 +58,7 @@ public class demo {
      );
 //*[@id="main-content"]/div/div/div[2]/div/div
      Map<String, String> lklocators = Map.of(
-         "productsection", "//*[@id='card-wrapper-parent']/div",
+         "productsection", "//*[@id='footerContent']",
          "productitem", "//*[@id='card-wrapper-parent']/div/div/div/div",
 
          "name", ".//a/div[3]/p",
@@ -112,7 +112,11 @@ public class demo {
             JavascriptExecutor js = (JavascriptExecutor) driver;
             try {
                 WebElement loopElement = driver.findElement(By.xpath(locators.get("productsection")));  //scroll
-                js.executeScript("arguments[0].scrollIntoView(false);", loopElement);
+                // js.executeScript("arguments[0].scrollIntoView(false);", loopElement);
+                js.executeScript("return document.body.scrollHeight");
+                js.executeScript("window.scrollBy(0, -1000);");
+
+
                 System.out.println("Scrolling...");
                 
             } catch (NoSuchElementException e) {
