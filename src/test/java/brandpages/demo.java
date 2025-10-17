@@ -17,75 +17,29 @@ import org.openqa.selenium.support.ui.WebDriverWait;
 
 public class demo {
 
-    String storename = "Mamaearth";
-    String maincat = "BPC";
-
-    // format = catname , catlink
-    Map<String, String> subcat = Map.of(
-            "Eyeglasses+men", "https://www.lenskart.com/eyeglasses/promotions/all-kids-computer-glasses.html"
-            // "Speakers+Party Speakers", "https://www.boat-lifestyle.com/collections/party-speakers"
-            // "Wireless earbuds" , "https://www.boat-lifestyle.com/collections/true-wireless-earbuds"
-            // "FaceCare+FaceWash", "https://mamaearth.in/product-category/face-wash"
-    );
-
-    Map<String, String> boatlocators = Map.of(
-            "productcardsection", "//*[@id='facet-main']/product-list",
-            "productcard", "//*[@id='Huratips_Loop']//product-item",
-
-            "name", ".//div/div[2]/div/div/a",
-            "price", ".//div/div[2]/div/div/div[1]/div[1]/span[1]",
-            "discount_percent", ".//div/div[2]/div/div/div[1]/div[1]/p",
-            "description", ".//div/div[2]/div/div/div[1]/div[2]",
-            "url", ".//div/div[2]/div/div/a",
-            "imageurl", ".//div/div[1]/div/a/img",
-            "rating", ".//div/div[2]/div/span/div/div",
-            "availablity_idf", "Add to cart");
-
-    Map<String, String> melocators = Map.of(
-            "productcardsection", "//*[@id='__next']/div[6]/div[8]/section",
-            "productcard", "//*[@id='__next']/div[6]/div[8]/section/section/div",
-
-            "name", ".//div[2]/div/div[1]/div[1]",
-            "price", ".//div[2]/div/div[1]/div[5]/div[1]",
-            "discount_percent", ".//div[2]/div/div[1]/div[5]/div[3]",
-            "description", ".//div[2]/div/div[1]/div[2]",
-            "url", "routertype",
-            "imageurl", ".//div[1]/div/img",
-            "rating", ".//div[2]/div/div[1]/div[4]/span[1]",
-            "availablity_idf", "Add To Cart");
-
-    // [@id="main-content"]/div/div/div[2]/div/div
-    Map<String, String> lklocators = Map.of(
-            "productcardsection", "windowtype",     //need to scroll by some length
-            "productcard", "//*[@id='card-wrapper-parent']/div/div/div/div",
-
-            "name", ".//a/div[3]/p",
-            "price", ".//a/div[3]/div[3]/div",
-            "discount_percent", ".//a/div[3]/div[3]/h5",
-            "description", ".//a/div[3]/div[2]/span",
-            "url", ".//a",
-            "imageurl", ".//a/div[2]/img",
-            "rating", ".//span[1]",
-            "availablity_idf", "₹");
-
+    
     WebDriver driver;
 
     @Test
     public void scrapController() {
-        if (Boolean.parseBoolean(ConfigReader.getProperty("product")))
-            scrapProdData();
-
-        // if (Boolean.parseBoolean(ConfigReader.getProperty("offer")))
-        // scrapOfferData();
-
-    }
-
-    // parse the file and scrap data
-    public void scrapProdData() {
-
         // driver config
         WebDriverManager.chromedriver().setup();
         driver = new ChromeDriver();
+
+        if (Boolean.parseBoolean(ConfigReader.getProperty("product"))) {
+            scrapProdData();
+        }
+
+        if (Boolean.parseBoolean(ConfigReader.getProperty("offer"))) {
+            scrapOfferData();
+        }
+
+    }
+
+    // for scraping product data
+    public void scrapProdData() {
+
+        
 
         for (Map.Entry<String, String> m : subcat.entrySet()) {
             System.out.println("==> " + m.getKey() + " ==>" + m.getValue());
@@ -374,6 +328,11 @@ public class demo {
                 System.out.println("!!!" + e.toString());
             }
         }
+
+    }
+
+    //for scraping offer data
+    public void scrapOfferData() {
 
     }
 

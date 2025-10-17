@@ -1,0 +1,19 @@
+"": {
+            "locators": {
+                "productcardsection": "",
+                "productcard": "",
+
+                "name": "",
+                "price": "",
+                "discount_percent": "",
+                "description": "",
+                "url": "",
+                "imageurl": "",
+                "rating": "",
+                "availablity_idf": ""
+            },
+            "maincategory": "",
+            "subcategories": {
+                
+            }
+        }

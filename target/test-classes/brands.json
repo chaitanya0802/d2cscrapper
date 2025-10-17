@@ -1,0 +1,65 @@
+{
+    "brands": {
+
+        "boat": {
+            "locators": {
+                "productcardsection": "//*[@id='facet-main']/product-list",
+                "productcard": "//*[@id='Huratips_Loop']//product-item",
+
+                "name": ".//div/div[2]/div/div/a",
+                "price": ".//div/div[2]/div/div/div[1]/div[1]/span[1]",
+                "discount_percent": ".//div/div[2]/div/div/div[1]/div[1]/p",
+                "description": ".//div/div[2]/div/div/div[1]/div[2]",
+                "url": ".//div/div[2]/div/div/a",
+                "imageurl": ".//div/div[1]/div/a/img",
+                "rating": ".//div/div[2]/div/span/div/div",
+                "availablity_idf": "Add to cart"
+            },
+            "maincategory": "Electronics",
+            "subcategories": {
+                "Speakers+Party Speakers": "https://www.boat-lifestyle.com/collections/party-speakers",
+                "Wireless earbuds": "https://www.boat-lifestyle.com/collections/true-wireless-earbuds"
+            }
+        },
+
+        "mamaearth": {
+            "locators": {
+                "productcardsection": "//*[@id='__next']/div[6]/div[8]/section",
+                "productcard": "//*[@id='__next']/div[6]/div[8]/section/section/div",
+
+                "name": ".//div[2]/div/div[1]/div[1]",
+                "price": ".//div[2]/div/div[1]/div[5]/div[1]",
+                "discount_percent": ".//div[2]/div/div[1]/div[5]/div[3]",
+                "description": ".//div[2]/div/div[1]/div[2]",
+                "url": "routertype",
+                "imageurl": ".//div[1]/div/img",
+                "rating": ".//div[2]/div/div[1]/div[4]/span[1]",
+                "availablity_idf": "Add To Cart"
+            },
+            "maincategory": "Beauty and Personal Care",
+            "subcategories": {
+                
+            }
+        },
+
+        "lenskart": {
+            "locators": {
+                "productcardsection": "windowtype",   
+                "productcard": "//*[@id='card-wrapper-parent']/div/div/div/div",
+
+                "name": ".//a/div[3]/p",
+                "price": ".//a/div[3]/div[3]/div",
+                "discount_percent": ".//a/div[3]/div[3]/h5",
+                "description": ".//a/div[3]/div[2]/span",
+                "url": ".//a",
+                "imageurl": ".//a/div[2]/img",
+                "rating": ".//span[1]",
+                "availablity_idf": "₹"
+            },
+            "maincategory": "",
+            "subcategories": {
+                
+            }
+        }
+    }
+}
