@@ -1,161 +1,315 @@
 package brandpages;
 
-import java.util.Map;
-
-public class BrandConfig {
-    public Map<String, String> locators;
-    public String maincategory;
-    public Map<String, String> subcategories;
-
-    public BrandConfig() {}
-
-    public BrandConfig(Map<String, String> locators, String maincategory, Map<String, String> subcategories) {
-        this.locators = locators;
-        this.maincategory = maincategory;
-        this.subcategories = subcategories;
-    }
-
-    @Override
-    public String toString() {
-        return "BrandConfig{" +
-                "maincategory='" + maincategory + '\'' +
-                ", locators=" + locators +
-                ", subcategories=" + subcategories +
-                '}';
-    }
-}
-
-=====≈====
-
-package brandpages;
-
-import java.io.FileReader;
 import java.util.*;
-import com.google.gson.*;
-
-/**
- * Reads and parses brands.json into a Map<String, BrandConfig>
- */
-public class JsonReader {
-
-    public static Map<String, BrandConfig> loadBrandConfigs(String jsonPath) {
-        Map<String, BrandConfig> brandConfigs = new HashMap<>();
-
-        try (FileReader reader = new FileReader(jsonPath)) {
-            JsonObject root = JsonParser.parseReader(reader).getAsJsonObject();
-            JsonObject brands = root.getAsJsonObject("brands");
-
-            for (Map.Entry<String, JsonElement> brandEntry : brands.entrySet()) {
-                String brandName = brandEntry.getKey().toLowerCase();
-                JsonObject brandObj = brandEntry.getValue().getAsJsonObject();
-
-                // ✅ Locators
-                Map<String, String> locators = new HashMap<>();
-                JsonObject locObj = brandObj.getAsJsonObject("locators");
-                if (locObj != null) {
-                    for (Map.Entry<String, JsonElement> e : locObj.entrySet()) {
-                        locators.put(e.getKey(), e.getValue().getAsString());
-                    }
-                }
-
-                // ✅ Main category
-                String mainCategory = brandObj.has("maincategory")
-                        ? brandObj.get("maincategory").getAsString() : "";
-
-                // ✅ Subcategories (handle multiple names for same URL)
-                Map<String, String> subcategories = new HashMap<>();
-                if (brandObj.has("subcategories")) {
-                    JsonObject subObj = brandObj.getAsJsonObject("subcategories");
-                    for (Map.Entry<String, JsonElement> e : subObj.entrySet()) {
-                        String subcatKey = e.getKey();  // might be Face+Facewash
-                        String subcatUrl = e.getValue().getAsString();
-                        subcategories.put(subcatKey, subcatUrl);
-                    }
-                }
-
-                brandConfigs.put(brandName, new BrandConfig(locators, mainCategory, subcategories));
-            }
-
-            System.out.println("✅ Loaded " + brandConfigs.size() + " brand configurations from JSON.");
-
-        } catch (Exception e) {
-            System.out.println("❌ Error reading JSON: " + e.getMessage());
-            e.printStackTrace();
-        }
-
-        return brandConfigs;
-    }
-}
-
-
-========
-
-package brandpages;
-
 import java.io.FileInputStream;
-import java.io.IOException;
-import java.util.*;
+import java.util.Properties;
+import org.openqa.selenium.*;
+import org.openqa.selenium.chrome.ChromeDriver;
+import org.openqa.selenium.support.ui.*;
+import org.testng.Assert;
+import org.testng.annotations.Test;
+import io.github.bonigarcia.wdm.WebDriverManager;
+import utils.ConfigReader;
+import utils.Product;
+
+import java.time.Duration;
 
 public class Scrapper {
 
-    private static Properties config = new Properties();
+    WebDriver driver;
 
     public static void main(String[] args) {
-        try {
-            // ✅ Load configuration
-            config.load(new FileInputStream("src/main/resources/config/config.properties"));
+        Scrapper scraper = new Scrapper();
+        scraper.scrapController();
+    }
 
-            String jsonPath = "src/main/resources/config/brands.json";
-            String brandsToScrap = config.getProperty("brands_to_scrap", "all").toLowerCase();
+    @Test
+    public void scrapController() {
+        // driver config
+        WebDriverManager.chromedriver().setup();
+        driver = new ChromeDriver();
 
-            Map<String, BrandConfig> allBrands = JsonReader.loadBrandConfigs(jsonPath);
+        if (Boolean.parseBoolean(ConfigReader.getProperty("product"))) {
+            scrapProdData();
+        }
 
-            List<String> brandsList;
-            if (brandsToScrap.equals("all")) {
-                brandsList = new ArrayList<>(allBrands.keySet());
-            } else {
-                brandsList = Arrays.asList(brandsToScrap.split(","));
-            }
-
-            for (String brand : brandsList) {
-                brand = brand.trim().toLowerCase();
-                if (!allBrands.containsKey(brand)) {
-                    System.out.println("⚠️ Skipping unknown brand: " + brand);
-                    continue;
-                }
-
-                BrandConfig configObj = allBrands.get(brand);
-                System.out.println("\n🚀 Starting scrape for brand: " + brand);
-
-                for (Map.Entry<String, String> entry : configObj.subcategories.entrySet()) {
-                    String subcatCombined = entry.getKey();   // e.g. Face+Facewash
-                    String url = entry.getValue();
-
-                    // ✅ Split combined names (Face+Facewash → [Face, Facewash])
-                    List<String> subcatList = Arrays.asList(subcatCombined.split("\\+"));
-
-                    System.out.println("📂 Scraping URL: " + url + " for subcategories " + subcatList);
-
-                    // 👇 This is where you’d call your scraper logic:
-                    scrapeBrandCategory(brand, configObj.maincategory, subcatList, url, configObj.locators);
-                }
-            }
-
-        } catch (IOException e) {
-            System.out.println("❌ Error loading config.properties: " + e.getMessage());
+        if (Boolean.parseBoolean(ConfigReader.getProperty("offer"))) {
+            scrapOfferData();
         }
     }
 
-    private static void scrapeBrandCategory(
-            String brand,
-            String mainCategory,
-            List<String> subcats,
-            String url,
-            Map<String, String> locators
-    ) {
-        // ✅ Call your Selenium or Jsoup logic here.
-        // For now, just a placeholder print:
-        System.out.println("🕷️ [" + brand + "] maincat=" + mainCategory +
-                ", subcats=" + subcats + ", url=" + url);
+    // =============================
+    // PRODUCT SCRAPING
+    // =============================
+    public void scrapProdData() {
+        Properties props = new Properties();
+
+        try {
+            // Load config.properties
+            props.load(new FileInputStream("src/test/resources/config/config.properties"));
+
+            String jsonPath = ConfigReader.getProperty("json_path");
+            String brandList = props.getProperty("brands_to_scrape", "all").trim().toLowerCase();
+
+            // Parse brands.json
+            Map<String, BrandConfig> brandConfigs = JsonReader.loadBrandConfigs(jsonPath);
+
+            // Determine which brands to scrape
+            Set<String> allBrands = brandConfigs.keySet();
+            List<String> brandsToScrape = new ArrayList<>();
+
+            if (brandList.equals("all")) {
+                brandsToScrape.addAll(allBrands);
+                System.out.println("🟢 Config says: Scrape ALL brands (" + allBrands.size() + ")");
+            } else {
+                for (String b : brandList.split(",")) {
+                    String brand = b.trim().toLowerCase();
+                    if (allBrands.contains(brand)) {
+                        brandsToScrape.add(brand);
+                    } else {
+                        System.out.println("⚠️ Brand '" + brand + "' not found in JSON. Skipping.");
+                    }
+                }
+            }
+
+            if (brandsToScrape.isEmpty()) {
+                System.out.println("❌ No valid brands found to scrape. Exiting.");
+                return;
+            }
+
+            WebDriverManager.chromedriver().setup();
+            driver = new ChromeDriver();
+
+            // Loop through each selected brand
+            for (String brand : brandsToScrape) {
+                BrandConfig cfg = brandConfigs.get(brand);
+                System.out.println("\n=====================================");
+                System.out.println("🧠 SCRAPING BRAND: " + brand.toUpperCase());
+                System.out.println("=====================================");
+
+                // Step 1: combine duplicate URLs under different subcats
+                Map<String, List<String>> urlToSubcats = new LinkedHashMap<>();
+                for (Map.Entry<String, String> entry : cfg.subcategories.entrySet()) {
+                    String subcatName = entry.getKey();
+                    String url = entry.getValue();
+
+                    if (!urlToSubcats.containsKey(url))
+                        urlToSubcats.put(url, new ArrayList<>());
+
+                    // Split combined subcats like "Face+Facewash"
+                    for (String s : subcatName.split("\\+")) {
+                        urlToSubcats.get(url).add(s.trim());
+                    }
+                }
+
+                // Step 2: scrape each unique URL once
+                for (Map.Entry<String, List<String>> urlEntry : urlToSubcats.entrySet()) {
+                    String url = urlEntry.getKey();
+                    List<String> subcats = urlEntry.getValue();
+                    System.out.println("➡ URL: " + url + " | Subcategories: " + subcats);
+                    scrapCategoryData(subcats, url, cfg.locators, brand);
+                }
+            }
+
+        } catch (Exception e) {
+            System.out.println("❌ Failed to start scraping: " + e.getMessage());
+            e.printStackTrace();
+        } finally {
+            if (driver != null) driver.quit();
+        }
+    }
+
+    // =============================
+    // SCRAPE CATEGORY DATA
+    // =============================
+    public void scrapCategoryData(List<String> subcats, String catURL, Map<String, String> locators, String storename) {
+        List<Product> productList = new ArrayList<>();
+        int prevProductCount = 0, sameCountTries = 0, scrolls = 0, maxScrolls = 1000;
+        int sameCountTries_windowtype = 0;
+
+        driver.navigate().to(catURL);
+
+        // scroll until all products load
+        while (scrolls < maxScrolls) {
+            JavascriptExecutor js = (JavascriptExecutor) driver;
+            try {
+                if (locators.get("productcardsection").equalsIgnoreCase("windowtype")) {
+                    js.executeScript("window.scrollBy(0, 300);");
+                } else {
+                    WebElement loopElement = driver.findElement(By.xpath(locators.get("productcardsection")));
+                    js.executeScript("arguments[0].scrollIntoView(false);", loopElement);
+                }
+                System.out.println("Scrolling...");
+            } catch (NoSuchElementException e) {
+                System.out.println("!!! Product container Element not found in DOM");
+                break;
+            }
+
+            try {
+                Thread.sleep(2000);
+            } catch (InterruptedException e) {
+                e.printStackTrace();
+            }
+
+            int currProducts;
+            try {
+                currProducts = driver.findElements(By.xpath(locators.get("productcard"))).size();
+            } catch (NoSuchElementException e) {
+                System.out.println("!!! productcardElement not found in DOM");
+                break;
+            }
+
+            if (currProducts == prevProductCount && !locators.get("productcardsection").equalsIgnoreCase("windowtype")) {
+                js.executeScript("window.scrollBy(0, 10);");
+                sameCountTries++;
+                if (sameCountTries >= 5) {
+                    System.out.println("breaking scrolling as samecounttries>=5");
+                    break;
+                }
+            } else {
+                sameCountTries = 0;
+            }
+
+            if (currProducts == prevProductCount && locators.get("productcardsection").equalsIgnoreCase("windowtype")) {
+                sameCountTries_windowtype++;
+                if (sameCountTries_windowtype >= 10) {
+                    System.out.println("breaking scrolling as sameCountTries_windowtype>=10");
+                    break;
+                }
+            } else {
+                sameCountTries_windowtype = 0;
+            }
+
+            prevProductCount = currProducts;
+            scrolls++;
+        }
+
+        Assert.assertNotEquals(prevProductCount, 0);
+
+        List<WebElement> products = driver.findElements(By.xpath(locators.get("productcard")));
+        System.out.println("===> Total products for URL: " + catURL + " are: " + products.size());
+
+        for (int i = 0; i < products.size(); i++) {
+            System.out.println("===> getting " + i + " th prod");
+            try {
+                WebElement currproduct = products.get(i);
+                WebDriverWait wait = new WebDriverWait(driver, Duration.ofSeconds(5));
+
+                // ---- name ----
+                String name = extractText(currproduct, locators.get("name"), "name");
+                String url = extractUrl(driver, currproduct, locators, wait);
+                if (locators.get("url").equalsIgnoreCase("routertype")) {
+                    Thread.sleep(2000);
+                    products = driver.findElements(By.xpath(locators.get("productcard")));
+                    currproduct = products.get(i);
+                }
+
+                if (name == null || url == null) {
+                    System.out.println("Skipping product #" + (i + 1));
+                    continue;
+                }
+
+                String id = storename + Math.abs(url.hashCode());
+                int price = extractInt(currproduct, locators.get("price"), "price");
+                int discount_percent = extractInt(currproduct, locators.get("discount_percent"), "discount_percent");
+                String imageurl = extractAttr(currproduct, locators.get("imageurl"), "src", "imageurl");
+                String des = extractText(currproduct, locators.get("description"), "description");
+                float rating = extractFloat(currproduct, locators.get("rating"), "rating");
+                boolean isAvailable = checkAvailability(currproduct, locators.get("availablity_idf"));
+
+                Product p = new Product(id, name, url, imageurl, "maincat", String.join(",", subcats),
+                        price, discount_percent, des, rating, isAvailable);
+                productList.add(p);
+                System.out.println(p);
+
+            } catch (Exception e) {
+                System.out.println("!!! Exception: " + e.getMessage());
+            }
+        }
+    }
+
+    // =============================
+    // HELPER EXTRACTION FUNCTIONS
+    // =============================
+    private String extractText(WebElement el, String xp, String field) {
+        try {
+            if (xp == null || xp.trim().isEmpty()) return null;
+            return el.findElement(By.xpath(xp)).getText().trim();
+        } catch (Exception e) {
+            System.out.println("!!! [" + field + "] XPATH=" + xp + " | " + e.getMessage());
+            return null;
+        }
+    }
+
+    private String extractAttr(WebElement el, String xp, String attr, String field) {
+        try {
+            if (xp == null || xp.trim().isEmpty()) return "";
+            String val = el.findElement(By.xpath(xp)).getAttribute(attr);
+            return val == null ? "" : val;
+        } catch (Exception e) {
+            System.out.println("!!! [" + field + "] XPATH=" + xp + " | " + e.getMessage());
+            return "";
+        }
+    }
+
+    private int extractInt(WebElement el, String xp, String field) {
+        try {
+            if (xp == null || xp.trim().isEmpty()) return 0;
+            String val = el.findElement(By.xpath(xp)).getText().trim().replaceAll("[^0-9.]", "");
+            return (int) Math.round(Double.parseDouble(val));
+        } catch (Exception e) {
+            System.out.println("!!! [" + field + "] extraction failed: " + e.getMessage());
+            return 0;
+        }
+    }
+
+    private float extractFloat(WebElement el, String xp, String field) {
+        try {
+            if (xp == null || xp.trim().isEmpty()) return 0f;
+            String val = el.findElement(By.xpath(xp)).getText().trim().replaceAll("[^0-9.]", "");
+            return Float.parseFloat(val);
+        } catch (Exception e) {
+            return 0f;
+        }
+    }
+
+    private String extractUrl(WebDriver driver, WebElement el, Map<String, String> locators, WebDriverWait wait) {
+        try {
+            String urlXp = locators.get("url");
+            if (urlXp == null || urlXp.trim().isEmpty()) return null;
+            if (!urlXp.equalsIgnoreCase("routertype")) {
+                return el.findElement(By.xpath(urlXp)).getAttribute("href");
+            } else {
+                String clickXp = locators.get("imageurl");
+                String listingUrl = driver.getCurrentUrl();
+                WebElement clickTarget = el.findElement(By.xpath(clickXp));
+                ((JavascriptExecutor) driver).executeScript("arguments[0].scrollIntoView({block:'center'});", clickTarget);
+                clickTarget.click();
+                wait.until(ExpectedConditions.not(ExpectedConditions.urlToBe(listingUrl)));
+                String newUrl = driver.getCurrentUrl();
+                driver.navigate().back();
+                wait.until(ExpectedConditions.urlToBe(listingUrl));
+                return newUrl;
+            }
+        } catch (Exception e) {
+            System.out.println("!!! [url] extraction failed: " + e.getMessage());
+            return null;
+        }
+    }
+
+    private boolean checkAvailability(WebElement el, String idf) {
+        try {
+            if (idf == null || idf.trim().isEmpty()) return true;
+            return el.findElements(By.xpath(".//descendant::*[contains(text(), '" + idf + "')]")).isEmpty();
+        } catch (Exception e) {
+            return true;
+        }
+    }
+
+    // =============================
+    // OFFER SCRAPING
+    // =============================
+    public void scrapOfferData() {
+        // implement later
     }
 }
