@@ -1,27 +1,23 @@
 package brandpages;
 
 import java.util.*;
-import org.openqa.selenium.By;
-import org.openqa.selenium.JavascriptExecutor;
-import org.openqa.selenium.WebDriver;
-import org.openqa.selenium.WebElement;
+import java.io.FileInputStream;
+import java.util.Properties;
+import org.openqa.selenium.NoSuchElementException;
+import org.openqa.selenium.*;
 import org.openqa.selenium.chrome.ChromeDriver;
+import org.openqa.selenium.support.ui.*;
 import org.testng.Assert;
 import org.testng.annotations.Test;
 import io.github.bonigarcia.wdm.WebDriverManager;
 import utils.ConfigReader;
 import utils.Product;
-import org.openqa.selenium.support.ui.ExpectedConditions;
+
 import java.time.Duration;
-import org.openqa.selenium.support.ui.WebDriverWait;
-import java.io.FileInputStream;
-import java.util.Properties;
 
 public class Scrapper {
 
-    
-    WebDriver driver;
-
+    static WebDriver driver;
     public static void main(String[] args) {
         Scrapper scraper = new Scrapper();
         scraper.scrapController();
@@ -40,24 +36,20 @@ public class Scrapper {
         if (Boolean.parseBoolean(ConfigReader.getProperty("offer"))) {
             scrapOfferData();
         }
-
     }
 
-    //product scrapping
-    public void scrapProdData() {
-        Properties props = new Properties();
+    //scrap products data
+    public static void scrapProdData() {
 
         try {
-            //Load config.properties
-            props.load(new FileInputStream("src/test/resources/config/config.properties"));
 
             String jsonPath = ConfigReader.getProperty("json_path");
-            String brandList = props.getProperty("brands_to_scrape", "all").trim().toLowerCase();
+            String brandList = ConfigReader.getProperty("brands_to_scrape").trim().toLowerCase();
 
-            //Parse brands.json
+            // ✅ Parse brands.json
             Map<String, BrandConfig> brandConfigs = JsonReader.loadBrandConfigs(jsonPath);
 
-            //Determine which brands to scrape
+            // ✅ Determine which brands to scrape
             Set<String> allBrands = brandConfigs.keySet();
             List<String> brandsToScrape = new ArrayList<>();
 
@@ -80,11 +72,7 @@ public class Scrapper {
                 return;
             }
 
-            // Setup WebDriver
-            WebDriverManager.chromedriver().setup();
-            driver = new ChromeDriver();
-
-            // Loop through each selected brand
+            // ✅ Loop through each selected brand
             for (String brand : brandsToScrape) {
                 BrandConfig cfg = brandConfigs.get(brand);
                 System.out.println("\n=====================================");
@@ -94,28 +82,25 @@ public class Scrapper {
                 for (Map.Entry<String, String> entry : cfg.subcategories.entrySet()) {
                     String subcatName = entry.getKey();
                     String url = entry.getValue();
+                    String maincat = cfg.maincategory;
 
                     System.out.println("➡ Subcategory: " + subcatName + " | URL: " + url);
 
                     // ✅ Existing scraping logic
-                    scrapCategoryData(subcatName, url, cfg.locators);
+                    scrapCategoryData(maincat, subcatName, url, cfg.locators, brand);
                 }
             }
 
         } catch (Exception e) {
             System.out.println("❌ Failed to start scraping: " + e.getMessage());
             e.printStackTrace();
-        } finally {
-            if (driver != null) driver.quit();
-        }
+        } 
     }
 
-    
 
-    public void scrapCategoryData(String subcat, String catURL, Map<String, String> locators) {
+    public static void scrapCategoryData(String maincat, String subcat, String catURL, Map<String, String> locators, String brand) {
         List<Product> productList = new ArrayList<>();
         int prevProductCount = 0, sameCountTries = 0, scrolls = 0, maxScrolls = 1000;
-        int sameCountTries_windowtype=0;
 
         driver.navigate().to(catURL);
 
@@ -124,7 +109,8 @@ public class Scrapper {
             JavascriptExecutor js = (JavascriptExecutor) driver;
             try {
                 if(locators.get("productcardsection").equalsIgnoreCase("windowtype")){
-                    js.executeScript("window.scrollBy(0, 300);");
+                    js.executeScript("window.scrollBy(0, 100);");
+                    sameCountTries = 0;
                 }
                 // scroll to bottom of product container
                 else{
@@ -156,7 +142,7 @@ public class Scrapper {
             }
 
             // scroll by 10 for lazy loading check if product container cannot be loaded more (not for windowtype)
-            if (currProducts == prevProductCount && !locators.get("productcardsection").equalsIgnoreCase("windowtype")) {
+            if (currProducts == prevProductCount) {
                 js.executeScript("window.scrollBy(0, 10);");
                 sameCountTries++;
                 if (sameCountTries >= 5){
@@ -166,17 +152,6 @@ public class Scrapper {
             } else {
                 sameCountTries = 0;
             }
-
-            if (currProducts == prevProductCount && locators.get("productcardsection").equalsIgnoreCase("windowtype")) {
-                sameCountTries_windowtype++;
-                if (sameCountTries_windowtype >= 10){
-                    System.out.println("breaking scrolling as sameCountTries_windowtype>=10");
-                    break;
-                }
-            } else {
-                sameCountTries_windowtype = 0;
-            }
-
             // update
             prevProductCount = currProducts;
             scrolls++;
@@ -269,7 +244,7 @@ public class Scrapper {
                 }
 
                 // ---- id ----
-                String id = storename + Math.abs(url.hashCode());
+                String id = brand + Math.abs(url.hashCode());
 
                 // ---- price ----
                 int price = 0;
@@ -392,12 +367,11 @@ public class Scrapper {
             }
         }
 
-    }
 
-    //for scraping offer data
+    // =============================
+    // OFFER SCRAPING
+    // =============================
     public void scrapOfferData() {
-
+        // implement later
     }
-
-
 }

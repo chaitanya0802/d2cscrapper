@@ -4,7 +4,9 @@ import java.io.FileReader;
 import java.util.*;
 import com.google.gson.*;
 
-//Reads and parses brands.json into a Map<String, BrandConfig>
+/**
+ * Reads and parses brands.json into a Map<String, BrandConfig>
+ */
 public class JsonReader {
 
     public static Map<String, BrandConfig> loadBrandConfigs(String jsonPath) {
@@ -18,7 +20,7 @@ public class JsonReader {
                 String brandName = brandEntry.getKey().toLowerCase();
                 JsonObject brandObj = brandEntry.getValue().getAsJsonObject();
 
-                //Locators
+                // ✅ Locators
                 Map<String, String> locators = new HashMap<>();
                 JsonObject locObj = brandObj.getAsJsonObject("locators");
                 if (locObj != null) {
@@ -27,13 +29,13 @@ public class JsonReader {
                     }
                 }
 
-                //Main category
+                // ✅ Main category
                 String mainCategory = "";
                 if (brandObj.has("maincategory")) {
                     mainCategory = brandObj.get("maincategory").getAsString();
                 }
 
-                //Subcategories
+                // ✅ Subcategories
                 Map<String, String> subcategories = new HashMap<>();
                 if (brandObj.has("subcategories")) {
                     JsonObject subObj = brandObj.getAsJsonObject("subcategories");
@@ -42,12 +44,12 @@ public class JsonReader {
                     }
                 }
 
-                //Store in map
+                // ✅ Store in map
                 BrandConfig config = new BrandConfig(locators, mainCategory, subcategories);
                 brandConfigs.put(brandName, config);
             }
 
-            System.out.println("Loaded " + brandConfigs.size() + " brand configurations from JSON.");
+            System.out.println("✅ Loaded " + brandConfigs.size() + " brand configurations from JSON.");
 
         } catch (Exception e) {
             System.out.println("❌ Error reading JSON: " + e.getMessage());

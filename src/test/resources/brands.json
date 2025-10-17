@@ -38,7 +38,8 @@
             },
             "maincategory": "Beauty and Personal Care",
             "subcategories": {
-                
+                "Face+Facewash": "https://mamaearth.in/product-category/face-wash",
+                "Hair+Shampoo": "https://mamaearth.in/product-category/hair-shampoo"
             }
         },
 
@@ -56,9 +57,10 @@
                 "rating": ".//span[1]",
                 "availablity_idf": "₹"
             },
-            "maincategory": "",
+            "maincategory": "Eyewear",
             "subcategories": {
-                
+                "Men+Screenglasses": "https://www.lenskart.com/eyeglasses/collections/all-computer-glasses.html",
+                "Women+Eyeglasses": "https://www.lenskart.com/eyeglasses/marketing/vc-air-bestseller-eyeglasses.html"
             }
         }
     }
