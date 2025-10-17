@@ -1,8 +1,6 @@
 package brandpages;
 
 import java.util.*;
-import java.io.FileInputStream;
-import java.util.Properties;
 import org.openqa.selenium.NoSuchElementException;
 import org.openqa.selenium.*;
 import org.openqa.selenium.chrome.ChromeDriver;
@@ -12,22 +10,25 @@ import org.testng.annotations.Test;
 import io.github.bonigarcia.wdm.WebDriverManager;
 import utils.ConfigReader;
 import utils.Product;
-
 import java.time.Duration;
+
+//  !!! = issue
 
 public class Scrapper {
 
     static WebDriver driver;
+
     public static void main(String[] args) {
+        // driver config
+        WebDriverManager.chromedriver().setup();
+        driver = new ChromeDriver();
+
         Scrapper scraper = new Scrapper();
         scraper.scrapController();
     }
 
     @Test
     public void scrapController() {
-        // driver config
-        WebDriverManager.chromedriver().setup();
-        driver = new ChromeDriver();
 
         if (Boolean.parseBoolean(ConfigReader.getProperty("product"))) {
             scrapProdData();
@@ -46,53 +47,56 @@ public class Scrapper {
             String jsonPath = ConfigReader.getProperty("json_path");
             String brandList = ConfigReader.getProperty("brands_to_scrape").trim().toLowerCase();
 
-            // ✅ Parse brands.json
-            Map<String, BrandConfig> brandConfigs = JsonReader.loadBrandConfigs(jsonPath);
+            //brands.json
+            Map<String, BrandConfig> brandDataMap = JsonReader.loadBrandConfigs(jsonPath);
 
-            // ✅ Determine which brands to scrape
-            Set<String> allBrands = brandConfigs.keySet();
+            //Determine which brands to scrape
+            Set<String> allBrands = brandDataMap.keySet();
             List<String> brandsToScrape = new ArrayList<>();
 
+            //scrap all brands
             if (brandList.equals("all")) {
                 brandsToScrape.addAll(allBrands);
-                System.out.println("🟢 Config says: Scrape ALL brands (" + allBrands.size() + ")");
-            } else {
+                System.out.println("Config says: Scrape ALL brands (" + allBrands.size() + ")");
+            }
+            //scrap only defined in prop file
+            else {
                 for (String b : brandList.split(",")) {
                     String brand = b.trim().toLowerCase();
                     if (allBrands.contains(brand)) {
                         brandsToScrape.add(brand);
                     } else {
-                        System.out.println("⚠️ Brand '" + brand + "' not found in JSON. Skipping.");
+                        System.out.println("!!! Brand '" + brand + "' not found in JSON file. Skipping.");
                     }
                 }
+                System.out.println("Config says: scrap: " + brandsToScrape);
             }
 
             if (brandsToScrape.isEmpty()) {
-                System.out.println("❌ No valid brands found to scrape. Exiting.");
+                System.out.println("!!! No valid brands found to scrape. Exiting.");
                 return;
             }
 
-            // ✅ Loop through each selected brand
+            //loop through each selected brand
             for (String brand : brandsToScrape) {
-                BrandConfig cfg = brandConfigs.get(brand);
-                System.out.println("\n=====================================");
-                System.out.println("🧠 SCRAPING BRAND: " + brand.toUpperCase());
-                System.out.println("=====================================");
+                BrandConfig cfg = brandDataMap.get(brand);
+
+                System.out.println("===> Getting data for: " + brand);
 
                 for (Map.Entry<String, String> entry : cfg.subcategories.entrySet()) {
-                    String subcatName = entry.getKey();
+                    String subcatName = entry.getKey();     //may have + in it
                     String url = entry.getValue();
                     String maincat = cfg.maincategory;
 
-                    System.out.println("➡ Subcategory: " + subcatName + " | URL: " + url);
+                    System.out.println("==> Getting data for Category: "+ maincat + " => " + subcatName);
 
-                    // ✅ Existing scraping logic
+                    //execute scrapping for category
                     scrapCategoryData(maincat, subcatName, url, cfg.locators, brand);
                 }
             }
 
         } catch (Exception e) {
-            System.out.println("❌ Failed to start scraping: " + e.getMessage());
+            System.out.println("!!! Failed to start scraping: " + e.getMessage());
             e.printStackTrace();
         } 
     }
@@ -103,27 +107,29 @@ public class Scrapper {
         int prevProductCount = 0, sameCountTries = 0, scrolls = 0, maxScrolls = 1000;
 
         driver.navigate().to(catURL);
+        System.out.println("Navigated to: " + catURL);
 
         // scroll at the end
         while (scrolls < maxScrolls) {
             JavascriptExecutor js = (JavascriptExecutor) driver;
+            String productcardsectionType = locators.get("productcardsection");
+
             try {
-                if(locators.get("productcardsection").equalsIgnoreCase("windowtype")){
+                if (productcardsectionType.equalsIgnoreCase("windowtype")) {
                     js.executeScript("window.scrollBy(0, 100);");
-                    sameCountTries = 0;
                 }
                 // scroll to bottom of product container
-                else{
-                    WebElement loopElement = driver.findElement(By.xpath(locators.get("productcardsection"))); 
+                else {
+                    WebElement loopElement = driver.findElement(By.xpath(locators.get("productcardsection")));
                     js.executeScript("arguments[0].scrollIntoView(false);", loopElement);
                 }
 
                 System.out.println("Scrolling...");
             } catch (NoSuchElementException e) {
-                System.out.println("!!! Product container Element not found in DOM");
+                System.out.println("!!! Product container Element not found in DOM: " + e.getClass().getSimpleName() + " - " + e.getMessage());
                 break;
             }
-            
+
             // sleep
             try {
                 Thread.sleep(2000);
@@ -141,12 +147,14 @@ public class Scrapper {
                 break;
             }
 
-            // scroll by 10 for lazy loading check if product container cannot be loaded more (not for windowtype)
+            // scroll by 10 for lazy loading check if product container cannot be loaded more
+            // (not for windowtype)
             if (currProducts == prevProductCount) {
                 js.executeScript("window.scrollBy(0, 10);");
                 sameCountTries++;
-                if (sameCountTries >= 5){
-                    System.out.println("breaking scrolling as samecounttries>=5");
+                System.out.println("sameCountTries: " + sameCountTries);
+                if (sameCountTries >= 5) {
+                    System.out.println(">>> Breaking scrolling as samecounttries>=5");
                     break;
                 }
             } else {
@@ -155,16 +163,16 @@ public class Scrapper {
             // update
             prevProductCount = currProducts;
             scrolls++;
-
         }
+
+//----------------------------------------------
 
         // if total products are 0 then is failed scrapping
         Assert.assertNotEquals(prevProductCount, 0);
 
         // extract the product data
         List<WebElement> products = driver.findElements(By.xpath(locators.get("productcard")));
-
-        System.out.println("===> Total products for(" + subcat + ")category are: " + products.size());
+        System.out.println("==> Total products for (" + subcat + ") category are: " + products.size());
 
         for (int i = 0; i < products.size(); i++) {
             System.out.println("===> getting " + i + " th prod");
@@ -173,62 +181,62 @@ public class Scrapper {
                 WebElement currproduct = products.get(i);
                 WebDriverWait wait = new WebDriverWait(driver, Duration.ofSeconds(5));
 
-                // ---- name ----
+                //name
                 String name = null;
                 try {
                     String xp = locators.get("name");
-                    if (xp == null || xp.trim().isEmpty()) {
-                        System.out.println("[name] Empty XPath — skipping");
-                    } else {
-                        name = currproduct.findElement(By.xpath(xp)).getText().trim();
-                    }
-                } catch (Exception e) {
+                    name = currproduct.findElement(By.xpath(xp)).getText().trim();
+
+                }
+                catch (NoSuchElementException exc) {
+                    System.out.println("!!! Product Name not found");
+                }catch (Exception e) {
                     System.out.println("!!! [name] XPATH=" + locators.get("name") + " | " + e.getClass().getSimpleName()
                             + " - " + e.getMessage());
                 }
 
-                // ---- url ----
+                //url
                 String url = null;
                 try {
                     String urlXp = locators.get("url");
-                    if (urlXp == null || urlXp.trim().isEmpty()) {
-                        System.out.println("[url] Empty XPath — skipping");
-                    } else if (!urlXp.equalsIgnoreCase("routertype")) {
+
+                    if (!urlXp.equalsIgnoreCase("routertype")) {
                         url = currproduct.findElement(By.xpath(urlXp)).getAttribute("href");
                     } else {
                         // Router-type navigation and back (uses image/title)
                         String clickXp = locators.get("imageurl");
-                        if (clickXp == null || clickXp.trim().isEmpty()) {
-                            System.out.println("[url/routertype] Empty click XPath (imageurl) — cannot navigate");
-                        } else {
-                            String listingUrl = driver.getCurrentUrl();
+                        String listingUrl = driver.getCurrentUrl();
+                        try {
+                            WebElement clickTarget = currproduct.findElement(By.xpath(clickXp)); // image
+                            ((JavascriptExecutor) driver)
+                                    .executeScript("arguments[0].scrollIntoView({block:'center'});", clickTarget);
+                            clickTarget.click();
+                            wait.until(ExpectedConditions.not(ExpectedConditions.urlToBe(listingUrl)));
+                            url = driver.getCurrentUrl();
+                        } catch (Exception e) {
+                            System.out.println("!!! [url/routertype] click failed XPATH=" + clickXp
+                                    + " | " + e.getClass().getSimpleName() + " - " + e.getMessage());
+                        } finally {
                             try {
-                                WebElement clickTarget = currproduct.findElement(By.xpath(clickXp)); // or title
-                                ((JavascriptExecutor) driver)
-                                        .executeScript("arguments[0].scrollIntoView({block:'center'});", clickTarget);
-                                clickTarget.click();
-                                wait.until(ExpectedConditions.not(ExpectedConditions.urlToBe(listingUrl)));
-                                url = driver.getCurrentUrl();
-                            } catch (Exception e) {
-                                System.out.println("!!! [url/routertype] click failed XPATH=" + clickXp
-                                        + " | " + e.getClass().getSimpleName() + " - " + e.getMessage());
-                            } finally {
-                                try {
-                                    driver.navigate().back();
-                                    wait.until(ExpectedConditions.urlToBe(listingUrl));
-                                } catch (Exception backEx) {
-                                    System.out.println("!!! [navigation] back to listing failed | "
-                                            + backEx.getClass().getSimpleName() + " - " + backEx.getMessage());
-                                }
+                                driver.navigate().back();
+                                wait.until(ExpectedConditions.urlToBe(listingUrl));
+                            } catch (Exception backEx) {
+                                System.out.println("!!! [navigation] back to listing failed | "
+                                        + backEx.getClass().getSimpleName() + " - " + backEx.getMessage());
                             }
                         }
+
                     }
-                } catch (Exception e) {
+                }
+                catch (NoSuchElementException exc) {
+                    System.out.println("!!! Product Url not found");
+
+                }catch (Exception e) {
                     System.out.println("!!! [url] XPATH=" + locators.get("url") + " | " + e.getClass().getSimpleName()
                             + " - " + e.getMessage());
                 }
 
-                // as dom is refreshed
+                // if dom is refreshed due to routertype
                 if (locators.get("url").equalsIgnoreCase("routertype")) {
                     Thread.sleep(2000);
                     products = driver.findElements(By.xpath(locators.get("productcard")));
@@ -239,14 +247,14 @@ public class Scrapper {
                 if (name == null || url == null) {
                     System.out.println("Skipping product #" + (i + 1) + " — missing essential field(s): "
                             + (name == null ? "name " : "") + (url == null ? "url" : ""));
-                    System.out.println("---------------------------");
+                    System.out.println("-------------------------------------------");
                     continue;
                 }
 
-                // ---- id ----
+                //id
                 String id = brand + Math.abs(url.hashCode());
 
-                // ---- price ----
+                //price
                 int price = 0;
                 try {
                     String priceXp = locators.get("price");
@@ -262,12 +270,22 @@ public class Scrapper {
                                     + nfe.getClass().getSimpleName());
                         }
                     }
-                } catch (Exception e) {
+                }
+                catch (NoSuchElementException ex){
+                    System.out.println("!!! Price not found for: " + id);
+                }
+                catch (Exception e) {
                     System.out.println("!!! [price] XPATH=" + locators.get("price") + " | "
                             + e.getClass().getSimpleName() + " - " + e.getMessage());
                 }
 
-                // ---- discount_percent ----
+                if (price == 0) {
+                    System.out.println("Skipping product #" + (i + 1) + " — as price is 0 ");
+                    System.out.println("-------------------------------------------");
+                    continue;
+                }
+
+                //discount_percent
                 int discount_percent = 0;
                 try {
                     String dp = locators.get("discount_percent");
@@ -283,12 +301,14 @@ public class Scrapper {
                                     + nfe.getClass().getSimpleName());
                         }
                     }
-                } catch (Exception e) {
+                }catch (NoSuchElementException exc) {
+                    System.out.println("Discount not found for: " + id);
+                }catch (Exception e) {
                     System.out.println("!!! [discount_percent] XPATH=" + locators.get("discount_percent") + " | "
                             + e.getClass().getSimpleName() + " - " + e.getMessage());
                 }
 
-                // ---- imageurl ----
+                //imageurl
                 String imageurl = "";
                 try {
                     String imgXp = locators.get("imageurl");
@@ -299,12 +319,14 @@ public class Scrapper {
                         if (imageurl == null)
                             imageurl = "";
                     }
-                } catch (Exception e) {
+                } catch (NoSuchElementException exc) {
+                    System.out.println("!!!  Image not found for: " + id);
+                }catch (Exception e) {
                     System.out.println("!!! [imageurl] XPATH=" + locators.get("imageurl") + " | "
                             + e.getClass().getSimpleName() + " - " + e.getMessage());
                 }
 
-                // ---- description ----
+                //description
                 String des = "";
                 try {
                     String xp = locators.get("description");
@@ -313,12 +335,14 @@ public class Scrapper {
                     } else {
                         des = currproduct.findElement(By.xpath(xp)).getText().trim();
                     }
-                } catch (Exception e) {
+                } catch (NoSuchElementException exc) {
+                    System.out.println("Description not found for: " + id);
+                }catch (Exception e) {
                     System.out.println("!!! [description] XPATH=" + locators.get("description") + " | "
                             + e.getClass().getSimpleName() + " - " + e.getMessage());
                 }
 
-                // ---- rating ----
+                //rating
                 float rating = 0.0f;
                 try {
                     String xp = locators.get("rating");
@@ -332,15 +356,18 @@ public class Scrapper {
                             // keep default 0.0
                         }
                     }
-                } catch (Exception e) {
+                }
+                catch (NoSuchElementException exc) {
+                    System.out.println("Rating not found for: " + id);
+                }catch (Exception e) {
                     System.out.println("!!! [rating] XPATH=" + locators.get("rating") + " | "
                             + e.getClass().getSimpleName() + " - " + e.getMessage());
                 }
 
-                // ---- availability ----
+                // availability
                 boolean isAvailable = false;
                 try {
-                    String idf = locators.get("availablity_idf");
+                    String idf = locators.get("availability_idf");
                     if (idf == null || idf.trim().isEmpty()) {
                         System.out.println("!!! [availability] Empty identifier — skipping");
                     } else {
@@ -352,26 +379,23 @@ public class Scrapper {
                             + e.getMessage());
                 }
 
-                // display
+                //display
                 Product p = new Product(id, name, url, imageurl, maincat, subcat, price, discount_percent, des, rating,
                         isAvailable);
                 productList.add(p);
-                System.out.println("DATA >>>");
+                System.out.println("=== DATA");
                 System.out.println(p);
-                System.out.println("=====================================");
+                System.out.println("===============================================================");
 
-            } catch (NoSuchElementException e) {
-                System.out.println("===> Product structure mismatch: " + e);
             } catch (Exception e) {
-                System.out.println("!!!" + e.toString());
+                System.out.println("!!!" + e);
             }
         }
+    }
 
 
-    // =============================
-    // OFFER SCRAPING
-    // =============================
+    //offer scraping
     public void scrapOfferData() {
-        // implement later
+        //implement later
     }
 }

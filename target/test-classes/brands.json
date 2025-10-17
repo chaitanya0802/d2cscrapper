@@ -6,14 +6,14 @@
                 "productcardsection": "//*[@id='facet-main']/product-list",
                 "productcard": "//*[@id='Huratips_Loop']//product-item",
 
-                "name": ".//div/div[2]/div/div/a",
-                "price": ".//div/div[2]/div/div/div[1]/div[1]/span[1]",
-                "discount_percent": ".//div/div[2]/div/div/div[1]/div[1]/p",
-                "description": ".//div/div[2]/div/div/div[1]/div[2]",
-                "url": ".//div/div[2]/div/div/a",
-                "imageurl": ".//div/div[1]/div/a/img",
-                "rating": ".//div/div[2]/div/span/div/div",
-                "availablity_idf": "Add to cart"
+                "name": ".//*[@class='position-relative ']/a",
+                "price": ".//*[@data-price]",
+                "discount_percent": ".//*[@data-price]/following-sibling::p",
+                "description": ".//*[@class='features-list only-horizontal']",
+                "url": ".//*[@class='product-item__image-wrapper ']/a",
+                "imageurl": ".//*[@class='product-item__image-wrapper ']/a/img",
+                "rating": ".//*[@class='rating__stars']",
+                "availability_idf": "Add to cart"
             },
             "maincategory": "Electronics",
             "subcategories": {
@@ -24,17 +24,17 @@
 
         "mamaearth": {
             "locators": {
-                "productcardsection": "//*[@id='__next']/div[6]/div[8]/section",
-                "productcard": "//*[@id='__next']/div[6]/div[8]/section/section/div",
+                "productcardsection": "//*[@class='product-faq-container']/section/section",
+                "productcard": "//*[@class='product-faq-container']/section/section/div",
 
-                "name": ".//div[2]/div/div[1]/div[1]",
-                "price": ".//div[2]/div/div[1]/div[5]/div[1]",
-                "discount_percent": ".//div[2]/div/div[1]/div[5]/div[3]",
-                "description": ".//div[2]/div/div[1]/div[2]",
+                "name": ".//*[@class='title']",
+                "price": ".//*[@class='price_margin']/div[1]",
+                "discount_percent": ".//*[@class='discount']",
+                "description": ".//*[@class='subtitle']",
                 "url": "routertype",
-                "imageurl": ".//div[1]/div/img",
-                "rating": ".//div[2]/div/div[1]/div[4]/span[1]",
-                "availablity_idf": "Add To Cart"
+                "imageurl": ".//*[@class='ProductCard_Wrapper_DisplayArea']//img",
+                "rating": ".//*[@class='rating']",
+                "availability_idf": "Add To Cart"
             },
             "maincategory": "Beauty and Personal Care",
             "subcategories": {
@@ -45,22 +45,21 @@
 
         "lenskart": {
             "locators": {
-                "productcardsection": "windowtype",   
-                "productcard": "//*[@id='card-wrapper-parent']/div/div/div/div",
+                "productcardsection": "//*[@id=\"card-wrapper-parent\"]",
+                "productcard": "//*[@data-cy='plpCardContainer']",
 
-                "name": ".//a/div[3]/p",
-                "price": ".//a/div[3]/div[3]/div",
-                "discount_percent": ".//a/div[3]/div[3]/h5",
-                "description": ".//a/div[3]/div[2]/span",
+                "name": ".//*[@data-cy='plpProductTitle']",
+                  "price": ".//*[@data-cy='plpOfferPrice']",
+                "discount_percent": ".//*[@data-cy='plpTitleTypography']",
+                "description": ".//*[@data-cy='plpProductTitle']/following-sibling::div/span",
                 "url": ".//a",
                 "imageurl": ".//a/div[2]/img",
-                "rating": ".//span[1]",
-                "availablity_idf": "₹"
+                "rating": ".//*[@id='product-rating']/span",
+                "availability_idf": "₹"
             },
             "maincategory": "Eyewear",
             "subcategories": {
-                "Men+Screenglasses": "https://www.lenskart.com/eyeglasses/collections/all-computer-glasses.html",
-                "Women+Eyeglasses": "https://www.lenskart.com/eyeglasses/marketing/vc-air-bestseller-eyeglasses.html"
+                "Kids+Eyeglasses": "https://www.lenskart.com/eyeglasses/promotions/all-kids-eyeglasses.html"
             }
         }
     }

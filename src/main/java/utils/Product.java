@@ -120,7 +120,7 @@ public class Product {
 
     @Override
     public String toString() {
-        return "productId=" + productId +
+        return "productId = " + productId +
                 ", \nproductName = " + productName +
                 ", \nproductUrl = " + productUrl +
                 ", \nproductImageUrl = " + productImageUrl +
