@@ -1,3 +1,9 @@
+here subcategory has + in it ("Face+Facewash": "https://mamaearth.in/product-category/face-wash"), split them and send it to function assubcategories 
+and Product should have list of subcategories and display it properly 
+
+update code and check the code 
+
+================================
 package brandpages;
 
 import java.util.*;
@@ -14,90 +20,103 @@ import utils.Product;
 import org.openqa.selenium.support.ui.ExpectedConditions;
 import java.time.Duration;
 import org.openqa.selenium.support.ui.WebDriverWait;
+public class Scrapper {
 
-public class demobackup {
-
-    String storename = "Mamaearth";
-    String maincat = "BPC";
-
-    // format = catname , catlink
-    Map<String, String> subcat = Map.of(
-            "Eyeglasses+men", "https://www.lenskart.com/eyeglasses/promotions/all-kids-computer-glasses.html"
-            // "Speakers+Party Speakers", "https://www.boat-lifestyle.com/collections/party-speakers"
-            // "Wireless earbuds" , "https://www.boat-lifestyle.com/collections/true-wireless-earbuds"
-            // "FaceCare+FaceWash", "https://mamaearth.in/product-category/face-wash"
-    );
-
-    Map<String, String> boatlocators = Map.of(
-            "productcardsection", "//*[@id='facet-main']/product-list",
-            "productcard", "//*[@id='Huratips_Loop']//product-item",
-
-            "name", ".//div/div[2]/div/div/a",
-            "price", ".//div/div[2]/div/div/div[1]/div[1]/span[1]",
-            "discount_percent", ".//div/div[2]/div/div/div[1]/div[1]/p",
-            "description", ".//div/div[2]/div/div/div[1]/div[2]",
-            "url", ".//div/div[2]/div/div/a",
-            "imageurl", ".//div/div[1]/div/a/img",
-            "rating", ".//div/div[2]/div/span/div/div",
-            "availablity_idf", "Add to cart");
-
-    Map<String, String> melocators = Map.of(
-            "productcardsection", "//*[@id='__next']/div[6]/div[8]/section",
-            "productcard", "//*[@id='__next']/div[6]/div[8]/section/section/div",
-
-            "name", ".//div[2]/div/div[1]/div[1]",
-            "price", ".//div[2]/div/div[1]/div[5]/div[1]",
-            "discount_percent", ".//div[2]/div/div[1]/div[5]/div[3]",
-            "description", ".//div[2]/div/div[1]/div[2]",
-            "url", "routertype",
-            "imageurl", ".//div[1]/div/img",
-            "rating", ".//div[2]/div/div[1]/div[4]/span[1]",
-            "availablity_idf", "Add To Cart");
-
-    // [@id="main-content"]/div/div/div[2]/div/div
-    Map<String, String> lklocators = Map.of(
-            "productcardsection", "windowtype",     //need to scroll by some length
-            "productcard", "//*[@id='card-wrapper-parent']/div/div/div/div",
-
-            "name", ".//a/div[3]/p",
-            "price", ".//a/div[3]/div[3]/div",
-            "discount_percent", ".//a/div[3]/div[3]/h5",
-            "description", ".//a/div[3]/div[2]/span",
-            "url", ".//a",
-            "imageurl", ".//a/div[2]/img",
-            "rating", ".//span[1]",
-            "availablity_idf", "₹");
-
+    
     WebDriver driver;
+
+    public static void main(String[] args) {
+        Scrapper scraper = new Scrapper();
+        scraper.scrapController();
+    }
 
     @Test
     public void scrapController() {
-        if (Boolean.parseBoolean(ConfigReader.getProperty("product")))
-            scrapProdData();
-
-        // if (Boolean.parseBoolean(ConfigReader.getProperty("offer")))
-        // scrapOfferData();
-
-    }
-
-    // parse the file and scrap data
-    public void scrapProdData() {
-
         // driver config
         WebDriverManager.chromedriver().setup();
         driver = new ChromeDriver();
 
-        for (Map.Entry<String, String> m : subcat.entrySet()) {
-            System.out.println("==> " + m.getKey() + " ==>" + m.getValue());
-            // scrapCategoryData(m.getKey(), m.getValue(), boatlocators);
-            scrapCategoryData(m.getKey(), m.getValue(), lklocators);
+        if (Boolean.parseBoolean(ConfigReader.getProperty("product"))) {
+            scrapProdData();
+        }
 
+        if (Boolean.parseBoolean(ConfigReader.getProperty("offer"))) {
+            scrapOfferData();
+        }
+
+    }
+
+    //product scrapping
+    public void scrapProdData() {
+
+        try {
+
+            String jsonPath = ConfigReader.getProperty("json_path");
+            String brandList = ConfigReader.getProperty("brands_to_scrape").trim().toLowerCase();
+
+            //parse brands.json
+            Map<String, BrandConfig> brandConfigs = JsonReader.loadBrandConfigs(jsonPath);
+
+            //determine which brands to scrape
+            Set<String> allBrands = brandConfigs.keySet();
+            List<String> brandsToScrape = new ArrayList<>();
+
+            if (brandList.equals("all")) {
+                brandsToScrape.addAll(allBrands);
+                System.out.println("🟢 Config says: Scrape ALL brands (" + allBrands.size() + ")");
+            } else {
+                for (String b : brandList.split(",")) {
+                    String brand = b.trim().toLowerCase();
+                    if (allBrands.contains(brand)) {
+                        brandsToScrape.add(brand);
+                    } else {
+                        System.out.println("⚠️ Brand '" + brand + "' not found in JSON. Skipping.");
+                    }
+                }
+            }
+
+            if (brandsToScrape.isEmpty()) {
+                System.out.println("❌ No valid brands found to scrape. Exiting.");
+                return;
+            }
+
+            // Setup WebDriver
+            WebDriverManager.chromedriver().setup();
+            driver = new ChromeDriver();
+
+            // Loop through each selected brand
+            for (String brand : brandsToScrape) {
+                BrandConfig cfg = brandConfigs.get(brand);
+                System.out.println("\n=====================================");
+                System.out.println("🟢 SCRAPING BRAND: " + brand.toUpperCase());
+                System.out.println("=====================================");
+
+                for (Map.Entry<String, String> entry : cfg.subcategories.entrySet()) {
+                    String maincategory = cfg.maincategory;
+                    String subcatName = entry.getKey();
+                    String url = entry.getValue();
+
+                    System.out.println("➡ Subcategory: " + subcatName + " | URL: " + url);
+
+                    // ✅ Existing scraping logic
+                    scrapCategoryData(brand, maincategory, subcatName, url, cfg.locators);
+                }
+            }
+
+        } catch (Exception e) {
+            System.out.println("❌ Failed to start scraping: " + e.getMessage());
+            e.printStackTrace();
+        } finally {
+            if (driver != null) driver.quit();
         }
     }
 
-    public void scrapCategoryData(String subcat, String catURL, Map<String, String> locators) {
+    
+
+    public void scrapCategoryData(String brand, String maincategory, String subcat, String catURL, Map<String, String> locators) {
         List<Product> productList = new ArrayList<>();
         int prevProductCount = 0, sameCountTries = 0, scrolls = 0, maxScrolls = 1000;
+        int sameCountTries_windowtype=0;
 
         driver.navigate().to(catURL);
 
@@ -106,8 +125,7 @@ public class demobackup {
             JavascriptExecutor js = (JavascriptExecutor) driver;
             try {
                 if(locators.get("productcardsection").equalsIgnoreCase("windowtype")){
-                    js.executeScript("window.scrollBy(0, 100);");
-                    sameCountTries = 0;
+                    js.executeScript("window.scrollBy(0, 300);");
                 }
                 // scroll to bottom of product container
                 else{
@@ -139,7 +157,7 @@ public class demobackup {
             }
 
             // scroll by 10 for lazy loading check if product container cannot be loaded more (not for windowtype)
-            if (currProducts == prevProductCount) {
+            if (currProducts == prevProductCount && !locators.get("productcardsection").equalsIgnoreCase("windowtype")) {
                 js.executeScript("window.scrollBy(0, 10);");
                 sameCountTries++;
                 if (sameCountTries >= 5){
@@ -149,6 +167,17 @@ public class demobackup {
             } else {
                 sameCountTries = 0;
             }
+
+            if (currProducts == prevProductCount && locators.get("productcardsection").equalsIgnoreCase("windowtype")) {
+                sameCountTries_windowtype++;
+                if (sameCountTries_windowtype >= 10){
+                    System.out.println("breaking scrolling as sameCountTries_windowtype>=10");
+                    break;
+                }
+            } else {
+                sameCountTries_windowtype = 0;
+            }
+
             // update
             prevProductCount = currProducts;
             scrolls++;
@@ -241,7 +270,7 @@ public class demobackup {
                 }
 
                 // ---- id ----
-                String id = storename + Math.abs(url.hashCode());
+                String id = brand + Math.abs(url.hashCode());
 
                 // ---- price ----
                 int price = 0;
@@ -350,7 +379,7 @@ public class demobackup {
                 }
 
                 // display
-                Product p = new Product(id, name, url, imageurl, maincat, subcat, price, discount_percent, des, rating,
+                Product p = new Product(id, name, url, imageurl, maincategory, subcat, price, discount_percent, des, rating,
                         isAvailable);
                 productList.add(p);
                 System.out.println("DATA >>>");
@@ -366,9 +395,150 @@ public class demobackup {
 
     }
 
-    // public static void main(String[] args) {
-    //     demo d = new demo();
-    //     d.scrapProdData();
-    // }
+    //for scraping offer data
+    public void scrapOfferData() {
+
+    }
+
 
 }
+====================================
+
+package utils;
+
+public class Product {
+
+    // Data members
+    private String productId;          // unique ID (e.g., "boat034324242")
+    private String productName;        // Product Name (mandatory)
+    private String productUrl;         // Product URL (mandatory)
+    private String productImageUrl;    // Product Image URL
+    private String mainCategory;     // Main Category
+    private String subCategory;        // Sub Category
+    private int productPrice;       // Product Price (mandatory)
+    private int discount_percent;
+    private String productDescription; // Product Description (mandatory)
+    private float productRating;         // Product Rating (int)
+    private boolean isAvailable;       // Availability (true/false)
+
+    // Constructor
+    public Product(String productId, String productName, String productUrl,
+                   String productImageUrl, String mainCategory, String subCategory,
+                   int productPrice, int discount_percent, String productDescription, float productRating,
+                   boolean isAvailable) {
+        this.productId = productId;
+        this.productName = productName;
+        this.productUrl = productUrl;
+        this.productImageUrl = productImageUrl;
+        this.mainCategory = mainCategory;
+        this.subCategory = subCategory;
+        this.productPrice = productPrice;
+        this.discount_percent = discount_percent;
+        this.productDescription = productDescription;
+        this.productRating = productRating;
+        this.isAvailable = isAvailable;
+    }
+
+    // Default constructor
+    public Product() {
+    }
+
+    // Getters and Setters
+    public String getProductId() {
+        return productId;
+    }
+
+    public void setProductId(String productId) {
+        this.productId = productId;
+    }
+
+    public String getProductName() {
+        return productName;
+    }
+
+    public void setProductName(String productName) {
+        this.productName = productName;
+    }
+
+    public String getProductUrl() {
+        return productUrl;
+    }
+
+    public void setProductUrl(String productUrl) {
+        this.productUrl = productUrl;
+    }
+
+    public String getProductImageUrl() {
+        return productImageUrl;
+    }
+
+    public void setProductImageUrl(String productImageUrl) {
+        this.productImageUrl = productImageUrl;
+    }
+
+    public String getmainCategory() {
+        return mainCategory;
+    }
+
+    public void setmainCategory(String mainCategory) {
+        this.mainCategory = mainCategory;
+    }
+
+    public String getSubCategory() {
+        return subCategory;
+    }
+
+    public void setSubCategory(String subCategory) {
+        this.subCategory = subCategory;
+    }
+
+    public double getProductPrice() {
+        return productPrice;
+    }
+
+    public void setProductPrice(int productPrice) {
+        this.productPrice = productPrice;
+    }
+
+    public String getProductDescription() {
+        return productDescription;
+    }
+
+    public void setProductDescription(String productDescription) {
+        this.productDescription = productDescription;
+    }
+
+    public float getProductRating() {
+        return productRating;
+    }
+
+    public void setProductRating(float productRating) {
+        this.productRating = productRating;
+    }
+
+    public boolean isAvailable() {
+        return isAvailable;
+    }
+
+    public void setAvailable(boolean isAvailable) {
+        this.isAvailable = isAvailable;
+    }
+
+    @Override
+    public String toString() {
+        return "productId=" + productId +
+                ", \nproductName = " + productName +
+                ", \nproductUrl = " + productUrl +
+                ", \nproductImageUrl = " + productImageUrl +
+                ", \nmainCategory = " + mainCategory +
+                ", \nsubCategory = " + subCategory +
+                ", \nproductPrice = " + productPrice +
+                ", \ndiscount_percent = " + discount_percent +
+                ", \nproductDescription = " + productDescription +
+                ", \nproductRating = " + productRating +
+                ", \nisAvailable = " + isAvailable;
+    }
+}
+
+============================
+give whole updated code

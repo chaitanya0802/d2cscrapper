@@ -14,11 +14,18 @@ import utils.Product;
 import org.openqa.selenium.support.ui.ExpectedConditions;
 import java.time.Duration;
 import org.openqa.selenium.support.ui.WebDriverWait;
+import java.io.FileInputStream;
+import java.util.Properties;
 
-public class demo {
+public class Scrapper {
 
     
     WebDriver driver;
+
+    public static void main(String[] args) {
+        Scrapper scraper = new Scrapper();
+        scraper.scrapController();
+    }
 
     @Test
     public void scrapController() {
@@ -36,18 +43,74 @@ public class demo {
 
     }
 
-    // for scraping product data
+    //product scrapping
     public void scrapProdData() {
+        Properties props = new Properties();
 
-        
+        try {
+            //Load config.properties
+            props.load(new FileInputStream("src/test/resources/config/config.properties"));
 
-        for (Map.Entry<String, String> m : subcat.entrySet()) {
-            System.out.println("==> " + m.getKey() + " ==>" + m.getValue());
-            // scrapCategoryData(m.getKey(), m.getValue(), boatlocators);
-            scrapCategoryData(m.getKey(), m.getValue(), lklocators);
+            String jsonPath = ConfigReader.getProperty("json_path");
+            String brandList = props.getProperty("brands_to_scrape", "all").trim().toLowerCase();
 
+            //Parse brands.json
+            Map<String, BrandConfig> brandConfigs = JsonReader.loadBrandConfigs(jsonPath);
+
+            //Determine which brands to scrape
+            Set<String> allBrands = brandConfigs.keySet();
+            List<String> brandsToScrape = new ArrayList<>();
+
+            if (brandList.equals("all")) {
+                brandsToScrape.addAll(allBrands);
+                System.out.println("🟢 Config says: Scrape ALL brands (" + allBrands.size() + ")");
+            } else {
+                for (String b : brandList.split(",")) {
+                    String brand = b.trim().toLowerCase();
+                    if (allBrands.contains(brand)) {
+                        brandsToScrape.add(brand);
+                    } else {
+                        System.out.println("⚠️ Brand '" + brand + "' not found in JSON. Skipping.");
+                    }
+                }
+            }
+
+            if (brandsToScrape.isEmpty()) {
+                System.out.println("❌ No valid brands found to scrape. Exiting.");
+                return;
+            }
+
+            // Setup WebDriver
+            WebDriverManager.chromedriver().setup();
+            driver = new ChromeDriver();
+
+            // Loop through each selected brand
+            for (String brand : brandsToScrape) {
+                BrandConfig cfg = brandConfigs.get(brand);
+                System.out.println("\n=====================================");
+                System.out.println("🧠 SCRAPING BRAND: " + brand.toUpperCase());
+                System.out.println("=====================================");
+
+                for (Map.Entry<String, String> entry : cfg.subcategories.entrySet()) {
+                    String subcatName = entry.getKey();
+                    String url = entry.getValue();
+
+                    System.out.println("➡ Subcategory: " + subcatName + " | URL: " + url);
+
+                    // ✅ Existing scraping logic
+                    scrapCategoryData(subcatName, url, cfg.locators);
+                }
+            }
+
+        } catch (Exception e) {
+            System.out.println("❌ Failed to start scraping: " + e.getMessage());
+            e.printStackTrace();
+        } finally {
+            if (driver != null) driver.quit();
         }
     }
+
+    
 
     public void scrapCategoryData(String subcat, String catURL, Map<String, String> locators) {
         List<Product> productList = new ArrayList<>();
@@ -336,9 +399,5 @@ public class demo {
 
     }
 
-    public static void main(String[] args) {
-        demo d = new demo();
-        d.scrapProdData();
-    }
 
 }
