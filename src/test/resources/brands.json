@@ -17,8 +17,8 @@
             },
             "maincategory": "Electronics",
             "subcategories": {
-                "Speakers+Party Speakers": "https://www.boat-lifestyle.com/collections/party-speakers",
-                "Wireless earbuds": "https://www.boat-lifestyle.com/collections/true-wireless-earbuds"
+                "Wireless earbuds": "https://www.boat-lifestyle.com/collections/true-wireless-earbuds",
+                "Speakers+Party Speakers": "https://www.boat-lifestyle.com/collections/party-speakers"
             }
         },
 
@@ -62,5 +62,7 @@
                 "Kids+Eyeglasses": "https://www.lenskart.com/eyeglasses/collections/all-computer-glasses.html"
             }
         }
+
+
     }
 }

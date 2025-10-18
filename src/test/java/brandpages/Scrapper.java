@@ -128,6 +128,8 @@ public class Scrapper {
                 }
 
                 System.out.println("Scrolling...");
+
+
             } catch (NoSuchElementException e) {
                 System.out.println("!!! Product container Element not found in DOM: " + e.getClass().getSimpleName() + " - " + e.getMessage());
                 break;
@@ -194,7 +196,6 @@ public class Scrapper {
                 try {
                     String xp = locators.get("name");
                     name = currproduct.findElement(By.xpath(xp)).getText().trim();
-
                 }
                 catch (NoSuchElementException exc) {
                     System.out.println("!!! Product Name not found");
