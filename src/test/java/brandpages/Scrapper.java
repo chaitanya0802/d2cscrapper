@@ -11,6 +11,8 @@ import io.github.bonigarcia.wdm.WebDriverManager;
 import utils.ConfigReader;
 import utils.Product;
 import java.time.Duration;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 
 //  !!! = issue
 
@@ -69,7 +71,7 @@ public class Scrapper {
                         System.out.println("!!! Brand '" + brand + "' not found in JSON file. Skipping.");
                     }
                 }
-                System.out.println("Config says: scrap: " + brandsToScrape);
+                System.out.println("Config says: scrap=" + brandsToScrape);
             }
 
             if (brandsToScrape.isEmpty()) {
@@ -112,7 +114,7 @@ public class Scrapper {
 
         int prevProductCount = 0, sameCountTries = 0, scrolls = 0, maxScrolls = 1000;
 
-        while (scrolls < maxScrolls) {
+        while (scrolls < 3) {
             JavascriptExecutor js = (JavascriptExecutor) driver;
             String productcardsectionType = locators.get("productcardsection");
 
@@ -261,7 +263,7 @@ public class Scrapper {
                 }
 
                 //id
-                String id = brand + Math.abs(url.hashCode());
+                String id = brand.replaceAll(" ","") + Math.abs(url.hashCode());
 
                 //price
                 int price = 0;
@@ -271,13 +273,13 @@ public class Scrapper {
                         System.out.println("[price] Empty XPath — skipping");
                     } else {
                         String pr = currproduct.findElement(By.xpath(priceXp)).getText().trim();
-                        try {
-                            // Minimal: keep digits + dot; adjust as per your formatting needs
-                            price = (int) Math.round(Double.parseDouble(pr.replaceAll("[^0-9.]", "")));
-                        } catch (NumberFormatException nfe) {
-                            System.out.println("!!! [price] parse failed for value: '" + pr + "' | "
-                                    + nfe.getClass().getSimpleName());
+
+                        Matcher m = Pattern.compile("(\\d+(?:[.,]\\d+)?)").matcher(pr);
+                        if (m.find()) {
+                            String num = m.group(1).replace(",", "");
+                            price = (int) Math.round(Double.parseDouble(num));
                         }
+
                     }
                 }
                 catch (NoSuchElementException ex){
@@ -357,7 +359,18 @@ public class Scrapper {
                     String xp = locators.get("rating");
                     if (xp == null || xp.trim().isEmpty()) {
                         System.out.println("[rating] Empty XPath — skipping");
-                    } else {
+                    }
+                    //get rating from elements attribute
+                    else if(!locators.get("rating_type").equalsIgnoreCase("text")){
+                        String rt = currproduct.findElement(By.xpath(xp)).getAttribute(locators.get("rating_type"));
+                        try {
+                            rating = Float.parseFloat(rt.replaceAll("[^0-9.]", ""));
+                        } catch (NumberFormatException nfe) {
+                            // keep default 0.0
+                        }
+                    }
+                    //get text
+                    else {
                         String rt = currproduct.findElement(By.xpath(xp)).getText().trim();
                         try {
                             rating = Float.parseFloat(rt.replaceAll("[^0-9.]", ""));

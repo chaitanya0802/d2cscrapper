@@ -13,7 +13,10 @@
                 "url": ".//*[@class='product-item__image-wrapper ']/a",
                 "imageurl": ".//*[@class='product-item__image-wrapper ']/a/img",
                 "rating": ".//*[@class='rating__stars']",
-                "availability_idf": "Add to cart"
+                "availability_idf": "Add to cart",
+
+                "rating_type" : "text"
+
             },
             "maincategory": "Electronics",
             "subcategories": {
@@ -34,7 +37,10 @@
                 "url": "routertype",
                 "imageurl": ".//*[@class='ProductCard_Wrapper_DisplayArea']//img",
                 "rating": ".//*[@class='rating']",
-                "availability_idf": "Add To Cart"
+                "availability_idf": "Add To Cart",
+
+                "rating_type" : "text"
+
             },
             "maincategory": "Beauty and Personal Care",
             "subcategories": {
@@ -55,13 +61,39 @@
                 "url": ".//a",
                 "imageurl": ".//a/div[2]/img",
                 "rating": ".//*[@id='product-rating']/span",
-                "availability_idf": "₹"
+                "availability_idf": "₹",
+
+                "rating_type" : "text"
+
             },
             "maincategory": "Eyewear",
             "subcategories": {
                 "Kids+Eyeglasses": "https://www.lenskart.com/eyeglasses/collections/all-computer-glasses.html"
             }
+        },
+
+      "sugar cosmetics": {
+        "locators": {
+          "productcardsection": "//*[@class='product-list']",
+          "productcard": "//*[@class='product-card']",
+
+          "name": ".//*[@class='product-title h6 line-clamp']",
+          "price": ".//sale-price/span[2]",
+          "discount_percent": "",
+          "description": "",
+          "url": ".//div/a",
+          "imageurl": ".//div/a/img",
+          "rating": ".//*[@data-score]",
+          "availability_idf": "Add to cart",
+
+          "rating_type" : "data-score"
+        },
+
+        "maincategory": "Beauty and Personal Care",
+        "subcategories": {
+          "Lips+Lipsticks": "https://www.sugarcosmetics.com/collections/lipsticks"
         }
+      }
 
 
     }

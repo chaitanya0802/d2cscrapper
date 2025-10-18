@@ -1,19 +1,23 @@
 "": {
-            "locators": {
-                "productcardsection": "",
-                "productcard": "",
+  "locators": {
+      "productcardsection": "",
+      "productcard": "",
 
-                "name": "",
-                "price": "",
-                "discount_percent": "",
-                "description": "",
-                "url": "",
-                "imageurl": "",
-                "rating": "",
-                "availability_idf": ""
-            },
-            "maincategory": "",
-            "subcategories": {
-                
-            }
-        }
+      "name": "",
+      "price": "",
+      "discount_percent": "",
+      "description": "",
+      "url": "",
+      "imageurl": "",
+      "rating": "",
+      "availability_idf": ""
+
+      "rating_type" : "attrname/text"
+
+      },
+
+  "maincategory": "",
+  "subcategories": {
+
+  }
+}
