@@ -45,7 +45,7 @@
 
         "lenskart": {
             "locators": {
-                "productcardsection": "//*[@id=\"card-wrapper-parent\"]",
+                "productcardsection": "windowtype",
                 "productcard": "//*[@data-cy='plpCardContainer']",
 
                 "name": ".//*[@data-cy='plpProductTitle']",
@@ -59,7 +59,7 @@
             },
             "maincategory": "Eyewear",
             "subcategories": {
-                "Kids+Eyeglasses": "https://www.lenskart.com/eyeglasses/promotions/all-kids-eyeglasses.html"
+                "Kids+Eyeglasses": "https://www.lenskart.com/eyeglasses/collections/all-computer-glasses.html?pageCount=24"
             }
         }
     }

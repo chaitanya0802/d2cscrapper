@@ -98,25 +98,28 @@ public class Scrapper {
         } catch (Exception e) {
             System.out.println("!!! Failed to start scraping: " + e.getMessage());
             e.printStackTrace();
-        } 
+        }
     }
 
 
     public static void scrapCategoryData(String maincat, String subcat, String catURL, Map<String, String> locators, String brand) {
         List<Product> productList = new ArrayList<>();
-        int prevProductCount = 0, sameCountTries = 0, scrolls = 0, maxScrolls = 1000;
-
         driver.navigate().to(catURL);
         System.out.println("Navigated to: " + catURL);
 
-        // scroll at the end
+//------------------------------------------------
+//scrolling
+
+        int prevProductCount = 0, sameCountTries = 0, scrolls = 0, maxScrolls = 1000;
+
         while (scrolls < maxScrolls) {
             JavascriptExecutor js = (JavascriptExecutor) driver;
             String productcardsectionType = locators.get("productcardsection");
 
+
             try {
                 if (productcardsectionType.equalsIgnoreCase("windowtype")) {
-                    js.executeScript("window.scrollBy(0, 100);");
+                    js.executeScript("window.scrollBy(0, 300);");
                 }
                 // scroll to bottom of product container
                 else {
@@ -147,30 +150,35 @@ public class Scrapper {
                 break;
             }
 
-            // scroll by 10 for lazy loading check if product container cannot be loaded more
-            // (not for windowtype)
+            //check for termination
             if (currProducts == prevProductCount) {
-                js.executeScript("window.scrollBy(0, 10);");
+                //only do tiny scrolls for non-windowtype sites
+                if (!productcardsectionType.equalsIgnoreCase("windowtype")) {
+                    js.executeScript("window.scrollBy(0, 10);");
+                }
                 sameCountTries++;
+                int limit = productcardsectionType.equalsIgnoreCase("windowtype") ? 10 : 5;
+
                 System.out.println("sameCountTries: " + sameCountTries);
-                if (sameCountTries >= 5) {
-                    System.out.println(">>> Breaking scrolling as samecounttries>=5");
+                if (sameCountTries >= limit) {
+                    System.out.println(">>> Breaking scrolling as sameCountTries >= " + limit);
                     break;
                 }
             } else {
                 sameCountTries = 0;
             }
+
             // update
             prevProductCount = currProducts;
             scrolls++;
         }
 
-//----------------------------------------------
+//------------------------------------------------
+//extracting data
 
         // if total products are 0 then is failed scrapping
         Assert.assertNotEquals(prevProductCount, 0);
 
-        // extract the product data
         List<WebElement> products = driver.findElements(By.xpath(locators.get("productcard")));
         System.out.println("==> Total products for (" + subcat + ") category are: " + products.size());
 
