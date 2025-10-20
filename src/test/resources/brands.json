@@ -2,6 +2,10 @@
     "brands": {
 
         "boat": {
+            "store_id" : 1,
+            "store_name" : "Boat",
+            "store_url" : "https://www.boat-lifestyle.com",
+
             "locators": {
                 "productcardsection": "//*[@id='facet-main']/product-list",
                 "productcard": "//*[@id='Huratips_Loop']//product-item",
@@ -20,12 +24,16 @@
             },
             "maincategory": "Electronics",
             "subcategories": {
-                "Wireless earbuds": "https://www.boat-lifestyle.com/collections/true-wireless-earbuds",
+                "Wirelessearbuds": "https://www.boat-lifestyle.com/collections/true-wireless-earbuds",
                 "Speakers+Party Speakers": "https://www.boat-lifestyle.com/collections/party-speakers"
             }
         },
 
         "mamaearth": {
+            "store_id" : 2,
+            "store_name" : "Mamaearth",
+            "store_url" : "https://mamaearth.in",
+            
             "locators": {
                 "productcardsection": "//*[@class='product-faq-container']/section/section",
                 "productcard": "//*[@class='product-faq-container']/section/section/div",
@@ -42,7 +50,7 @@
                 "rating_type" : "text"
 
             },
-            "maincategory": "Beauty and Personal Care",
+            "maincategory": "BeautyandPersonalCare",
             "subcategories": {
                 "Face+Facewash": "https://mamaearth.in/product-category/face-wash",
                 "Hair+Shampoo": "https://mamaearth.in/product-category/hair-shampoo"
@@ -50,6 +58,10 @@
         },
 
         "lenskart": {
+            "store_id" : 3,
+            "store_name" : "Lenskart",
+            "store_url" : "https://www.lenskart.com",
+
             "locators": {
                 "productcardsection": "windowtype",
                 "productcard": "//*[@data-cy='plpCardContainer']",
@@ -72,7 +84,11 @@
             }
         },
 
-      "sugar cosmetics": {
+      "sugarcosmetics": {
+        "store_id" : 4,
+        "store_name" : "Sugar Cosmetics",
+        "store_url" : "https://www.sugarcosmetics.com",
+
         "locators": {
           "productcardsection": "//*[@class='product-list']",
           "productcard": "//*[@class='product-card']",
@@ -89,7 +105,7 @@
           "rating_type" : "data-score"
         },
 
-        "maincategory": "Beauty and Personal Care",
+        "maincategory": "BeautyandPersonalCare",
         "subcategories": {
           "Lips+Lipsticks": "https://www.sugarcosmetics.com/collections/lipsticks"
         }

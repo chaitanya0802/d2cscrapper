@@ -1,4 +1,8 @@
 "": {
+  "store_id" : "",
+  "store_name" : "",
+  "store_url" : "",
+
   "locators": {
       "productcardsection": "",
       "productcard": "",

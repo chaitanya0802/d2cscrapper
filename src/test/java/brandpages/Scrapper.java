@@ -13,12 +13,16 @@ import utils.Product;
 import java.time.Duration;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
+import java.io.FileInputStream;
+import java.io.FileNotFoundException;
+import java.io.IOException;
 
 //  !!! = issue
 
 public class Scrapper {
 
     static WebDriver driver;
+    static Properties cat_prop;
 
     public static void main(String[] args) {
         // driver config
@@ -27,6 +31,20 @@ public class Scrapper {
 
         Scrapper scraper = new Scrapper();
         scraper.scrapController();
+    }
+
+    public void Scrapper(){
+        try{
+            FileInputStream fis = new FileInputStream("src/test/resources/category_ids.properties");
+            cat_prop = new Properties();
+            cat_prop.load(fis);
+
+        }catch(FileNotFoundException exc){
+            System.out.println(exc.toString());
+        }catch(IOException ioex){
+            System.out.println(ioex.toString());
+        }
+
     }
 
     @Test
@@ -90,10 +108,12 @@ public class Scrapper {
                     String url = entry.getValue();
                     String maincat = cfg.maincategory;
 
+                    int store_id = cfg.store_id;
+
                     System.out.println("==> Getting data for Category: "+ maincat + " => " + subcatName);
 
                     //execute scrapping for category
-                    scrapCategoryData(maincat, subcatName, url, cfg.locators, brand);
+                    scrapCategoryData(maincat, subcatName, url, cfg.locators, brand, cfg.store_id, cfg.store_name, cfg.store_url);
                 }
             }
 
@@ -104,7 +124,8 @@ public class Scrapper {
     }
 
 
-    public static void scrapCategoryData(String maincat, String subcat, String catURL, Map<String, String> locators, String brand) {
+    public static void scrapCategoryData(String maincat, String subcat, String catURL, Map<String, String> locators, 
+                                        String brand, int store_id, String store_name, String store_url) {
         List<Product> productList = new ArrayList<>();
         driver.navigate().to(catURL);
         System.out.println("Navigated to: " + catURL);
@@ -266,7 +287,7 @@ public class Scrapper {
                 String id = brand.replaceAll(" ","") + Math.abs(url.hashCode());
 
                 //price
-                int price = 0;
+                float price = 0;
                 try {
                     String priceXp = locators.get("price");
                     if (priceXp == null || priceXp.trim().isEmpty()) {
@@ -277,7 +298,7 @@ public class Scrapper {
                         Matcher m = Pattern.compile("(\\d+(?:[.,]\\d+)?)").matcher(pr);
                         if (m.find()) {
                             String num = m.group(1).replace(",", "");
-                            price = (int) Math.round(Double.parseDouble(num));
+                            price = (float) Math.round(Double.parseDouble(num));
                         }
 
                     }
@@ -401,9 +422,17 @@ public class Scrapper {
                             + e.getMessage());
                 }
 
+                //convert categories to list of
+                ArrayList<Integer> cate_ids =  new ArrayList<>();
+                cate_ids.add(Integer.parseInt(cat_prop.getProperty(maincat)));
+
+                String[] subcat_arr = subcat.split("+");
+                for(String s: subcat_arr) cate_ids.add(Integer.parseInt(cat_prop.getProperty(s)));
+
+
                 //display
-                Product p = new Product(id, name, url, imageurl, maincat, subcat, price, discount_percent, des, rating,
-                        isAvailable);
+                Product p = new Product(id, name, url, imageurl, cate_ids, price, discount_percent, des, rating,
+                        isAvailable, store_id, store_name, store_url);
                 productList.add(p);
                 System.out.println("=== DATA");
                 System.out.println(p);
