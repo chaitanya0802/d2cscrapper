@@ -79,23 +79,63 @@ public class Scrapper {
                 return;
             }
 
+            int overallProgress = 0;
+            int totalBrands = brandsToScrape.size();
+
             // loop through each selected brand
             for (String brand : brandsToScrape) {
                 BrandConfig cfg = brandDataMap.get(brand);
 
                 System.out.println("===> Getting data for: " + brand);
 
+                int total_subcat = cfg.subcategories.size();
+                int Brandprogress = 0;
+
                 for (Map.Entry<String, String> entry : cfg.subcategories.entrySet()) {
+
                     String subcatName = entry.getKey(); // may have + in it
                     String url = entry.getValue();
                     String maincat = cfg.maincategory;
 
-                    System.out.println("==> Getting data for Category: " + maincat + " => " + subcatName);
+                    //overall progress
+                    int overallcompletedpercent = (overallProgress*100)/totalBrands;
+                    System.out.println(">>> Progress: ");
+                    System.out.print("[");
+                    for (int i=0; i<50; i++){
+                        if(i<overallcompletedpercent/2) {
+                            System.out.print("#");
+                        }else{
+                            System.out.print(" ");
+                        }
+                    }
+                    System.out.print("] " + overallcompletedpercent + "%"  + " Overall");
+                    System.out.println(" ");
+
+
+                    //current brand progress
+                    int completedpercent = (Brandprogress*100)/total_subcat;
+                    System.out.print("[");
+                    for (int i=0; i<50; i++){
+                        if(i<completedpercent/2) {
+                            System.out.print("#");
+                        }else{
+                            System.out.print(" ");
+                        }
+                    }
+                    System.out.print("] " + completedpercent + "%" + " for: " + brand);
+                    System.out.println(" ");
+
+                    System.out.println("\n==> Getting data for: " + maincat + " > " + subcatName);
 
                     // execute scrapping for category
                     scrapCategoryData(maincat, subcatName, url, cfg.locators, brand, cfg.store_id, cfg.store_name,
                             cfg.store_url);
+
+                    Brandprogress++;
                 }
+
+                System.out.println("\n===> Scrapping completed for: " + brand);
+                overallProgress++;
             }
 
         } catch (Exception e) {
@@ -106,6 +146,7 @@ public class Scrapper {
 
     public static void scrapCategoryData(String maincat, String subcat, String catURL, Map<String, String> locators,
             String brand, int store_id, String store_name, String store_url) {
+                
         List<Product> productList = new ArrayList<>();
         driver.navigate().to(catURL);
         System.out.println("Navigated to: " + catURL);
@@ -115,7 +156,7 @@ public class Scrapper {
 
         int prevProductCount = 0, sameCountTries = 0, scrolls = 0, maxScrolls = 1500;
 
-        while (scrolls < 1) {
+        while (scrolls < maxScrolls) {
             JavascriptExecutor js = (JavascriptExecutor) driver;
             String productcardsectionType = locators.get("productcardsection");
 
@@ -404,7 +445,7 @@ public class Scrapper {
                 productList.add(p);
 
                 System.out.println("=== DATA");
-                // System.out.println(p);
+                System.out.println(p);
                 System.out.println("===============================================================");
 
             } catch (Exception e) {

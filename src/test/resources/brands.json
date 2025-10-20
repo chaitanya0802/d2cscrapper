@@ -67,7 +67,31 @@
             "maincategory": "BeautyandPersonalCare",
             "subcategories": {
                 "Face+Facewash": "https://mamaearth.in/product-category/face-wash",
-                "Hair+Shampoo": "https://mamaearth.in/product-category/hair-shampoo"
+                "Face+Sunscreen": "https://mamaearth.in/product-category/sunscreen",
+                "Face+FaceSerum": "https://mamaearth.in/product-category/face-serum",
+                "Face+FaceCream": "https://mamaearth.in/product-category/face-cream",
+                "Face+Moisturizer": "https://mamaearth.in/product-category/face-moisturizer",
+                "Face+FaceMask": "https://mamaearth.in/product-category/face-mask",
+                "Face+FaceScrub": "https://mamaearth.in/product-category/face-scrub",
+                "Hair+Shampoo": "https://mamaearth.in/product-category/hair-shampoo",
+                "Hair+HairOil": "https://mamaearth.in/product-category/hair-oil",
+                "Hair+HairConditioner": "https://mamaearth.in/product-category/hair-conditioner",
+                "Hair+HairSerum": "https://mamaearth.in/product-category/hair-serum",
+                "Hair+HairMask": "https://mamaearth.in/product-category/hair-mask",
+                "Makeup+Lipsticks": "https://mamaearth.in/product-category/lipsticks",
+                "Makeup+Foundation": "https://mamaearth.in/product-category/foundation",
+                "Makeup+EyeKajal": "https://mamaearth.in/product-category/eye-kajal",
+                "Makeup+CompactPowder": "https://mamaearth.in/product-category/compact-powder",
+                "Makeup+LipBalm": "https://mamaearth.in/product-category/lip-balm",
+                "Makeup+Concealer": "https://mamaearth.in/product-category/concealer",
+                "Body+BodyLotion": "https://mamaearth.in/product-category/body-lotion",
+                "Body+Soap": "https://mamaearth.in/product-category/bathing-soap",
+                "Body+BodyWash": "https://mamaearth.in/product-category/body-wash",
+                "Baby+BabyShampoo": "https://mamaearth.in/product-category/baby-shampoo",
+                "Baby+BabyWash": "https://mamaearth.in/product-category/baby-skin",
+                "Baby+BabyBodyLotion": "https://mamaearth.in/product-category/baby-body-lotion",
+                "Baby+BabySoap": "https://mamaearth.in/product-category/baby-soap",
+                "Baby+BabyOil": "https://mamaearth.in/product-category/baby-oil"
             }
         },
 
