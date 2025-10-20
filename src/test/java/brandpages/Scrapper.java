@@ -33,15 +33,15 @@ public class Scrapper {
         scraper.scrapController();
     }
 
-    public void Scrapper(){
-        try{
+    public Scrapper() {
+        try {
             FileInputStream fis = new FileInputStream("src/test/resources/category_ids.properties");
             cat_prop = new Properties();
             cat_prop.load(fis);
 
-        }catch(FileNotFoundException exc){
+        } catch (FileNotFoundException exc) {
             System.out.println(exc.toString());
-        }catch(IOException ioex){
+        } catch (IOException ioex) {
             System.out.println(ioex.toString());
         }
 
@@ -59,7 +59,7 @@ public class Scrapper {
         }
     }
 
-    //scrap products data
+    // scrap products data
     public static void scrapProdData() {
 
         try {
@@ -67,19 +67,19 @@ public class Scrapper {
             String jsonPath = ConfigReader.getProperty("json_path");
             String brandList = ConfigReader.getProperty("brands_to_scrape").trim().toLowerCase();
 
-            //brands.json
+            // brands.json
             Map<String, BrandConfig> brandDataMap = JsonReader.loadBrandConfigs(jsonPath);
 
-            //Determine which brands to scrape
+            // Determine which brands to scrape
             Set<String> allBrands = brandDataMap.keySet();
             List<String> brandsToScrape = new ArrayList<>();
 
-            //scrap all brands
+            // scrap all brands
             if (brandList.equals("all")) {
                 brandsToScrape.addAll(allBrands);
                 System.out.println("Config says: Scrape ALL brands (" + allBrands.size() + ")");
             }
-            //scrap only defined in prop file
+            // scrap only defined in prop file
             else {
                 for (String b : brandList.split(",")) {
                     String brand = b.trim().toLowerCase();
@@ -97,23 +97,24 @@ public class Scrapper {
                 return;
             }
 
-            //loop through each selected brand
+            // loop through each selected brand
             for (String brand : brandsToScrape) {
                 BrandConfig cfg = brandDataMap.get(brand);
 
                 System.out.println("===> Getting data for: " + brand);
 
                 for (Map.Entry<String, String> entry : cfg.subcategories.entrySet()) {
-                    String subcatName = entry.getKey();     //may have + in it
+                    String subcatName = entry.getKey(); // may have + in it
                     String url = entry.getValue();
                     String maincat = cfg.maincategory;
 
                     int store_id = cfg.store_id;
 
-                    System.out.println("==> Getting data for Category: "+ maincat + " => " + subcatName);
+                    System.out.println("==> Getting data for Category: " + maincat + " => " + subcatName);
 
-                    //execute scrapping for category
-                    scrapCategoryData(maincat, subcatName, url, cfg.locators, brand, cfg.store_id, cfg.store_name, cfg.store_url);
+                    // execute scrapping for category
+                    scrapCategoryData(maincat, subcatName, url, cfg.locators, brand, cfg.store_id, cfg.store_name,
+                            cfg.store_url);
                 }
             }
 
@@ -123,22 +124,20 @@ public class Scrapper {
         }
     }
 
-
-    public static void scrapCategoryData(String maincat, String subcat, String catURL, Map<String, String> locators, 
-                                        String brand, int store_id, String store_name, String store_url) {
+    public static void scrapCategoryData(String maincat, String subcat, String catURL, Map<String, String> locators,
+            String brand, int store_id, String store_name, String store_url) {
         List<Product> productList = new ArrayList<>();
         driver.navigate().to(catURL);
         System.out.println("Navigated to: " + catURL);
 
-//------------------------------------------------
-//scrolling
+        // ------------------------------------------------
+        // scrolling
 
         int prevProductCount = 0, sameCountTries = 0, scrolls = 0, maxScrolls = 1000;
 
         while (scrolls < 3) {
             JavascriptExecutor js = (JavascriptExecutor) driver;
             String productcardsectionType = locators.get("productcardsection");
-
 
             try {
                 if (productcardsectionType.equalsIgnoreCase("windowtype")) {
@@ -152,9 +151,9 @@ public class Scrapper {
 
                 System.out.println("Scrolling...");
 
-
             } catch (NoSuchElementException e) {
-                System.out.println("!!! Product container Element not found in DOM: " + e.getClass().getSimpleName() + " - " + e.getMessage());
+                System.out.println("!!! Product container Element not found in DOM: " + e.getClass().getSimpleName()
+                        + " - " + e.getMessage());
                 break;
             }
 
@@ -165,7 +164,6 @@ public class Scrapper {
                 e.printStackTrace();
             }
 
-
             // track total products loaded in current scroll
             int currProducts;
             try {
@@ -175,9 +173,9 @@ public class Scrapper {
                 break;
             }
 
-            //check for termination
+            // check for termination
             if (currProducts == prevProductCount) {
-                //only do tiny scrolls for non-windowtype sites
+                // only do tiny scrolls for non-windowtype sites
                 if (!productcardsectionType.equalsIgnoreCase("windowtype")) {
                     js.executeScript("window.scrollBy(0, 10);");
                 }
@@ -198,8 +196,8 @@ public class Scrapper {
             scrolls++;
         }
 
-//------------------------------------------------
-//extracting data
+        // ------------------------------------------------
+        // extracting data
 
         // if total products are 0 then is failed scrapping
         Assert.assertNotEquals(prevProductCount, 0);
@@ -214,20 +212,19 @@ public class Scrapper {
                 WebElement currproduct = products.get(i);
                 WebDriverWait wait = new WebDriverWait(driver, Duration.ofSeconds(5));
 
-                //name
+                // name
                 String name = null;
                 try {
                     String xp = locators.get("name");
                     name = currproduct.findElement(By.xpath(xp)).getText().trim();
-                }
-                catch (NoSuchElementException exc) {
+                } catch (NoSuchElementException exc) {
                     System.out.println("!!! Product Name not found");
-                }catch (Exception e) {
+                } catch (Exception e) {
                     System.out.println("!!! [name] XPATH=" + locators.get("name") + " | " + e.getClass().getSimpleName()
                             + " - " + e.getMessage());
                 }
 
-                //url
+                // url
                 String url = null;
                 try {
                     String urlXp = locators.get("url");
@@ -259,11 +256,10 @@ public class Scrapper {
                         }
 
                     }
-                }
-                catch (NoSuchElementException exc) {
+                } catch (NoSuchElementException exc) {
                     System.out.println("!!! Product Url not found");
 
-                }catch (Exception e) {
+                } catch (Exception e) {
                     System.out.println("!!! [url] XPATH=" + locators.get("url") + " | " + e.getClass().getSimpleName()
                             + " - " + e.getMessage());
                 }
@@ -283,10 +279,10 @@ public class Scrapper {
                     continue;
                 }
 
-                //id
-                String id = brand.replaceAll(" ","") + Math.abs(url.hashCode());
+                // id
+                String id = brand.replaceAll(" ", "") + Math.abs(url.hashCode());
 
-                //price
+                // price
                 float price = 0;
                 try {
                     String priceXp = locators.get("price");
@@ -302,11 +298,9 @@ public class Scrapper {
                         }
 
                     }
-                }
-                catch (NoSuchElementException ex){
+                } catch (NoSuchElementException ex) {
                     System.out.println("!!! Price not found for: " + id);
-                }
-                catch (Exception e) {
+                } catch (Exception e) {
                     System.out.println("!!! [price] XPATH=" + locators.get("price") + " | "
                             + e.getClass().getSimpleName() + " - " + e.getMessage());
                 }
@@ -317,7 +311,7 @@ public class Scrapper {
                     continue;
                 }
 
-                //discount_percent
+                // discount_percent
                 int discount_percent = 0;
                 try {
                     String dp = locators.get("discount_percent");
@@ -333,14 +327,14 @@ public class Scrapper {
                                     + nfe.getClass().getSimpleName());
                         }
                     }
-                }catch (NoSuchElementException exc) {
+                } catch (NoSuchElementException exc) {
                     System.out.println("Discount not found for: " + id);
-                }catch (Exception e) {
+                } catch (Exception e) {
                     System.out.println("!!! [discount_percent] XPATH=" + locators.get("discount_percent") + " | "
                             + e.getClass().getSimpleName() + " - " + e.getMessage());
                 }
 
-                //imageurl
+                // imageurl
                 String imageurl = "";
                 try {
                     String imgXp = locators.get("imageurl");
@@ -353,12 +347,12 @@ public class Scrapper {
                     }
                 } catch (NoSuchElementException exc) {
                     System.out.println("!!!  Image not found for: " + id);
-                }catch (Exception e) {
+                } catch (Exception e) {
                     System.out.println("!!! [imageurl] XPATH=" + locators.get("imageurl") + " | "
                             + e.getClass().getSimpleName() + " - " + e.getMessage());
                 }
 
-                //description
+                // description
                 String des = "";
                 try {
                     String xp = locators.get("description");
@@ -369,20 +363,20 @@ public class Scrapper {
                     }
                 } catch (NoSuchElementException exc) {
                     System.out.println("Description not found for: " + id);
-                }catch (Exception e) {
+                } catch (Exception e) {
                     System.out.println("!!! [description] XPATH=" + locators.get("description") + " | "
                             + e.getClass().getSimpleName() + " - " + e.getMessage());
                 }
 
-                //rating
+                // rating
                 float rating = 0.0f;
                 try {
                     String xp = locators.get("rating");
                     if (xp == null || xp.trim().isEmpty()) {
                         System.out.println("[rating] Empty XPath — skipping");
                     }
-                    //get rating from elements attribute
-                    else if(!locators.get("rating_type").equalsIgnoreCase("text")){
+                    // get rating from elements attribute
+                    else if (!locators.get("rating_type").equalsIgnoreCase("text")) {
                         String rt = currproduct.findElement(By.xpath(xp)).getAttribute(locators.get("rating_type"));
                         try {
                             rating = Float.parseFloat(rt.replaceAll("[^0-9.]", ""));
@@ -390,7 +384,7 @@ public class Scrapper {
                             // keep default 0.0
                         }
                     }
-                    //get text
+                    // get text
                     else {
                         String rt = currproduct.findElement(By.xpath(xp)).getText().trim();
                         try {
@@ -399,10 +393,9 @@ public class Scrapper {
                             // keep default 0.0
                         }
                     }
-                }
-                catch (NoSuchElementException exc) {
+                } catch (NoSuchElementException exc) {
                     System.out.println("Rating not found for: " + id);
-                }catch (Exception e) {
+                } catch (Exception e) {
                     System.out.println("!!! [rating] XPATH=" + locators.get("rating") + " | "
                             + e.getClass().getSimpleName() + " - " + e.getMessage());
                 }
@@ -422,15 +415,35 @@ public class Scrapper {
                             + e.getMessage());
                 }
 
-                //convert categories to list of
-                ArrayList<Integer> cate_ids =  new ArrayList<>();
-                cate_ids.add(Integer.parseInt(cat_prop.getProperty(maincat)));
+                // Convert categories to list of Integer
+                ArrayList<Integer> cate_ids = new ArrayList<>();
 
-                String[] subcat_arr = subcat.split("+");
-                for(String s: subcat_arr) cate_ids.add(Integer.parseInt(cat_prop.getProperty(s)));
+                try {
+                    // maincat
+                    String mainCatValue = cat_prop.getProperty(maincat);
+                    if (mainCatValue == null) {
+                        System.out.println("Property not found for main category: " + maincat);
+                    } else {
+                        cate_ids.add(Integer.parseInt(mainCatValue));
+                    }
 
+                    // subcat
+                    String[] subcat_arr = subcat.split("\\+"); // Escape '+' for regex
+                    for (String s : subcat_arr) {
+                        String subCatValue = cat_prop.getProperty(s);
+                        if (subCatValue == null) {
+                            System.out.println("Property not found for subcategory: " + s);
+                        } else {
+                            cate_ids.add(Integer.parseInt(subCatValue));
+                        }
+                    }
+                } catch (NumberFormatException e) {
+                    System.out.println("Invalid number format: " + e.getMessage());
+                } catch (Exception e) {
+                    System.out.println("An error occurred: " + e.getMessage());
+                }
 
-                //display
+                // display
                 Product p = new Product(id, name, url, imageurl, cate_ids, price, discount_percent, des, rating,
                         isAvailable, store_id, store_name, store_url);
                 productList.add(p);
@@ -444,9 +457,8 @@ public class Scrapper {
         }
     }
 
-
-    //offer scraping
+    // offer scraping
     public void scrapOfferData() {
-        //implement later
+        // implement later
     }
 }

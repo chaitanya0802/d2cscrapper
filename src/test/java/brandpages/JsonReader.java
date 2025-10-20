@@ -44,8 +44,24 @@ public class JsonReader {
                     }
                 }
 
+                //store related
+                int store_id = 0;
+                if (brandObj.has("store_id")) {
+                    store_id = brandObj.get("store_id").getAsInt();
+                }
+
+                String store_name = "";
+                if (brandObj.has("store_name")) {
+                    store_name = brandObj.get("store_name").getAsString();
+                }
+
+                String store_url = "";
+                if (brandObj.has("store_url")) {
+                    store_url = brandObj.get("store_url").getAsString();
+                }
+
                 //Store in map
-                BrandConfig config = new BrandConfig(locators, mainCategory, subcategories);
+                BrandConfig config = new BrandConfig(locators, mainCategory, subcategories, store_id, store_name,store_url);
                 brandConfigs.put(brandName, config);
             }
 

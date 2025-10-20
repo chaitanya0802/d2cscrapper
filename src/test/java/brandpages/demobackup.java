@@ -350,12 +350,12 @@ public class demobackup {
                 }
 
                 // display
-                Product p = new Product(id, name, url, imageurl, maincat, subcat, price, discount_percent, des, rating,
-                        isAvailable);
-                productList.add(p);
-                System.out.println("DATA >>>");
-                System.out.println(p);
-                System.out.println("=====================================");
+                // Product p = new Product(id, name, url, imageurl, maincat, subcat, price, discount_percent, des, rating,
+                //         isAvailable);
+                // productList.add(p);
+                // System.out.println("DATA >>>");
+                // System.out.println(p);
+                // System.out.println("=====================================");
 
             } catch (NoSuchElementException e) {
                 System.out.println("===> Product structure mismatch: " + e);
