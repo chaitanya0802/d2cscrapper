@@ -21,16 +21,16 @@ public class Scrapper {
     static WebDriver driver;
 
     public static void main(String[] args) {
-        // driver config
-        WebDriverManager.chromedriver().setup();
-        driver = new ChromeDriver();
-
+        
         Scrapper scraper = new Scrapper();
         scraper.scrapController();
     }
 
     @Test
     public void scrapController() {
+        // driver config
+        WebDriverManager.chromedriver().setup();
+        driver = new ChromeDriver();
 
         if (Boolean.parseBoolean(ConfigReader.getProperty("product"))) {
             scrapProdData();
@@ -113,9 +113,9 @@ public class Scrapper {
         // ------------------------------------------------
         // scrolling
 
-        int prevProductCount = 0, sameCountTries = 0, scrolls = 0, maxScrolls = 1000;
+        int prevProductCount = 0, sameCountTries = 0, scrolls = 0, maxScrolls = 1500;
 
-        while (scrolls < 3) {
+        while (scrolls < 1) {
             JavascriptExecutor js = (JavascriptExecutor) driver;
             String productcardsectionType = locators.get("productcardsection");
 
@@ -404,7 +404,7 @@ public class Scrapper {
                 productList.add(p);
 
                 System.out.println("=== DATA");
-                System.out.println(p);
+                // System.out.println(p);
                 System.out.println("===============================================================");
 
             } catch (Exception e) {

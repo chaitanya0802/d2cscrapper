@@ -24,8 +24,22 @@
             },
             "maincategory": "Electronics",
             "subcategories": {
-                "Wirelessearbuds": "https://www.boat-lifestyle.com/collections/true-wireless-earbuds",
-                "Speakers+PartySpeakers": "https://www.boat-lifestyle.com/collections/party-speakers"
+                "AudioDevices+WirelessEarbuds": "https://www.boat-lifestyle.com/collections/true-wireless-earbuds",
+                "AudioDevices+PartySpeakers": "https://www.boat-lifestyle.com/collections/party-speakers",
+                "AudioDevices+WirelessSpeakers": "https://www.boat-lifestyle.com/collections/wireless-speakers",
+                "AudioDevices+WiredHeadphones": "https://www.boat-lifestyle.com/collections/wired-headphones",
+                "AudioDevices+Neckbands": "https://www.boat-lifestyle.com/collections/bluetooth-neckbands-earphones",
+                "AudioDevices+WiredEarphones": "https://www.boat-lifestyle.com/collections/wired-earphones",
+                "AudioDevices+Soundbars": "https://www.boat-lifestyle.com/collections/home-audio",
+                "AudioDevices+WirelessHeadphones": "https://www.boat-lifestyle.com/collections/bluetooth-wireless-headphones",
+                "AudioDevices+Collections": "https://www.boat-lifestyle.com/collections/immortal-gaming",
+                "AudioDevices+Collections+a": "https://www.boat-lifestyle.com/collections/boat-super-sale",
+                "Chargers": "https://www.boat-lifestyle.com/collections/chargers",
+                "Powerbanks": "https://www.boat-lifestyle.com/collections/power-banks",
+                "Smartwatches": "https://www.boat-lifestyle.com/collections/smart-watches",
+                "Cables": "https://www.boat-lifestyle.com/collections/cables",
+                "MobileAccessories": "https://www.boat-lifestyle.com/collections/mobile-accessories"
+                
             }
         },
 

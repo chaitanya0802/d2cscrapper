@@ -9,6 +9,7 @@ import java.io.IOException;
 public class CategoryToInt {
     static Properties cat_prop;
 
+    // convert category names to list of their ids
     public static ArrayList<Integer> getListOfCat(String maincat, String subcat){
         //load props
         try {
@@ -38,7 +39,7 @@ public class CategoryToInt {
             for (String s : subcat_arr) {
                 String subCatValue = cat_prop.getProperty(s);
                 if (subCatValue == null) {
-                    System.out.println("Property not found for subcategory: " + s);
+                    System.out.println("@@@@ Property not found for subcategory: " + s);
                 } else {
                     cate_ids.add(Integer.parseInt(subCatValue));
                 }
