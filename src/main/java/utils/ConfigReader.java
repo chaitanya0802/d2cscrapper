@@ -11,7 +11,7 @@ public class ConfigReader {
     // Load config.properties when the class is loaded
     static {
         try {
-            FileInputStream inputStream = new FileInputStream("src/test/resources/config/config.properties");
+            FileInputStream inputStream = new FileInputStream("src/test/resources/config/scrapperconfig.properties");
             properties = new Properties();
             properties.load(inputStream);
         } catch (IOException e) {

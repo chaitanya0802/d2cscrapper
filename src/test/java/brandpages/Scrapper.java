@@ -13,16 +13,12 @@ import utils.Product;
 import java.time.Duration;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
-import java.io.FileInputStream;
-import java.io.FileNotFoundException;
-import java.io.IOException;
 
 //  !!! = issue
 
 public class Scrapper {
 
     static WebDriver driver;
-    static Properties cat_prop;
 
     public static void main(String[] args) {
         // driver config
@@ -31,20 +27,6 @@ public class Scrapper {
 
         Scrapper scraper = new Scrapper();
         scraper.scrapController();
-    }
-
-    public Scrapper() {
-        try {
-            FileInputStream fis = new FileInputStream("src/test/resources/category_ids.properties");
-            cat_prop = new Properties();
-            cat_prop.load(fis);
-
-        } catch (FileNotFoundException exc) {
-            System.out.println(exc.toString());
-        } catch (IOException ioex) {
-            System.out.println(ioex.toString());
-        }
-
     }
 
     @Test
@@ -107,8 +89,6 @@ public class Scrapper {
                     String subcatName = entry.getKey(); // may have + in it
                     String url = entry.getValue();
                     String maincat = cfg.maincategory;
-
-                    int store_id = cfg.store_id;
 
                     System.out.println("==> Getting data for Category: " + maincat + " => " + subcatName);
 
@@ -416,37 +396,13 @@ public class Scrapper {
                 }
 
                 // Convert categories to list of Integer
-                ArrayList<Integer> cate_ids = new ArrayList<>();
-
-                try {
-                    // maincat
-                    String mainCatValue = cat_prop.getProperty(maincat);
-                    if (mainCatValue == null) {
-                        System.out.println("Property not found for main category: " + maincat);
-                    } else {
-                        cate_ids.add(Integer.parseInt(mainCatValue));
-                    }
-
-                    // subcat
-                    String[] subcat_arr = subcat.split("\\+"); // Escape '+' for regex
-                    for (String s : subcat_arr) {
-                        String subCatValue = cat_prop.getProperty(s);
-                        if (subCatValue == null) {
-                            System.out.println("Property not found for subcategory: " + s);
-                        } else {
-                            cate_ids.add(Integer.parseInt(subCatValue));
-                        }
-                    }
-                } catch (NumberFormatException e) {
-                    System.out.println("Invalid number format: " + e.getMessage());
-                } catch (Exception e) {
-                    System.out.println("An error occurred: " + e.getMessage());
-                }
-
+                ArrayList<Integer> cate_ids = CategoryToInt.getListOfCat(maincat, subcat);
+                
                 // display
                 Product p = new Product(id, name, url, imageurl, cate_ids, price, discount_percent, des, rating,
                         isAvailable, store_id, store_name, store_url);
                 productList.add(p);
+
                 System.out.println("=== DATA");
                 System.out.println(p);
                 System.out.println("===============================================================");
