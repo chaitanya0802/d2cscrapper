@@ -28,7 +28,7 @@
             "maincategory": "BeautyandPersonalCare",
 
             "locators":{
-                "offercards": "//*[@id='slides']/div",
+                "offercards": "//*[@id='slides' and @style]/div",
 
                 "offerurl": "routertype",
                 "offerimage": ".//div/img"

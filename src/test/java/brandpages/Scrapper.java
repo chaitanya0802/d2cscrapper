@@ -4,6 +4,7 @@ import java.util.*;
 import org.openqa.selenium.NoSuchElementException;
 import org.openqa.selenium.*;
 import org.openqa.selenium.chrome.ChromeDriver;
+import org.openqa.selenium.devtools.v137.io.IO;
 import org.openqa.selenium.support.ui.*;
 import org.testng.Assert;
 import org.testng.annotations.Test;
@@ -459,7 +460,7 @@ public class Scrapper {
         }
     }
 
-    //==============================================================================================
+    // ==============================================================================================
 
     // offer scraping
     public void scrapOfferData() {
@@ -523,8 +524,9 @@ public class Scrapper {
                     System.out.print("] " + overallcompletedpercent + "%" + " Overall");
                     System.out.println(" ");
 
-                    //for every url in offer_page_url
-                    scrapPageOfferData(page, cfg.maincategory, cfg.locators,  cfg.store_id, cfg.store_name, cfg.store_url, brand);
+                    // for every url in offer_page_url
+                    scrapPageOfferData(page, cfg.maincategory, cfg.locators, cfg.store_id, cfg.store_name,
+                            cfg.store_url, brand);
 
                 }
 
@@ -532,7 +534,6 @@ public class Scrapper {
 
                 overallProgress++;
             }
-
 
         } catch (Exception e) {
             System.out.println("!!! Failed to start scraping: " + e.getMessage());
@@ -549,44 +550,74 @@ public class Scrapper {
         driver.navigate().to(pageurl);
         System.out.println("Navigated to: " + pageurl);
 
-        int total_offers_found = driver.findElements(By.xpath(locators.get("offercards"))).size();
+        try{
+            Thread.sleep(3000);
+        }catch(InterruptedException e){
+            System.out.println(e.toString());
+        }
 
+        int total_offers_found = driver.findElements(By.xpath(locators.get("offercards"))).size();
         System.out.println("Offers found for " + store_name + ": " + total_offers_found);
 
-        if(total_offers_found == 0) {
+        if (total_offers_found == 0) {
             System.out.println("!!! Skipping as no offers found");
             return;
         }
 
-        //all offers
         List<WebElement> offerelements = driver.findElements(By.xpath(locators.get("offercards")));
+        String offerlink = "", offerimage = "", offername = "", offerid = "";
 
-        String offerlink = "", offerimage="", offername="", offerid=""; 
-
-        for(int i=0; i<total_offers_found; i++){
+        for (int i = 0; i < total_offers_found; i++) {
             WebElement e = offerelements.get(i);
 
-            try{
-                WebDriverWait wait = new WebDriverWait(driver, Duration.ofSeconds(5));
+            try {
+                WebDriverWait wait = new WebDriverWait(driver, Duration.ofSeconds(10));
+                offerlink = "";
 
-                //offer link
+                // ------------------------------
+                // STEP 1: OFFER LINK EXTRACTION
+                // ------------------------------
                 try {
                     String urlXp = locators.get("offerurl");
+                    if (urlXp == null || urlXp.isEmpty()) {
+                        System.out.println("!!! Offer URL locator missing in JSON");
+                        continue;
+                    }
 
                     if (!urlXp.equalsIgnoreCase("routertype")) {
                         offerlink = e.findElement(By.xpath(urlXp)).getAttribute("href");
                     } else {
-                        // Router-type navigation and back (uses image/title)
+                        // Router-type navigation (SPA: React/Angular sites)
                         String clickXp = locators.get("offerimage");
                         String listingUrl = driver.getCurrentUrl();
+
                         try {
                             WebElement clickTarget = e.findElement(By.xpath(clickXp));
-                            clickTarget.click();
+
+                            //if has no src in img tah
+                            if(clickTarget.getAttribute("src")==null) continue;
+
+                            // scroll into view
+                            ((JavascriptExecutor) driver)
+                                    .executeScript("arguments[0].scrollIntoView({block: 'center'});", clickTarget);
+                            Thread.sleep(600);
+
+                            // Try click normally; fallback to JS + parent click if needed
+                            try {
+                                clickTarget.click();
+                            } catch (ElementNotInteractableException clickEx) {
+                                System.out.println("Element not clickable directly, trying parent via JS...");
+                                clickTarget = clickTarget.findElement(By.xpath("./.."));
+                                ((JavascriptExecutor) driver).executeScript("arguments[0].click();", clickTarget);
+                            }
+
+                            // Wait for URL to change (router navigation)
                             wait.until(ExpectedConditions.not(ExpectedConditions.urlToBe(listingUrl)));
                             offerlink = driver.getCurrentUrl();
+
                         } catch (Exception exc) {
                             System.out.println("!!! [url/routertype] click failed XPATH=" + clickXp
-                                    + " | " + e.getClass().getSimpleName() + " - " + exc.getMessage());
+                                    + " | " + exc.getClass().getSimpleName() + " - " + exc.getMessage());
                         } finally {
                             try {
                                 driver.navigate().back();
@@ -596,89 +627,93 @@ public class Scrapper {
                                         + backEx.getClass().getSimpleName() + " - " + backEx.getMessage());
                             }
                         }
-
                     }
-                } catch (NoSuchElementException exc) {
-                    System.out.println("!!! Offer Url not found");
 
+                } catch (NoSuchElementException exc) {
+                    System.out.println("!!! Offer URL not found");
                 } catch (Exception ex) {
-                    System.out.println("!!! [url] XPATH=" + locators.get("url") + " | " + e.getClass().getSimpleName()
-                            + " - " + ex.getMessage());
+                    System.out.println(
+                            "!!! [url] XPATH=" + locators.get("offerurl") + " | " + ex.getClass().getSimpleName()
+                                    + " - " + ex.getMessage());
                 }
 
-                //as DOM is refreshed id url=routertype
-                offerelements = driver.findElements(By.xpath(locators.get("offercards")));
-                // if dom is refreshed due to routertype
+                // ------------------------------
+                // STEP 2: HANDLE DOM REFRESH (routertype only)
+                // ------------------------------
                 if (locators.get("offerurl").equalsIgnoreCase("routertype")) {
                     Thread.sleep(2000);
                     offerelements = driver.findElements(By.xpath(locators.get("offercards")));
+                    if (i >= offerelements.size()) {
+                        System.out.println("DOM changed, adjusting index...");
+                        break;
+                    }
                     e = offerelements.get(i);
                 }
 
-                //check for validity
-                if(offerlink.equalsIgnoreCase("")){
-                    System.out.println("No offer url found, Skipping...");
+                // ------------------------------
+                // STEP 3: VALIDATE OFFER LINK
+                // ------------------------------
+                if (offerlink == null || offerlink.isEmpty()) {
+                    System.out.println("No offer URL found, Skipping...");
                     continue;
                 }
 
-                //offername
-                //generate offer name from offerlink
+                // ------------------------------
+                // STEP 4: OFFER NAME
+                // ------------------------------
                 String lastSegment = offerlink.substring(offerlink.lastIndexOf('/') + 1);
                 String[] words = lastSegment.split("-");
-
                 StringBuilder formatted = new StringBuilder();
                 for (String word : words) {
                     if (!word.isEmpty()) {
                         formatted.append(Character.toUpperCase(word.charAt(0)))
-                                .append(word.substring(1))
-                                .append(" ");
+                                .append(word.substring(1)).append(" ");
                     }
                 }
                 offername = formatted.toString().trim();
 
-                //offerimage
+                // ------------------------------
+                // STEP 5: OFFER IMAGE
+                // ------------------------------
                 try {
                     String imgurlXp = locators.get("offerimage");
                     offerimage = e.findElement(By.xpath(imgurlXp)).getAttribute("src");
-
                 } catch (NoSuchElementException exc) {
-                    System.out.println("!!! Offer image Url not found");
-
+                    System.out.println("!!! Offer image URL not found");
                 } catch (Exception ex) {
-                    System.out.println("!!! [url] XPATH=" + locators.get("url") + " | " + e.getClass().getSimpleName()
-                            + " - " + ex.getMessage());
+                    System.out.println(
+                            "!!! [img] XPATH=" + locators.get("offerimage") + " | " + ex.getClass().getSimpleName()
+                                    + " - " + ex.getMessage());
                 }
 
-                
-                //offerid
+                // ------------------------------
+                // STEP 6: CATEGORY + OFFER ID
+                // ------------------------------
                 offerid = "ofr" + brand.replaceAll(" ", "") + Math.abs(offerlink.hashCode());
-                //category int
-                try{
-                    FileInputStream fis = new FileInputStream("src/test/resources/category_ids.properties");
+
+                try (FileInputStream fis = new FileInputStream("src/test/resources/category_ids.properties")) {
                     cat_prop = new Properties();
                     cat_prop.load(fis);
-                }
-                catch(FileNotFoundException exc){
+                } catch (FileNotFoundException exc) {
                     System.out.println("File not found: " + exc);
-                }catch(IOException ioe){
+                } catch (IOException ioe) {
                     System.out.println(ioe.toString());
                 }
-                
-                int catid = (int) Integer.parseInt(cat_prop.getProperty(maincat));
 
-                Offer ofr = new Offer(offerid, offerlink, offerimage , offername, catid, store_id, store_name, store_url);
+                int catid = Integer.parseInt(cat_prop.getProperty(maincat));
+
+                Offer ofr = new Offer(offerid, offerlink, offerimage, offername, catid, store_id, store_name,
+                        store_url);
                 offerList.add(ofr);
 
                 System.out.println("=== DATA");
                 System.out.println(ofr);
                 System.out.println("===============================================================");
 
-            }catch (Exception ex) {
-                System.out.println("!!!" + ex);
+            } catch (Exception ex) {
+                System.out.println("!!! Exception during offer extraction: " + ex.getClass().getSimpleName() + " - "
+                        + ex.getMessage());
             }
-
         }
-
-        
     }
 }
