@@ -8,10 +8,8 @@
             "maincategory": "Electronics",
 
             "locators":{
-                "offercards": "//*[@id='MultiCarousel_template--16905581428834__e4e83c48-4e49-4d76-a45b-e25f3061707b1']/div/div",
-
-                "offerurl": ".//a",
-                "offerimage": ".//a/picture/img"
+                "offercards": "//*[@id='MultiCarousel_template--16905581428834__e4e83c48-4e49-4d76-a45b-e25f3061707b1']/div/div/a",
+                "offerimage": ".//picture/img"
                 
             },
 
@@ -29,8 +27,6 @@
 
             "locators":{
                 "offercards": "//*[@class='banner-slide-desktop']",
-
-                "offerurl": "routertype",
                 "offerimage": ".//div/img"
                 
             },
@@ -48,10 +44,8 @@
             "maincategory": "BeautyandPersonalCare",
 
             "locators":{
-                "offercards": "//*[@class='prose']/div",
-
-                "offerurl": ".//a",
-                "offerimage": ".//a/img"
+                "offercards": "//*[@class='prose']/div/a",
+                "offerimage": ".//img"
                 
             },
 
@@ -69,8 +63,6 @@
 
             "locators":{
                 "offercards": "//*[@class='flex offers-w offers-anchor']/a",
-
-                "offerurl": "",
                 "offerimage": ".//img"
                 
             },

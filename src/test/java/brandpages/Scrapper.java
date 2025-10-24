@@ -4,7 +4,6 @@ import java.util.*;
 import org.openqa.selenium.NoSuchElementException;
 import org.openqa.selenium.*;
 import org.openqa.selenium.chrome.ChromeDriver;
-import org.openqa.selenium.devtools.v137.io.IO;
 import org.openqa.selenium.support.ui.*;
 import org.testng.Assert;
 import org.testng.annotations.Test;
@@ -565,58 +564,11 @@ public class Scrapper {
             WebElement e = offerelements.get(i);
 
             try {
-                WebDriverWait wait = new WebDriverWait(driver, Duration.ofSeconds(10));
                 offerlink = "";
 
                 //offerlink
                 try {
-                    String urlXp = locators.get("offerurl");
-                    if (urlXp == null || urlXp.isEmpty()) {
-                        System.out.println("!!! Offer URL locator missing in JSON");
-                        continue;
-                    }
-
-                    if (!urlXp.equalsIgnoreCase("routertype")) {
-                        offerlink = e.findElement(By.xpath(urlXp)).getAttribute("href");
-                    } else {
-                        // Router-type navigation (SPA: React/Angular sites)
-                        String clickXp = locators.get("offerimage");
-                        String listingUrl = driver.getCurrentUrl();
-
-                        try {
-                            WebElement clickTarget = e.findElement(By.xpath(clickXp));
-
-                            // scroll into view
-                            ((JavascriptExecutor) driver)
-                                    .executeScript("arguments[0].scrollIntoView({block: 'center'});", clickTarget);
-                            Thread.sleep(600);
-
-                            // Try click normally; fallback to JS + parent click if needed
-                            try {
-                                clickTarget.click();
-                            } catch (ElementNotInteractableException clickEx) {
-                                System.out.println("Element not clickable directly, trying parent via JS...");
-                                clickTarget = clickTarget.findElement(By.xpath("./.."));
-                                ((JavascriptExecutor) driver).executeScript("arguments[0].click();", clickTarget);
-                            }
-
-                            // Wait for URL to change (router navigation)
-                            wait.until(ExpectedConditions.not(ExpectedConditions.urlToBe(listingUrl)));
-                            offerlink = driver.getCurrentUrl();
-
-                        } catch (Exception exc) {
-                            System.out.println("!!! [url/routertype] click failed XPATH=" + clickXp
-                                    + " | " + exc.getClass().getSimpleName() + " - " + exc.getMessage());
-                        } finally {
-                            try {
-                                driver.navigate().back();
-                                wait.until(ExpectedConditions.urlToBe(listingUrl));
-                            } catch (Exception backEx) {
-                                System.out.println("!!! [navigation] back to listing failed | "
-                                        + backEx.getClass().getSimpleName() + " - " + backEx.getMessage());
-                            }
-                        }
-                    }
+                    offerlink = e.getAttribute("href");
 
                 } catch (NoSuchElementException exc) {
                     System.out.println("!!! Offer URL not found");
@@ -624,15 +576,6 @@ public class Scrapper {
                     System.out.println(
                             "!!! [url] XPATH=" + locators.get("offerurl") + " | " + ex.getClass().getSimpleName()
                                     + " - " + ex.getMessage());
-                }
-
-                //if dom refresh
-                if (locators.get("offerurl").equalsIgnoreCase("routertype")) {
-                    Thread.sleep(2000);
-                    offerelements = driver.findElements(By.xpath(locators.get("offercards")));
-                    e = offerelements.get(i);
-
-                    Thread.sleep(3000);
                 }
 
                 //check
@@ -651,13 +594,14 @@ public class Scrapper {
                                 .append(word.substring(1)).append(" ");
                     }
                 }
-                offername = formatted.toString().trim();
+                offername = formatted.toString().trim().replace(".html", "").trim();
 
                 //offer img
                 try {
                     String imgurlXp = locators.get("offerimage");
                     
                     if(e.findElement(By.xpath(imgurlXp)).getAttribute("src") == null) continue;
+
                     offerimage = e.findElement(By.xpath(imgurlXp)).getAttribute("src");
                 } catch (NoSuchElementException exc) {
                     System.out.println("!!! Offer image URL not found");
