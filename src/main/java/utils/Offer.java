@@ -7,6 +7,7 @@ public class Offer {
     private String offerImage;
     private String offerName;
     private int maincategory;     // Category
+    private String des;
 
     private int store_id;
     private String store_name;
@@ -14,12 +15,13 @@ public class Offer {
 
     // Constructor
     public Offer(String offerId, String offerLink, String offerImage, String offerName, 
-    int maincategory, int store_id, String store_name, String storeUrl) {
+    int maincategory, String des, int store_id, String store_name, String storeUrl) {
         this.offerId = offerId;
         this.offerLink = offerLink;
         this.offerImage = offerImage;
         this.offerName = offerName;
         this.maincategory = maincategory;
+        this.des = des;
         this.store_id= store_id;
         this.store_name= store_name;
         this.storeUrl= storeUrl;
@@ -79,8 +81,9 @@ public class Offer {
                 "\nofferId=" + offerId + 
                 "\nofferLink=" + offerLink + 
                 "\nofferImage=" + offerImage + 
-                "\nmaincategory=" + maincategory + 
-                "\nstore_id=" + store_id + 
+                "\nmaincategory=" + maincategory +
+                "\ndes=" + des +
+                "\nstore_id=" + store_id +
                 "\nstore_name=" + store_name + 
                 "\nstoreUrl=" + storeUrl ;
                 

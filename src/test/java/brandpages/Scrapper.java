@@ -9,6 +9,7 @@ import org.testng.Assert;
 import org.testng.annotations.Test;
 import io.github.bonigarcia.wdm.WebDriverManager;
 import utils.ConfigReader;
+import utils.OCRTextExtraction;
 import utils.Product;
 import utils.Offer;
 import java.time.Duration;
@@ -559,7 +560,7 @@ public class Scrapper {
         boolean isroutertype = Boolean.parseBoolean(locators.getOrDefault("routertype", "false"));
         List<WebElement> offerelements = driver.findElements(By.xpath(locators.get("offercards")));
 
-        String offerlink = "", offerimage = "", offername = "", offerid = "";
+        String offerlink = "", offerimage = "", offername = "", offerid = "", des="";
 
         for (int i = 0; i < total_offers_found; i++) {
             try {
@@ -686,7 +687,10 @@ public class Scrapper {
 
                 int catid = Integer.parseInt(cat_prop.getProperty(maincat));
 
-                Offer ofr = new Offer(offerid, offerlink, offerimage, offername, catid,
+                //extract data from image (api based)
+                des = OCRTextExtraction.getImageText(offerimage);
+
+                Offer ofr = new Offer(offerid, offerlink, offerimage, offername, catid,des,
                         store_id, store_name, store_url);
                 offerList.add(ofr);
 
