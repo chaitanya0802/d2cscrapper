@@ -594,9 +594,6 @@ public class Scrapper {
                         try {
                             WebElement clickTarget = e.findElement(By.xpath(clickXp));
 
-                            //if has no src in img tah
-                            if(clickTarget.getAttribute("src")==null) continue;
-
                             // scroll into view
                             ((JavascriptExecutor) driver)
                                     .executeScript("arguments[0].scrollIntoView({block: 'center'});", clickTarget);
@@ -643,11 +640,9 @@ public class Scrapper {
                 if (locators.get("offerurl").equalsIgnoreCase("routertype")) {
                     Thread.sleep(2000);
                     offerelements = driver.findElements(By.xpath(locators.get("offercards")));
-                    if (i >= offerelements.size()) {
-                        System.out.println("DOM changed, adjusting index...");
-                        break;
-                    }
                     e = offerelements.get(i);
+
+                    Thread.sleep(3000);
                 }
 
                 // ------------------------------
@@ -677,6 +672,8 @@ public class Scrapper {
                 // ------------------------------
                 try {
                     String imgurlXp = locators.get("offerimage");
+                    
+                    if(e.findElement(By.xpath(imgurlXp)).getAttribute("src") == null) continue;
                     offerimage = e.findElement(By.xpath(imgurlXp)).getAttribute("src");
                 } catch (NoSuchElementException exc) {
                     System.out.println("!!! Offer image URL not found");
@@ -684,6 +681,11 @@ public class Scrapper {
                     System.out.println(
                             "!!! [img] XPATH=" + locators.get("offerimage") + " | " + ex.getClass().getSimpleName()
                                     + " - " + ex.getMessage());
+                }
+
+                if (offerimage == null || offerimage.isEmpty()) {
+                    System.out.println("No offerimage URL found, Skipping...");
+                    continue;
                 }
 
                 // ------------------------------
