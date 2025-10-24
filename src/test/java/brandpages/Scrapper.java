@@ -541,9 +541,8 @@ public class Scrapper {
 
     }
 
-    // scrap offer data page-wise
     public static void scrapPageOfferData(String pageurl, String maincat, Map<String, String> locators,
-            int store_id, String store_name, String store_url, String brand) {
+                                          int store_id, String store_name, String store_url, String brand) {
 
         List<Offer> offerList = new ArrayList<>();
         driver.navigate().to(pageurl);
@@ -557,34 +556,73 @@ public class Scrapper {
             return;
         }
 
+        boolean isroutertype = Boolean.parseBoolean(locators.getOrDefault("routertype", "false"));
         List<WebElement> offerelements = driver.findElements(By.xpath(locators.get("offercards")));
+
         String offerlink = "", offerimage = "", offername = "", offerid = "";
 
         for (int i = 0; i < total_offers_found; i++) {
-            WebElement e = offerelements.get(i);
-
             try {
+                // Re-fetch elements to avoid stale references
+                offerelements = driver.findElements(By.xpath(locators.get("offercards")));
+                WebElement e = offerelements.get(i);
                 offerlink = "";
 
-                //offerlink
-                try {
-                    offerlink = e.getAttribute("href");
+                WebDriverWait wait = new WebDriverWait(driver, Duration.ofSeconds(8));
 
-                } catch (NoSuchElementException exc) {
-                    System.out.println("!!! Offer URL not found");
+                //offer link
+                try{
+                    if (!isroutertype) {
+                        offerlink = e.getAttribute("href");
+                    } else {
+                        // Router-type navigation: click entire card
+                        String listingUrl = driver.getCurrentUrl();
+                        //click
+                        try {
+                            e.click();
+                        } catch (ElementNotInteractableException | StaleElementReferenceException clickEx) {
+                            System.out.println("Card not interactable/stale, retrying with JS click...");
+                            ((JavascriptExecutor) driver).executeScript("arguments[0].click();", e);
+                        }
+
+                        // Wait for URL change
+                        try {
+                            wait.until(ExpectedConditions.not(ExpectedConditions.urlToBe(listingUrl)));
+                            offerlink = driver.getCurrentUrl();
+                        } catch (Exception wex) {
+                            System.out.println("Navigation wait failed, skipping card...");
+                            continue;
+                        }
+
+                        // Navigate back
+                        try {
+                            driver.navigate().back();
+                            // Handle possible trailing slash difference
+                            wait.until(driver1 -> driver1.getCurrentUrl().replaceAll("/$", "")
+                                    .equalsIgnoreCase(pageurl.replaceAll("/$", "")));
+                            Thread.sleep(1500);
+                            offerelements = driver.findElements(By.xpath(locators.get("offercards")));
+                        } catch (StaleElementReferenceException se) {
+                            System.out.println("StaleElement after navigating back, refetching elements...");
+                            offerelements = driver.findElements(By.xpath(locators.get("offercards")));
+                        } catch (Exception backEx) {
+                            System.out.println("!!! [navigation back] failed | " + backEx.getClass().getSimpleName()
+                                    + " - " + backEx.getMessage());
+                        }
+                    }
                 } catch (Exception ex) {
-                    System.out.println(
-                            "!!! [url] XPATH=" + locators.get("offerurl") + " | " + ex.getClass().getSimpleName()
-                                    + " - " + ex.getMessage());
+                    System.out.println("!!! [url] " + ex.getClass().getSimpleName() + " - " + ex.getMessage());
                 }
 
-                //check
-                if (offerlink == null || offerlink.isEmpty()) {
+                //if dom is refreshed
+                if (isroutertype) e = driver.findElements(By.xpath(locators.get("offercards"))).get(i);
+
+                if (offerlink == null || offerlink.trim().isEmpty()) {
                     System.out.println("No offer URL found, Skipping...");
                     continue;
                 }
 
-                //offername
+                //offer name
                 String lastSegment = offerlink.substring(offerlink.lastIndexOf('/') + 1);
                 String[] words = lastSegment.split("-");
                 StringBuilder formatted = new StringBuilder();
@@ -596,30 +634,47 @@ public class Scrapper {
                 }
                 offername = formatted.toString().trim().replace(".html", "").trim();
 
-                //offer img
-                try {
-                    String imgurlXp = locators.get("offerimage");
-                    
-                    if(e.findElement(By.xpath(imgurlXp)).getAttribute("src") == null) continue;
+                //image-url
+                if (!isroutertype) {
+                    try {
+                        WebElement imgEl = e.findElement(By.xpath(locators.get("offerimage")));
+                        String src = imgEl.getAttribute("src");
+                        if (src == null || src.trim().isEmpty()) {
+                            System.out.println("Skipping: Image src missing for this offer");
+                            continue;
+                        }
+                        offerimage = src;
+                    } catch (NoSuchElementException exc) {
+                        System.out.println("!!! Offer image URL not found");
+                        continue;
+                    } catch (StaleElementReferenceException se) {
+                        System.out.println("Image element became stale, skipping offer");
+                        continue;
+                    }
+                }else{
+                    try{
+                        WebElement imgEl = e.findElement(By.xpath(locators.get("offerimage")));
+                        offerimage = imgEl.getAttribute("src");
+                    } catch (NoSuchElementException exc) {
+                        System.out.println("!!! Offer image URL not found");
+                        continue;
+                    } catch (StaleElementReferenceException se) {
+                        System.out.println("Image element became stale, skipping offer");
+                        continue;
+                    }
 
-                    offerimage = e.findElement(By.xpath(imgurlXp)).getAttribute("src");
-                } catch (NoSuchElementException exc) {
-                    System.out.println("!!! Offer image URL not found");
-                } catch (Exception ex) {
-                    System.out.println(
-                            "!!! [img] XPATH=" + locators.get("offerimage") + " | " + ex.getClass().getSimpleName()
-                                    + " - " + ex.getMessage());
                 }
 
-                if (offerimage == null || offerimage.isEmpty()) {
-                    System.out.println("No offerimage URL found, Skipping...");
+                if (offerimage == null || offerimage.trim().isEmpty()) {
+                    System.out.println("No offerimage found, Skipping...");
                     continue;
                 }
 
-                //offer id
+
+                //offer-id
                 offerid = "ofr" + brand.replaceAll(" ", "") + Math.abs(offerlink.hashCode());
 
-                //offer category
+                //category
                 try (FileInputStream fis = new FileInputStream("src/test/resources/category_ids.properties")) {
                     cat_prop = new Properties();
                     cat_prop.load(fis);
@@ -631,18 +686,24 @@ public class Scrapper {
 
                 int catid = Integer.parseInt(cat_prop.getProperty(maincat));
 
-                Offer ofr = new Offer(offerid, offerlink, offerimage, offername, catid, store_id, store_name,
-                        store_url);
+                Offer ofr = new Offer(offerid, offerlink, offerimage, offername, catid,
+                        store_id, store_name, store_url);
                 offerList.add(ofr);
 
                 System.out.println("=== DATA");
                 System.out.println(ofr);
                 System.out.println("===============================================================");
 
+            } catch (StaleElementReferenceException se) {
+                System.out.println("Offer element went stale, refetching and continuing...");
+                offerelements = driver.findElements(By.xpath(locators.get("offercards")));
+                continue;
             } catch (Exception ex) {
                 System.out.println("!!! Exception during offer extraction: " + ex.getClass().getSimpleName() + " - "
                         + ex.getMessage());
             }
         }
     }
+
+
 }
