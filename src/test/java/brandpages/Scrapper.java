@@ -10,18 +10,23 @@ import org.testng.annotations.Test;
 import io.github.bonigarcia.wdm.WebDriverManager;
 import utils.ConfigReader;
 import utils.Product;
+import utils.Offer;
 import java.time.Duration;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
+import java.io.FileInputStream;
+import java.io.FileNotFoundException;
+import java.io.IOException;
 
 //  !!! = issue
 
 public class Scrapper {
 
     static WebDriver driver;
+    static Properties cat_prop;
 
     public static void main(String[] args) {
-        
+
         Scrapper scraper = new Scrapper();
         scraper.scrapController();
     }
@@ -46,11 +51,11 @@ public class Scrapper {
 
         try {
 
-            String jsonPath = ConfigReader.getProperty("json_path");
+            String jsonPath = ConfigReader.getProperty("products_json_path");
             String brandList = ConfigReader.getProperty("brands_to_scrape").trim().toLowerCase();
 
-            // brands.json
-            Map<String, BrandConfig> brandDataMap = JsonReader.loadBrandConfigs(jsonPath);
+            // read json
+            Map<String, ProductScrapConfig> brandDataMap = ProductScrapJsonReader.loadBrandConfigs(jsonPath);
 
             // Determine which brands to scrape
             Set<String> allBrands = brandDataMap.keySet();
@@ -84,9 +89,9 @@ public class Scrapper {
 
             // loop through each selected brand
             for (String brand : brandsToScrape) {
-                BrandConfig cfg = brandDataMap.get(brand);
+                ProductScrapConfig cfg = brandDataMap.get(brand);
 
-                System.out.println("===> Getting data for: " + brand);
+                System.out.println("===> Getting product data for: " + brand);
 
                 int total_subcat = cfg.subcategories.size();
                 int Brandprogress = 0;
@@ -97,28 +102,27 @@ public class Scrapper {
                     String url = entry.getValue();
                     String maincat = cfg.maincategory;
 
-                    //overall progress
-                    int overallcompletedpercent = (overallProgress*100)/totalBrands;
+                    // overall progress
+                    int overallcompletedpercent = (overallProgress * 100) / totalBrands;
                     System.out.println("Progress >>> ");
                     System.out.print("[");
-                    for (int i=0; i<50; i++){
-                        if(i<overallcompletedpercent/2) {
+                    for (int i = 0; i < 50; i++) {
+                        if (i < overallcompletedpercent / 2) {
                             System.out.print("#");
-                        }else{
+                        } else {
                             System.out.print(" ");
                         }
                     }
-                    System.out.print("] " + overallcompletedpercent + "%"  + " Overall");
+                    System.out.print("] " + overallcompletedpercent + "%" + " Overall");
                     System.out.println(" ");
 
-
-                    //current brand progress
-                    int completedpercent = (Brandprogress*100)/total_subcat;
+                    // current brand progress
+                    int completedpercent = (Brandprogress * 100) / total_subcat;
                     System.out.print("[");
-                    for (int i=0; i<50; i++){
-                        if(i<completedpercent/2) {
+                    for (int i = 0; i < 50; i++) {
+                        if (i < completedpercent / 2) {
                             System.out.print("#");
-                        }else{
+                        } else {
                             System.out.print(" ");
                         }
                     }
@@ -144,9 +148,10 @@ public class Scrapper {
         }
     }
 
+    // scrapping products by catgory
     public static void scrapCategoryData(String maincat, String subcat, String catURL, Map<String, String> locators,
             String brand, int store_id, String store_name, String store_url) {
-                
+
         List<Product> productList = new ArrayList<>();
         driver.navigate().to(catURL);
         System.out.println("Navigated to: " + catURL);
@@ -438,7 +443,7 @@ public class Scrapper {
 
                 // Convert categories to list of Integer
                 ArrayList<Integer> cate_ids = CategoryToInt.getListOfCat(maincat, subcat);
-                
+
                 // display
                 Product p = new Product(id, name, url, imageurl, cate_ids, price, discount_percent, des, rating,
                         isAvailable, store_id, store_name, store_url);
@@ -454,8 +459,226 @@ public class Scrapper {
         }
     }
 
+    //==============================================================================================
+
     // offer scraping
     public void scrapOfferData() {
-        // implement later
+
+        try {
+            String offerjsonPath = ConfigReader.getProperty("offers_json_path");
+            String brandList = ConfigReader.getProperty("brands_to_scrape").trim().toLowerCase();
+
+            // read json
+            Map<String, OfferScrapConfig> brandDataMap = OfferScrapJsonReader.loadBrandConfigs(offerjsonPath);
+
+            // Determine which brands to scrape
+            Set<String> allBrands = brandDataMap.keySet();
+            List<String> brandsToScrape = new ArrayList<>();
+
+            // scrap all brands
+            if (brandList.equals("all")) {
+                brandsToScrape.addAll(allBrands);
+                System.out.println("Config says: Scrape ALL brands (" + allBrands.size() + ")");
+            }
+            // scrap only defined in prop file
+            else {
+                for (String b : brandList.split(",")) {
+                    String brand = b.trim().toLowerCase();
+                    if (allBrands.contains(brand)) {
+                        brandsToScrape.add(brand);
+                    } else {
+                        System.out.println("!!! Brand '" + brand + "' not found in JSON file. Skipping.");
+                    }
+                }
+                System.out.println("Config says: scrap=" + brandsToScrape);
+            }
+
+            if (brandsToScrape.isEmpty()) {
+                System.out.println("!!! No valid brands found to scrape. Exiting.");
+                return;
+            }
+
+            int overallProgress = 0;
+            int totalBrands = brandsToScrape.size();
+
+            // loop through each selected brand
+            for (String brand : brandsToScrape) {
+                OfferScrapConfig cfg = brandDataMap.get(brand);
+
+                System.out.println("===> Getting offer data for: " + brand);
+
+                // int totalpages = cfg.offer_page_url.size();
+                for (String page : cfg.offer_page_url) {
+                    // overall progress
+                    int overallcompletedpercent = (overallProgress * 100) / totalBrands;
+                    System.out.println("Progress >>> ");
+                    System.out.print("[");
+                    for (int i = 0; i < 50; i++) {
+                        if (i < overallcompletedpercent / 2) {
+                            System.out.print("#");
+                        } else {
+                            System.out.print(" ");
+                        }
+                    }
+                    System.out.print("] " + overallcompletedpercent + "%" + " Overall");
+                    System.out.println(" ");
+
+                    //for every url in offer_page_url
+                    scrapPageOfferData(page, cfg.maincategory, cfg.locators,  cfg.store_id, cfg.store_name, cfg.store_url, brand);
+
+                }
+
+                System.out.println("\n===> Scrapping Offers completed for: " + brand);
+
+                overallProgress++;
+            }
+
+
+        } catch (Exception e) {
+            System.out.println("!!! Failed to start scraping: " + e.getMessage());
+            e.printStackTrace();
+        }
+
+    }
+
+    // scrap offer data page-wise
+    public static void scrapPageOfferData(String pageurl, String maincat, Map<String, String> locators,
+            int store_id, String store_name, String store_url, String brand) {
+
+        List<Offer> offerList = new ArrayList<>();
+        driver.navigate().to(pageurl);
+        System.out.println("Navigated to: " + pageurl);
+
+        int total_offers_found = driver.findElements(By.xpath(locators.get("offercards"))).size();
+
+        System.out.println("Offers found for " + store_name + ": " + total_offers_found);
+
+        if(total_offers_found == 0) {
+            System.out.println("!!! Skipping as no offers found");
+            return;
+        }
+
+        //all offers
+        List<WebElement> offerelements = driver.findElements(By.xpath(locators.get("offercards")));
+
+        String offerlink = "", offerimage="", offername="", offerid=""; 
+
+        for(int i=0; i<total_offers_found; i++){
+            WebElement e = offerelements.get(i);
+
+            try{
+                WebDriverWait wait = new WebDriverWait(driver, Duration.ofSeconds(5));
+
+                //offer link
+                try {
+                    String urlXp = locators.get("offerurl");
+
+                    if (!urlXp.equalsIgnoreCase("routertype")) {
+                        offerlink = e.findElement(By.xpath(urlXp)).getAttribute("href");
+                    } else {
+                        // Router-type navigation and back (uses image/title)
+                        String clickXp = locators.get("offerimage");
+                        String listingUrl = driver.getCurrentUrl();
+                        try {
+                            WebElement clickTarget = e.findElement(By.xpath(clickXp));
+                            clickTarget.click();
+                            wait.until(ExpectedConditions.not(ExpectedConditions.urlToBe(listingUrl)));
+                            offerlink = driver.getCurrentUrl();
+                        } catch (Exception exc) {
+                            System.out.println("!!! [url/routertype] click failed XPATH=" + clickXp
+                                    + " | " + e.getClass().getSimpleName() + " - " + exc.getMessage());
+                        } finally {
+                            try {
+                                driver.navigate().back();
+                                wait.until(ExpectedConditions.urlToBe(listingUrl));
+                            } catch (Exception backEx) {
+                                System.out.println("!!! [navigation] back to listing failed | "
+                                        + backEx.getClass().getSimpleName() + " - " + backEx.getMessage());
+                            }
+                        }
+
+                    }
+                } catch (NoSuchElementException exc) {
+                    System.out.println("!!! Offer Url not found");
+
+                } catch (Exception ex) {
+                    System.out.println("!!! [url] XPATH=" + locators.get("url") + " | " + e.getClass().getSimpleName()
+                            + " - " + ex.getMessage());
+                }
+
+                //as DOM is refreshed id url=routertype
+                offerelements = driver.findElements(By.xpath(locators.get("offercards")));
+                // if dom is refreshed due to routertype
+                if (locators.get("offerurl").equalsIgnoreCase("routertype")) {
+                    Thread.sleep(2000);
+                    offerelements = driver.findElements(By.xpath(locators.get("offercards")));
+                    e = offerelements.get(i);
+                }
+
+                //check for validity
+                if(offerlink.equalsIgnoreCase("")){
+                    System.out.println("No offer url found, Skipping...");
+                    continue;
+                }
+
+                //offername
+                //generate offer name from offerlink
+                String lastSegment = offerlink.substring(offerlink.lastIndexOf('/') + 1);
+                String[] words = lastSegment.split("-");
+
+                StringBuilder formatted = new StringBuilder();
+                for (String word : words) {
+                    if (!word.isEmpty()) {
+                        formatted.append(Character.toUpperCase(word.charAt(0)))
+                                .append(word.substring(1))
+                                .append(" ");
+                    }
+                }
+                offername = formatted.toString().trim();
+
+                //offerimage
+                try {
+                    String imgurlXp = locators.get("offerimage");
+                    offerimage = e.findElement(By.xpath(imgurlXp)).getAttribute("src");
+
+                } catch (NoSuchElementException exc) {
+                    System.out.println("!!! Offer image Url not found");
+
+                } catch (Exception ex) {
+                    System.out.println("!!! [url] XPATH=" + locators.get("url") + " | " + e.getClass().getSimpleName()
+                            + " - " + ex.getMessage());
+                }
+
+                
+                //offerid
+                offerid = "ofr" + brand.replaceAll(" ", "") + Math.abs(offerlink.hashCode());
+                //category int
+                try{
+                    FileInputStream fis = new FileInputStream("src/test/resources/category_ids.properties");
+                    cat_prop = new Properties();
+                    cat_prop.load(fis);
+                }
+                catch(FileNotFoundException exc){
+                    System.out.println("File not found: " + exc);
+                }catch(IOException ioe){
+                    System.out.println(ioe.toString());
+                }
+                
+                int catid = (int) Integer.parseInt(cat_prop.getProperty(maincat));
+
+                Offer ofr = new Offer(offerid, offerlink, offerimage , offername, catid, store_id, store_name, store_url);
+                offerList.add(ofr);
+
+                System.out.println("=== DATA");
+                System.out.println(ofr);
+                System.out.println("===============================================================");
+
+            }catch (Exception ex) {
+                System.out.println("!!!" + ex);
+            }
+
+        }
+
+        
     }
 }

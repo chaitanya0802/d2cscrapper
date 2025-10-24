@@ -4,13 +4,10 @@ import java.io.FileReader;
 import java.util.*;
 import com.google.gson.*;
 
-/**
- * Reads and parses brands.json into a Map<String, BrandConfig>
- */
-public class JsonReader {
+public class ProductScrapJsonReader {
 
-    public static Map<String, BrandConfig> loadBrandConfigs(String jsonPath) {
-        Map<String, BrandConfig> brandConfigs = new HashMap<>();
+    public static Map<String, ProductScrapConfig> loadBrandConfigs(String jsonPath) {
+        Map<String, ProductScrapConfig> brandConfigs = new HashMap<>();
 
         try (FileReader reader = new FileReader(jsonPath)) {
             JsonObject root = JsonParser.parseReader(reader).getAsJsonObject();
@@ -61,7 +58,7 @@ public class JsonReader {
                 }
 
                 //Store in map
-                BrandConfig config = new BrandConfig(locators, mainCategory, subcategories, store_id, store_name,store_url);
+                ProductScrapConfig config = new ProductScrapConfig(locators, mainCategory, subcategories, store_id, store_name,store_url);
                 brandConfigs.put(brandName, config);
             }
 

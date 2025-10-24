@@ -1,23 +1,29 @@
 package utils;
 
-import java.util.List;
 
 public class Offer {
     private String offerId;
     private String offerLink;
     private String offerImage;
     private String offerName;
-    private String category;
-    private List<String> subCategories; // multiple subcategories
+    private int maincategory;     // Category
+
+    private int store_id;
+    private String store_name;
+    private String storeUrl;
 
     // Constructor
-    public Offer(String offerId, String offerLink, String offerImage, String offerName, String category, List<String> subCategories) {
+    public Offer(String offerId, String offerLink, String offerImage, String offerName, 
+    int maincategory, int store_id, String store_name, String storeUrl) {
         this.offerId = offerId;
         this.offerLink = offerLink;
         this.offerImage = offerImage;
         this.offerName = offerName;
-        this.category = category;
-        this.subCategories = subCategories;
+        this.maincategory = maincategory;
+        this.store_id= store_id;
+        this.store_name= store_name;
+        this.storeUrl= storeUrl;
+
     }
 
     // Default constructor
@@ -41,12 +47,8 @@ public class Offer {
         return offerName;
     }
 
-    public String getCategory() {
-        return category;
-    }
-
-    public List<String> getSubCategories() {
-        return subCategories;
+    public Integer getCategory() {
+        return maincategory;
     }
 
     // Setters
@@ -66,24 +68,21 @@ public class Offer {
         this.offerName = offerName;
     }
 
-    public void setCategory(String category) {
-        this.category = category;
-    }
-
-    public void setSubCategories(List<String> subCategories) {
-        this.subCategories = subCategories;
+    public void setCategory(Integer maincategory) {
+        this.maincategory = maincategory;
     }
 
     // toString (useful for debugging)
     @Override
     public String toString() {
-        return "Offer {" +
-                "offerId='" + offerId + '\'' +
-                ", offerLink='" + offerLink + '\'' +
-                ", offerImage='" + offerImage + '\'' +
-                ", offerName='" + offerName + '\'' +
-                ", category='" + category + '\'' +
-                ", subCategories=" + subCategories +
-                '}';
+        return  "offerName=" + offerName + 
+                "\nofferId=" + offerId + 
+                "\nofferLink=" + offerLink + 
+                "\nofferImage=" + offerImage + 
+                "\nmaincategory=" + maincategory + 
+                "\nstore_id=" + store_id + 
+                "\nstore_name=" + store_name + 
+                "\nstoreUrl=" + storeUrl ;
+                
     }
 }

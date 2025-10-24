@@ -1,0 +1,47 @@
+{
+    "brands":{
+
+        "boat":{
+            "store_id" : 1,
+            "store_name" : "Boat",
+            "store_url" : "https://www.boat-lifestyle.com",
+            "maincategory": "Electronics",
+
+            "locators":{
+                "offercards": "//*[@id='MultiCarousel_template--16905581428834__e4e83c48-4e49-4d76-a45b-e25f3061707b1']/div/div",
+
+                "offerurl": ".//a",
+                "offerimage": ".//a/picture/img"
+                
+            },
+
+            "offer_page_url": [
+                "https://www.boat-lifestyle.com"
+            ]
+        
+        },
+
+        "mamaearth":{
+            "store_id" : 2,
+            "store_name" : "Mamaearth",
+            "store_url" : "https://mamaearth.in",
+            "maincategory": "BeautyandPersonalCare",
+
+            "locators":{
+                "offercards": "//*[@id='slides']/div",
+
+                "offerurl": "routertype",
+                "offerimage": ".//div/img"
+                
+            },
+
+            "offer_page_url": [
+                "https://mamaearth.in"
+            ]
+        
+        }
+
+
+
+    }
+}

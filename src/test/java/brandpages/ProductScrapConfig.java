@@ -2,7 +2,7 @@ package brandpages;
 
 import java.util.Map;
 
-public class BrandConfig {
+public class ProductScrapConfig {
     public Map<String, String> locators;
     public String maincategory;
     public Map<String, String> subcategories;
@@ -11,9 +11,9 @@ public class BrandConfig {
     public String store_name;
     public String store_url;
 
-    public BrandConfig() {}
+    public ProductScrapConfig() {}
 
-    public BrandConfig(Map<String, String> locators, String maincategory,
+    public ProductScrapConfig(Map<String, String> locators, String maincategory,
      Map<String, String> subcategories, int store_id, String store_name, String store_url) {
         this.locators = locators;
         this.maincategory = maincategory;
