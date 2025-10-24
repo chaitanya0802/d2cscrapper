@@ -1,10 +1,15 @@
-// scrap offer data page-wise
 public static void scrapPageOfferData(String pageurl, String maincat, Map<String, String> locators,
         int store_id, String store_name, String store_url, String brand) {
 
     List<Offer> offerList = new ArrayList<>();
     driver.navigate().to(pageurl);
     System.out.println("Navigated to: " + pageurl);
+
+    try {
+        Thread.sleep(3000);
+    } catch (InterruptedException e) {
+        System.out.println(e.toString());
+    }
 
     int total_offers_found = driver.findElements(By.xpath(locators.get("offercards"))).size();
     System.out.println("Offers found for " + store_name + ": " + total_offers_found);
@@ -37,33 +42,41 @@ public static void scrapPageOfferData(String pageurl, String maincat, Map<String
                 if (!urlXp.equalsIgnoreCase("routertype")) {
                     offerlink = e.findElement(By.xpath(urlXp)).getAttribute("href");
                 } else {
-                    // Router-type navigation (SPA: React/Angular sites)
+                    // Router-type navigation (SPA sites)
                     String clickXp = locators.get("offerimage");
                     String listingUrl = driver.getCurrentUrl();
 
                     try {
                         WebElement clickTarget = e.findElement(By.xpath(clickXp));
 
-                        // scroll into view
-                        ((JavascriptExecutor) driver).executeScript("arguments[0].scrollIntoView({block: 'center'});", clickTarget);
-                        Thread.sleep(600);
+                        // Skip if no src attribute
+                        String srcAttr = clickTarget.getAttribute("src");
+                        if (srcAttr == null || srcAttr.trim().isEmpty()) {
+                            System.out.println("Skipping offer: image has no src attribute");
+                            continue;
+                        }
 
-                        // Try click normally; fallback to JS + parent click if needed
+                        ((JavascriptExecutor) driver)
+                                .executeScript("arguments[0].scrollIntoView({block: 'center'});", clickTarget);
+                        Thread.sleep(500);
+
                         try {
                             clickTarget.click();
                         } catch (ElementNotInteractableException clickEx) {
-                            System.out.println("Element not clickable directly, trying parent via JS...");
-                            clickTarget = clickTarget.findElement(By.xpath("./.."));
+                            System.out.println("Element not interactable, trying JS click...");
                             ((JavascriptExecutor) driver).executeScript("arguments[0].click();", clickTarget);
                         }
 
-                        // Wait for URL to change (router navigation)
                         wait.until(ExpectedConditions.not(ExpectedConditions.urlToBe(listingUrl)));
                         offerlink = driver.getCurrentUrl();
 
+                    } catch (ElementNotInteractableException nie) {
+                        System.out.println("!!! Element not interactable, skipping offer card");
+                        continue;
                     } catch (Exception exc) {
                         System.out.println("!!! [url/routertype] click failed XPATH=" + clickXp
                                 + " | " + exc.getClass().getSimpleName() + " - " + exc.getMessage());
+                        continue;
                     } finally {
                         try {
                             driver.navigate().back();
@@ -77,9 +90,12 @@ public static void scrapPageOfferData(String pageurl, String maincat, Map<String
 
             } catch (NoSuchElementException exc) {
                 System.out.println("!!! Offer URL not found");
+                continue;
             } catch (Exception ex) {
-                System.out.println("!!! [url] XPATH=" + locators.get("offerurl") + " | " + ex.getClass().getSimpleName()
-                        + " - " + ex.getMessage());
+                System.out.println(
+                        "!!! [url] XPATH=" + locators.get("offerurl") + " | " + ex.getClass().getSimpleName()
+                                + " - " + ex.getMessage());
+                continue;
             }
 
             // ------------------------------
@@ -122,12 +138,24 @@ public static void scrapPageOfferData(String pageurl, String maincat, Map<String
             // ------------------------------
             try {
                 String imgurlXp = locators.get("offerimage");
-                offerimage = e.findElement(By.xpath(imgurlXp)).getAttribute("src");
+                WebElement imgEl = e.findElement(By.xpath(imgurlXp));
+                offerimage = imgEl.getAttribute("src");
+
+                if (offerimage == null || offerimage.trim().isEmpty()) {
+                    System.out.println("Skipping offer: image src missing");
+                    continue;
+                }
+
             } catch (NoSuchElementException exc) {
-                System.out.println("!!! Offer image URL not found");
+                System.out.println("!!! Offer image element not found");
+                continue;
+            } catch (ElementNotInteractableException exc) {
+                System.out.println("!!! Image element not interactable, skipping...");
+                continue;
             } catch (Exception ex) {
-                System.out.println("!!! [img] XPATH=" + locators.get("offerimage") + " | " + ex.getClass().getSimpleName()
-                        + " - " + ex.getMessage());
+                System.out.println("!!! [img] XPATH=" + locators.get("offerimage") + " | "
+                        + ex.getClass().getSimpleName() + " - " + ex.getMessage());
+                continue;
             }
 
             // ------------------------------
@@ -146,7 +174,8 @@ public static void scrapPageOfferData(String pageurl, String maincat, Map<String
 
             int catid = Integer.parseInt(cat_prop.getProperty(maincat));
 
-            Offer ofr = new Offer(offerid, offerlink, offerimage, offername, catid, store_id, store_name, store_url);
+            Offer ofr = new Offer(offerid, offerlink, offerimage, offername, catid, store_id, store_name,
+                    store_url);
             offerList.add(ofr);
 
             System.out.println("=== DATA");
@@ -154,7 +183,8 @@ public static void scrapPageOfferData(String pageurl, String maincat, Map<String
             System.out.println("===============================================================");
 
         } catch (Exception ex) {
-            System.out.println("!!! Exception during offer extraction: " + ex.getClass().getSimpleName() + " - " + ex.getMessage());
+            System.out.println("!!! Exception during offer extraction: " + ex.getClass().getSimpleName() + " - "
+                    + ex.getMessage());
         }
     }
 }
