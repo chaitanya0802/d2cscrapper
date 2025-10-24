@@ -1,0 +1,154 @@
+{
+    "brands": {
+
+        "boat": {
+            "store_id" : 1,
+            "store_name" : "Boat",
+            "store_url" : "https://www.boat-lifestyle.com",
+
+            "locators": {
+                "productcardsection": "//*[@id='facet-main']/product-list",
+                "productcard": "//*[@id='Huratips_Loop']//product-item",
+
+                "name": ".//*[@class='position-relative ']/a",
+                "price": ".//*[@data-price]",
+                "discount_percent": ".//*[@data-price]/following-sibling::p",
+                "description": ".//*[@class='features-list only-horizontal']",
+                "url": ".//*[@class='product-item__image-wrapper ']/a",
+                "imageurl": ".//*[@class='product-item__image-wrapper ']/a/img",
+                "rating": ".//*[@class='rating__stars']",
+                "availability_idf": "Add to cart",
+
+                "rating_type" : "text"
+
+            },
+            "maincategory": "Electronics",
+            "subcategories": {
+                "AudioDevices+WirelessEarbuds": "https://www.boat-lifestyle.com/collections/true-wireless-earbuds",
+                "AudioDevices+PartySpeakers": "https://www.boat-lifestyle.com/collections/party-speakers",
+                "AudioDevices+WirelessSpeakers": "https://www.boat-lifestyle.com/collections/wireless-speakers",
+                "AudioDevices+WiredHeadphones": "https://www.boat-lifestyle.com/collections/wired-headphones",
+                "AudioDevices+Neckbands": "https://www.boat-lifestyle.com/collections/bluetooth-neckbands-earphones",
+                "AudioDevices+WiredEarphones": "https://www.boat-lifestyle.com/collections/wired-earphones",
+                "AudioDevices+Soundbars": "https://www.boat-lifestyle.com/collections/home-audio",
+                "AudioDevices+WirelessHeadphones": "https://www.boat-lifestyle.com/collections/bluetooth-wireless-headphones",
+                "AudioDevices+Collections": "https://www.boat-lifestyle.com/collections/immortal-gaming",
+                "AudioDevices+Collections+a": "https://www.boat-lifestyle.com/collections/boat-super-sale",
+                "Chargers": "https://www.boat-lifestyle.com/collections/chargers",
+                "Powerbanks": "https://www.boat-lifestyle.com/collections/power-banks",
+                "Smartwatches": "https://www.boat-lifestyle.com/collections/smart-watches",
+                "Cables": "https://www.boat-lifestyle.com/collections/cables",
+                "MobileAccessories": "https://www.boat-lifestyle.com/collections/mobile-accessories"
+                
+            }
+        },
+
+        "mamaearth": {
+            "store_id" : 2,
+            "store_name" : "Mamaearth",
+            "store_url" : "https://mamaearth.in",
+            
+            "locators": {
+                "productcardsection": "//*[@class='product-faq-container']/section/section",
+                "productcard": "//*[@class='product-faq-container']/section/section/div",
+
+                "name": ".//*[@class='title']",
+                "price": ".//*[@class='price_margin']/div[1]",
+                "discount_percent": ".//*[@class='discount']",
+                "description": ".//*[@class='subtitle']",
+                "url": "routertype",
+                "imageurl": ".//*[@class='ProductCard_Wrapper_DisplayArea']//img",
+                "rating": ".//*[@class='rating']",
+                "availability_idf": "Add To Cart",
+
+                "rating_type" : "text"
+
+            },
+            "maincategory": "BeautyandPersonalCare",
+            "subcategories": {
+                "Face+Facewash": "https://mamaearth.in/product-category/face-wash",
+                "Face+Sunscreen": "https://mamaearth.in/product-category/sunscreen",
+                "Face+FaceSerum": "https://mamaearth.in/product-category/face-serum",
+                "Face+FaceCream": "https://mamaearth.in/product-category/face-cream",
+                "Face+Moisturizer": "https://mamaearth.in/product-category/face-moisturizer",
+                "Face+FaceMask": "https://mamaearth.in/product-category/face-mask",
+                "Face+FaceScrub": "https://mamaearth.in/product-category/face-scrub",
+                "Hair+Shampoo": "https://mamaearth.in/product-category/hair-shampoo",
+                "Hair+HairOil": "https://mamaearth.in/product-category/hair-oil",
+                "Hair+HairConditioner": "https://mamaearth.in/product-category/hair-conditioner",
+                "Hair+HairSerum": "https://mamaearth.in/product-category/hair-serum",
+                "Hair+HairMask": "https://mamaearth.in/product-category/hair-mask",
+                "Makeup+Lipsticks": "https://mamaearth.in/product-category/lipsticks",
+                "Makeup+Foundation": "https://mamaearth.in/product-category/foundation",
+                "Makeup+EyeKajal": "https://mamaearth.in/product-category/eye-kajal",
+                "Makeup+CompactPowder": "https://mamaearth.in/product-category/compact-powder",
+                "Makeup+LipBalm": "https://mamaearth.in/product-category/lip-balm",
+                "Makeup+Concealer": "https://mamaearth.in/product-category/concealer",
+                "Body+BodyLotion": "https://mamaearth.in/product-category/body-lotion",
+                "Body+Soap": "https://mamaearth.in/product-category/bathing-soap",
+                "Body+BodyWash": "https://mamaearth.in/product-category/body-wash",
+                "Baby+BabyShampoo": "https://mamaearth.in/product-category/baby-shampoo",
+                "Baby+BabyWash": "https://mamaearth.in/product-category/baby-skin",
+                "Baby+BabyBodyLotion": "https://mamaearth.in/product-category/baby-body-lotion",
+                "Baby+BabySoap": "https://mamaearth.in/product-category/baby-soap",
+                "Baby+BabyOil": "https://mamaearth.in/product-category/baby-oil"
+            }
+        },
+
+        "lenskart": {
+            "store_id" : 3,
+            "store_name" : "Lenskart",
+            "store_url" : "https://www.lenskart.com",
+
+            "locators": {
+                "productcardsection": "windowtype",
+                "productcard": "//*[@data-cy='plpCardContainer']",
+
+                "name": ".//*[@data-cy='plpProductTitle']",
+                  "price": ".//*[@data-cy='plpOfferPrice']",
+                "discount_percent": ".//*[@data-cy='plpTitleTypography']",
+                "description": ".//*[@data-cy='plpProductTitle']/following-sibling::div/span",
+                "url": ".//a",
+                "imageurl": ".//a/div[2]/img",
+                "rating": ".//*[@id='product-rating']/span",
+                "availability_idf": "₹",
+
+                "rating_type" : "text"
+
+            },
+            "maincategory": "Eyewear",
+            "subcategories": {
+                "Kids+Eyeglasses": "https://www.lenskart.com/eyeglasses/collections/all-computer-glasses.html"
+            }
+        },
+
+      "sugarcosmetics": {
+        "store_id" : 4,
+        "store_name" : "Sugar Cosmetics",
+        "store_url" : "https://www.sugarcosmetics.com",
+
+        "locators": {
+          "productcardsection": "//*[@class='product-list']",
+          "productcard": "//*[@class='product-card']",
+
+          "name": ".//*[@class='product-title h6 line-clamp']",
+          "price": ".//sale-price/span[2]",
+          "discount_percent": "",
+          "description": "",
+          "url": ".//div/a",
+          "imageurl": ".//div/a/img",
+          "rating": ".//*[@data-score]",
+          "availability_idf": "Add to cart",
+
+          "rating_type" : "data-score"
+        },
+
+        "maincategory": "BeautyandPersonalCare",
+        "subcategories": {
+          "Lips+Lipsticks": "https://www.sugarcosmetics.com/collections/lipsticks"
+        }
+      }
+
+
+    }
+}

@@ -99,7 +99,7 @@ public class Scrapper {
 
                     //overall progress
                     int overallcompletedpercent = (overallProgress*100)/totalBrands;
-                    System.out.println(">>> Progress: ");
+                    System.out.println("Progress >>> ");
                     System.out.print("[");
                     for (int i=0; i<50; i++){
                         if(i<overallcompletedpercent/2) {
