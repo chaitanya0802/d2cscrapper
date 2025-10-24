@@ -95,6 +95,33 @@
             }
         },
 
+        "sugarcosmetics": {
+        "store_id" : 4,
+        "store_name" : "Sugar Cosmetics",
+        "store_url" : "https://www.sugarcosmetics.com",
+
+        "locators": {
+          "productcardsection": "//*[@class='product-list']",
+          "productcard": "//*[@class='product-card']",
+
+          "name": ".//*[@class='product-title h6 line-clamp']",
+          "price": ".//sale-price/span[2]",
+          "discount_percent": "",
+          "description": "",
+          "url": ".//div/a",
+          "imageurl": ".//div/a/img",
+          "rating": ".//*[@data-score]",
+          "availability_idf": "Add to cart",
+
+          "rating_type" : "data-score"
+        },
+
+        "maincategory": "BeautyandPersonalCare",
+        "subcategories": {
+          "Lips+Lipsticks": "https://www.sugarcosmetics.com/collections/lipsticks"
+        }
+      },
+
         "lenskart": {
             "store_id" : 3,
             "store_name" : "Lenskart",
@@ -120,34 +147,9 @@
             "subcategories": {
                 "Kids+Eyeglasses": "https://www.lenskart.com/eyeglasses/collections/all-computer-glasses.html"
             }
-        },
-
-      "sugarcosmetics": {
-        "store_id" : 4,
-        "store_name" : "Sugar Cosmetics",
-        "store_url" : "https://www.sugarcosmetics.com",
-
-        "locators": {
-          "productcardsection": "//*[@class='product-list']",
-          "productcard": "//*[@class='product-card']",
-
-          "name": ".//*[@class='product-title h6 line-clamp']",
-          "price": ".//sale-price/span[2]",
-          "discount_percent": "",
-          "description": "",
-          "url": ".//div/a",
-          "imageurl": ".//div/a/img",
-          "rating": ".//*[@data-score]",
-          "availability_idf": "Add to cart",
-
-          "rating_type" : "data-score"
-        },
-
-        "maincategory": "BeautyandPersonalCare",
-        "subcategories": {
-          "Lips+Lipsticks": "https://www.sugarcosmetics.com/collections/lipsticks"
         }
-      }
+
+      
 
 
     }

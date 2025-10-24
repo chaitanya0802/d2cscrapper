@@ -550,12 +550,6 @@ public class Scrapper {
         driver.navigate().to(pageurl);
         System.out.println("Navigated to: " + pageurl);
 
-        try{
-            Thread.sleep(3000);
-        }catch(InterruptedException e){
-            System.out.println(e.toString());
-        }
-
         int total_offers_found = driver.findElements(By.xpath(locators.get("offercards"))).size();
         System.out.println("Offers found for " + store_name + ": " + total_offers_found);
 
@@ -574,9 +568,7 @@ public class Scrapper {
                 WebDriverWait wait = new WebDriverWait(driver, Duration.ofSeconds(10));
                 offerlink = "";
 
-                // ------------------------------
-                // STEP 1: OFFER LINK EXTRACTION
-                // ------------------------------
+                //offerlink
                 try {
                     String urlXp = locators.get("offerurl");
                     if (urlXp == null || urlXp.isEmpty()) {
@@ -634,9 +626,7 @@ public class Scrapper {
                                     + " - " + ex.getMessage());
                 }
 
-                // ------------------------------
-                // STEP 2: HANDLE DOM REFRESH (routertype only)
-                // ------------------------------
+                //if dom refresh
                 if (locators.get("offerurl").equalsIgnoreCase("routertype")) {
                     Thread.sleep(2000);
                     offerelements = driver.findElements(By.xpath(locators.get("offercards")));
@@ -645,17 +635,13 @@ public class Scrapper {
                     Thread.sleep(3000);
                 }
 
-                // ------------------------------
-                // STEP 3: VALIDATE OFFER LINK
-                // ------------------------------
+                //check
                 if (offerlink == null || offerlink.isEmpty()) {
                     System.out.println("No offer URL found, Skipping...");
                     continue;
                 }
 
-                // ------------------------------
-                // STEP 4: OFFER NAME
-                // ------------------------------
+                //offername
                 String lastSegment = offerlink.substring(offerlink.lastIndexOf('/') + 1);
                 String[] words = lastSegment.split("-");
                 StringBuilder formatted = new StringBuilder();
@@ -667,9 +653,7 @@ public class Scrapper {
                 }
                 offername = formatted.toString().trim();
 
-                // ------------------------------
-                // STEP 5: OFFER IMAGE
-                // ------------------------------
+                //offer img
                 try {
                     String imgurlXp = locators.get("offerimage");
                     
@@ -688,11 +672,10 @@ public class Scrapper {
                     continue;
                 }
 
-                // ------------------------------
-                // STEP 6: CATEGORY + OFFER ID
-                // ------------------------------
+                //offer id
                 offerid = "ofr" + brand.replaceAll(" ", "") + Math.abs(offerlink.hashCode());
 
+                //offer category
                 try (FileInputStream fis = new FileInputStream("src/test/resources/category_ids.properties")) {
                     cat_prop = new Properties();
                     cat_prop.load(fis);

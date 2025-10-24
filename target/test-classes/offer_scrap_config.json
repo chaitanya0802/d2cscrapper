@@ -39,6 +39,46 @@
                 "https://mamaearth.in"
             ]
         
+        },
+
+        "sugarcosmetics":{
+            "store_id" : 3,
+            "store_name" : "Sugar Cosmetics ",
+            "store_url" : "https://www.sugarcosmetics.com/",
+            "maincategory": "BeautyandPersonalCare",
+
+            "locators":{
+                "offercards": "//*[@class='prose']/div",
+
+                "offerurl": ".//a",
+                "offerimage": ".//a/img"
+                
+            },
+
+            "offer_page_url": [
+                "https://www.sugarcosmetics.com/pages/offer"
+            ]
+        
+        },
+
+        "lenskart":{
+            "store_id" : 4,
+            "store_name" : "Lenskart",
+            "store_url" : "https://www.lenskart.com",
+            "maincategory": "Eyewear",
+
+            "locators":{
+                "offercards": "//*[@class='flex offers-w offers-anchor']/a",
+
+                "offerurl": "",
+                "offerimage": ".//img"
+                
+            },
+
+            "offer_page_url": [
+                "https://www.lenskart.com/offers"
+            ]
+        
         }
 
 
