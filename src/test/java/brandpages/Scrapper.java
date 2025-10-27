@@ -428,14 +428,15 @@ public class Scrapper {
                 }
 
                 // availability
-                boolean isAvailable = false;
+                boolean isAvailable = true;
                 try {
                     String idf = locators.get("availability_idf");
                     if (idf == null || idf.trim().isEmpty()) {
                         System.out.println("!!! [availability] Empty identifier — skipping");
                     } else {
-                        isAvailable = !currproduct.findElements(By.xpath(
-                                ".//descendant::*[contains(text(), '" + idf + "')]")).isEmpty();
+                        if(currproduct.findElements(By.xpath(".//descendant::*[contains(text(), '" + idf + "')]")).isEmpty()){
+                            isAvailable = false;
+                        }
                     }
                 } catch (Exception e) {
                     System.out.println("!!! [availability] evaluation failed | " + e.getClass().getSimpleName() + " - "
@@ -688,7 +689,7 @@ public class Scrapper {
                 int catid = Integer.parseInt(cat_prop.getProperty(maincat));
 
                 //extract data from image (api based)
-                des = OCRTextExtraction.getImageText(offerimage);
+                // des = OCRTextExtraction.getImageText(offerimage);
 
                 Offer ofr = new Offer(offerid, offerlink, offerimage, offername, catid,des,
                         store_id, store_name, store_url);

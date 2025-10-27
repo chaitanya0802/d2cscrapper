@@ -1,15 +1,12 @@
 {
     "brands": {
-
         "boat": {
-            "store_id" : 1,
-            "store_name" : "Boat",
-            "store_url" : "https://www.boat-lifestyle.com",
-
+            "store_id": 1,
+            "store_name": "Boat",
+            "store_url": "https://www.boat-lifestyle.com",
             "locators": {
                 "productcardsection": "//*[@id='facet-main']/product-list",
                 "productcard": "//*[@id='Huratips_Loop']//product-item",
-
                 "name": ".//*[@class='position-relative ']/a",
                 "price": ".//*[@data-price]",
                 "discount_percent": ".//*[@data-price]/following-sibling::p",
@@ -18,9 +15,7 @@
                 "imageurl": ".//*[@class='product-item__image-wrapper ']/a/img",
                 "rating": ".//*[@class='rating__stars']",
                 "availability_idf": "Add to cart",
-
-                "rating_type" : "text"
-
+                "rating_type": "text"
             },
             "maincategory": "Electronics",
             "subcategories": {
@@ -39,19 +34,15 @@
                 "Smartwatches": "https://www.boat-lifestyle.com/collections/smart-watches",
                 "Cables": "https://www.boat-lifestyle.com/collections/cables",
                 "MobileAccessories": "https://www.boat-lifestyle.com/collections/mobile-accessories"
-                
             }
         },
-
         "mamaearth": {
-            "store_id" : 2,
-            "store_name" : "Mamaearth",
-            "store_url" : "https://mamaearth.in",
-            
+            "store_id": 2,
+            "store_name": "Mamaearth",
+            "store_url": "https://mamaearth.in",
             "locators": {
                 "productcardsection": "//*[@class='product-faq-container']/section/section",
                 "productcard": "//*[@class='product-faq-container']/section/section/div",
-
                 "name": ".//*[@class='title']",
                 "price": ".//*[@class='price_margin']/div[1]",
                 "discount_percent": ".//*[@class='discount']",
@@ -60,9 +51,7 @@
                 "imageurl": ".//*[@class='ProductCard_Wrapper_DisplayArea']//img",
                 "rating": ".//*[@class='rating']",
                 "availability_idf": "Add To Cart",
-
-                "rating_type" : "text"
-
+                "rating_type": "text"
             },
             "maincategory": "BeautyandPersonalCare",
             "subcategories": {
@@ -94,74 +83,64 @@
                 "BabyCare+BabyOil": "https://mamaearth.in/product-category/baby-oil"
             }
         },
-
         "sugarcosmetics": {
-        "store_id" : 4,
-        "store_name" : "Sugar Cosmetics",
-        "store_url" : "https://www.sugarcosmetics.com",
-
-        "locators": {
-          "productcardsection": "//*[@class='product-list']",
-          "productcard": "//*[@class='product-card']",
-
-          "name": ".//*[@class='product-title h6 line-clamp']",
-          "price": ".//sale-price/span[2]",
-          "discount_percent": "",
-          "description": "",
-          "url": ".//div/a",
-          "imageurl": ".//div/a/img",
-          "rating": ".//*[@data-score]",
-          "availability_idf": "Add to cart",
-
-          "rating_type" : "data-score"
+            "store_id": 4,
+            "store_name": "Sugar Cosmetics",
+            "store_url": "https://www.sugarcosmetics.com",
+            "locators": {
+                "productcardsection": "//*[@class='product-list']",
+                "productcard": "//*[@class='product-card']",
+                "name": ".//*[@class='product-title h6 line-clamp']",
+                "price": ".//sale-price/span[2]",
+                "discount_percent": "",
+                "description": "",
+                "url": ".//div/a",
+                "imageurl": ".//div/a/img",
+                "rating": ".//*[@data-score]",
+                "availability_idf": "Add to cart",
+                "rating_type": "data-score"
+            },
+            "maincategory": "BeautyandPersonalCare",
+            "subcategories": {
+                "Makeup+Lips+Lipsticks": "https://www.sugarcosmetics.com/collections/lipsticks",
+                "Makeup+Eyes+Kohl+Kajal": "https://www.sugarcosmetics.com/collections/kajals-and-kohl-collection",
+                "Makeup+Eyes+Eyeliner": "https://www.sugarcosmetics.com/collections/all-eyeliner-collection",
+                "Makeup+Eyes+Mascara": "https://www.sugarcosmetics.com/collections/mascara",
+                "Makeup+Eyes+Eyebrow": "https://www.sugarcosmetics.com/collections/eyebrow",
+                "Makeup+Foundation+BBCream": "https://www.sugarcosmetics.com/collections/foundation-bb-cream",
+                "Makeup+Face+Compact+Fixers": "https://www.sugarcosmetics.com/collections/compact-fixers",
+                "Makeup+Face+Blush": "https://www.sugarcosmetics.com/collections/face-blush",
+                "Makeup+Face+Palette": "https://www.sugarcosmetics.com/collections/face-palette",
+                "Makeup+Face+Concealer+Corrector": "https://www.sugarcosmetics.com/collections/concealer-correctors",
+                "Makeup+Face+Contour+Bronzer": "https://www.sugarcosmetics.com/collections/contour-bronzer-and-highlighter",
+                "Makeup+Face+Primer": "https://www.sugarcosmetics.com/collections/primer",
+                "Makeup+Face+Highlighter": "https://www.sugarcosmetics.com/collections/highlighters-contour",
+                "Makeup+Nail": "https://www.sugarcosmetics.com/collections/nails",
+                "FaceCare+Moisturizer+Sunscreen": "https://www.sugarcosmetics.com/collections/moisturizers-sunscreens",
+                "FaceCare+Mists": "https://www.sugarcosmetics.com/collections/face-mists",
+                "FaceCare+FaceSerum": "https://www.sugarcosmetics.com/collections/serum",
+                "FaceCare+Cleansers+Exfoliators": "https://www.sugarcosmetics.com/collections/cleansers-exfoliators",
+                "FaceCare+Cleansers": "https://www.sugarcosmetics.com/collections/cleansers",
+                "Makeup+Kits": "https://www.sugarcosmetics.com/collections/kit-collection",
+                "Makeup+Lips+Lipsticks+LipstickSets": "https://www.sugarcosmetics.com/collections/liquid-value-sets"
+            }
         },
-
-        "maincategory": "BeautyandPersonalCare",
-        "subcategories": {
-          "Makeup+Lips+Lipsticks": "https://www.sugarcosmetics.com/collections/lipsticks",
-          "Makeup+Eyes+Kohl+Kajal": "https://www.sugarcosmetics.com/collections/kajals-and-kohl-collection",
-          "Makeup+Eyes+Eyeliner": "https://www.sugarcosmetics.com/collections/all-eyeliner-collection",
-          "Makeup+Eyes+Mascara": "https://www.sugarcosmetics.com/collections/mascara",
-          "Makeup+Eyes+Eyebrow": "https://www.sugarcosmetics.com/collections/eyebrow",
-          "Makeup+Foundation+BBCream": "https://www.sugarcosmetics.com/collections/foundation-bb-cream",
-          "Makeup+Face+Compact+Fixers": "https://www.sugarcosmetics.com/collections/compact-fixers",
-          "Makeup+Face+Blush": "https://www.sugarcosmetics.com/collections/face-blush",
-          "Makeup+Face+Palette": "https://www.sugarcosmetics.com/collections/face-palette",
-          "Makeup+Face+Concealer+Corrector": "https://www.sugarcosmetics.com/collections/concealer-correctors",
-          "Makeup+Face+Contour+Bronzer": "https://www.sugarcosmetics.com/collections/contour-bronzer-and-highlighter",
-          "Makeup+Face+Primer": "https://www.sugarcosmetics.com/collections/primer",
-          "Makeup+Face+Highlighter": "https://www.sugarcosmetics.com/collections/highlighters-contour",
-          "Makeup+Nail": "https://www.sugarcosmetics.com/collections/nails",
-          "FaceCare+Moisturizer+Sunscreen": "https://www.sugarcosmetics.com/collections/moisturizers-sunscreens",
-          "FaceCare+Mists": "https://www.sugarcosmetics.com/collections/face-mists",
-          "FaceCare+FaceSerum": "https://www.sugarcosmetics.com/collections/serum",
-          "FaceCare+Cleansers+Exfoliators": "https://www.sugarcosmetics.com/collections/cleansers-exfoliators",
-          "FaceCare+Cleansers": "https://www.sugarcosmetics.com/collections/cleansers",
-          "Makeup+Kits": "https://www.sugarcosmetics.com/collections/kit-collection",
-          "Makeup+Lips+Lipsticks+LipstickSets": "https://www.sugarcosmetics.com/collections/liquid-value-sets"
-        }
-      },
-
         "lenskart": {
-            "store_id" : 3,
-            "store_name" : "Lenskart",
-            "store_url" : "https://www.lenskart.com",
-
+            "store_id": 3,
+            "store_name": "Lenskart",
+            "store_url": "https://www.lenskart.com",
             "locators": {
                 "productcardsection": "windowtype",
                 "productcard": "//*[@data-cy='plpCardContainer']",
-
                 "name": ".//*[@data-cy='plpProductTitle']",
-                  "price": ".//*[@data-cy='plpOfferPrice']",
+                "price": ".//*[@data-cy='plpOfferPrice']",
                 "discount_percent": ".//*[@data-cy='plpTitleTypography']",
                 "description": ".//*[@data-cy='plpProductTitle']/following-sibling::div/span",
                 "url": ".//a",
                 "imageurl": ".//a/div[2]/img",
                 "rating": ".//*[@id='product-rating']/span",
                 "availability_idf": "₹",
-
-                "rating_type" : "text"
-
+                "rating_type": "text"
             },
             "maincategory": "Eyewear",
             "subcategories": {
@@ -176,12 +155,61 @@
                 "Lenses+negSPHPowerCYL<0.5": "https://www.lenskart.com/contact-lenses/popular-searches/negative-sph-power.html",
                 "Lenses+posSPHPowerCYL<0.5": "https://www.lenskart.com/contact-lenses/popular-searches/positive-sph-power.html",
                 "Lenses+CYLPowerCYL>0.75": "https://www.lenskart.com/contact-lenses/popular-searches/toric-cyl-power.html",
-                "Lenses+ToricPower": "https://www.lenskart.com/contact-lenses/contact-lens-type/toric-contact-lenses.html",
+                "Lenses+ToricPower": "https://www.lenskart.com/contact-lenses/contact-lens-type/toric-contact-lenses.html"
+            }
+        },
+    
+        "bewakoof": {
+            "store_id": 4,
+            "store_name": "Bewakoof",
+            "store_url": "https://www.bewakoof.com",
+            "locators": {
+                "productcardsection": "//*[@data-testid='plp-product-listing-section']",
+                "productcard": "//*[@data-testid='plp-product-listing-section']/section",
+                "name": ".//*[@data-testid='product-title']",
+                "price": ".//*[@data-testid='product-card-selling-price']",
+                "discount_percent": ".//*[@data-testid='product-card-discount']",
+                "description": ".//*[@data-testid='product-brand']",
+                "url": ".//*[@data-testid='product-card-link']",
+                "imageurl": ".//*[@data-testid='product-card-image-container']/img",
+                "rating": ".//*[@data-testid='product-card-rating-container']/div/div/div/span",
+                "availability_idf": "₹",
+                "rating_type": "text"
+            },
+            "maincategory": "Fashion",
+            "subcategories": {
+                "Men+Topwear+OversizedTshirts": "https://www.bewakoof.com/oversized-t-shirts-for-men",
+                "Men+Topwear+Tshirts": "https://www.bewakoof.com/classic-t-shirt-for-men",
+                "Men+Topwear+CasualShirts": "https://www.bewakoof.com/men-shirts",
+                "Men+Topwear+HalfSleeveTshirts": "https://www.bewakoof.com/half-sleeve-t-shirts-for-men",
+                "Men+Topwear+PrintedTshirts": "https://www.bewakoof.com/men-printed-tshirts",
+                "Men+Topwear+PlainTshirts": "https://www.bewakoof.com/men-plain-t-shirts",
+                "Men+Topwear+Bottomwear+PlusSize": "https://www.bewakoof.com/plus-size-store-for-men",
+                "Men+Topwear+CustomizedTshirts": "https://www.bewakoof.com/custom-tshirts?gender=men",
+                "Men+Topwear+PoloTshirts": "https://www.bewakoof.com/polo-t-shirts-for-men",
+                "Men+Topwear+Vests": "https://www.bewakoof.com/men-vests",
+                "Men+Topwear+Bottomwear+CoOrdSets": "https://www.bewakoof.com/men-co-ord-sets",
+                "Men+Topwear+FullSleeveTshirts": "https://www.bewakoof.com/men-full-sleeve-t-shirts",
+                "Men+Topwear+Hoodie": "https://www.bewakoof.com/hoodies-for-men",
+                "Men+Topwear+Sweatshirts": "https://www.bewakoof.com/sweatshirts-for-men",
+                "Men+Topwear+Jackets": "https://www.bewakoof.com/men-jackets",
+                "Men+Topwear+Sweaters": "https://www.bewakoof.com/men-sweaters",
+                "Men+Topwear+Windcheaters": "https://www.bewakoof.com/windcheaters-for-men",
+                "Men+Topwear+Sweatshirts+Hoodie": "https://www.bewakoof.com/men-hoodies-sweatshirts",
+                "Men+Bottomwear+Joggers": "https://www.bewakoof.com/men-joggers",
+                "Men+Bottomwear+TrackPants": "https://www.bewakoof.com/track-pants-for-men",
+                "Men+Bottomwear+TrousersAndPants": "https://www.bewakoof.com/men-pants",    
+                "Men+Bottomwear+Jeans": "https://www.bewakoof.com/mens-denim",    
+                "Men+Bottomwear+Pajamas": "https://www.bewakoof.com/men-pajamas",
+                "Men+Bottomwear+Shorts": "https://www.bewakoof.com/men-shorts",
+                "Men+Bottomwear+Boxers": "https://www.bewakoof.com/men-boxer-shorts",
+                "Men+Bottomwear+Cargos": "https://www.bewakoof.com/cargos-for-men",
+                "Men+Bottomwear+ParachutePants": "https://www.bewakoof.com/parachute-pants-for-men",
+                "Men+Bottomwear+BaggyJeans+Jeans": "https://www.bewakoof.com/baggy-jeans-for-men",
+                "Men+Bottomwear+FitJeans+Jeans": "https://www.bewakoof.com/men-straight-fit-jeans",
+                "Men+Bottomwear+BaggyPants+TrousersAndPants": "https://www.bewakoof.com/baggy-pants-for-men",
+                remaining
             }
         }
-
-      
-
-
     }
 }

@@ -29,7 +29,7 @@ public class CategoryToInt {
             // maincat
             String mainCatValue = cat_prop.getProperty(maincat);
             if (mainCatValue == null) {
-                System.out.println("Property not found for main category: " + maincat);
+                System.out.println("@@@ Property not found for main category: " + maincat);
             } else {
                 cate_ids.add(Integer.parseInt(mainCatValue));
             }
