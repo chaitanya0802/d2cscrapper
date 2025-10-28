@@ -72,8 +72,26 @@
                 "https://www.lenskart.com/offers"
             ]
         
-        }
+        },
 
+        "bewakoof":{
+            "store_id": 4,
+            "store_name": "Bewakoof",
+            "store_url": "https://www.bewakoof.com",
+            "maincategory": "Fashion",
+
+            "locators":{
+                "routertype": "true",
+                "offercards": "//*[@class='container-fluid']/div/div/div/a",
+                "offerimage": ".//img"
+                
+            },
+
+            "offer_page_url": [
+                "https://www.bewakoof.com/campaign/delights-coupons-discounts-offers-sale"
+            ]
+        
+        }
 
 
     }
