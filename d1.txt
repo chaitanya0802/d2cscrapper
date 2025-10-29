@@ -1,8 +1,14 @@
-Navigated to: https://mamaearth.in
-Offers found for Mamaearth: 6
-Element not clickable directly, trying parent via JS...
-!!! Exception during offer extraction: IndexOutOfBoundsException - Index 0 out of bounds for length 0
-!!! Failed to start scraping: Index 1 out of bounds for length 0
+//current stores 
 
-==================================================
-
+---------------electronics--------------------------
+boat
+------------------beautyandpersonalcare--------------
+mamaearth 
+sugarcosmetics
+----------------EyeWear-------------------------
+lenskart
+-------------------Fashion-----------------------
+bewakoof
+-----------------------bagsandluggage-------------------
+mokobara
+-----------------------
