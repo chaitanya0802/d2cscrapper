@@ -90,9 +90,23 @@
             "offer_page_url": [
                 "https://www.bewakoof.com/campaign/delights-coupons-discounts-offers-sale"
             ]
-        
-        }
+        },
 
+        "mokobara":{
+            "store_id": 5,
+            "store_name": "Mokobara",
+            "store_url": "https://mokobara.com",
+            "maincategory": "BagsAndLuggage",
+            "locators":{
+                "routertype": "false",
+                "offercards": "//*[@class='slideshow__carousel']/a",
+                "offerimage": ".//div/img"
+                
+            },
+            "offer_page_url": [
+                "https://mokobara.com"
+            ]
+        }
 
     }
 }

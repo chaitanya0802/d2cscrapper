@@ -342,15 +342,30 @@ public class Scrapper {
                 int discount_percent = 0;
                 try {
                     String dp = locators.get("discount_percent");
+                    String dis_idf = locators.get("discount_idf_type");
                     if (dp == null || dp.trim().isEmpty()) {
                         System.out.println("[discount_percent] Empty XPath — skipping");
-                    } else {
+                    }
+                    else if(dis_idf.equalsIgnoreCase("off")){
                         String disp = currproduct.findElement(By.xpath(dp)).getText().trim();
                         try {
                             // Minimal: keep digits + dot; adjust as per your formatting needs
                             discount_percent = Math.round(Integer.parseInt(disp.replaceAll("[^0-9.]", "")));
                         } catch (NumberFormatException nfe) {
                             System.out.println("!!! [discount_percent] parse failed for value: '" + disp + "' | "
+                                    + nfe.getClass().getSimpleName());
+                        }
+                    }
+                    else{
+                        //calculate discount from strike-throught(st) text
+                        String st_price_text = currproduct.findElement(By.xpath(dp)).getText().trim();
+                        try{
+                            int st_price = Math.round(Integer.parseInt(st_price_text.replaceAll("[^0-9.]", "")));
+
+                            int dis_amount = st_price - (int)price;
+                            discount_percent = (dis_amount *100)/st_price;
+                        }catch (NumberFormatException nfe) {
+                            System.out.println("!!! [discount_percent] parse failed for value: '" + st_price_text + "' | "
                                     + nfe.getClass().getSimpleName());
                         }
                     }

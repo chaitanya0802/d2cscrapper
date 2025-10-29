@@ -9,6 +9,7 @@
                 "productcard": "//*[@id='Huratips_Loop']//product-item",
                 "name": ".//*[@class='position-relative ']/a",
                 "price": ".//*[@data-price]",
+                "discount_idf_type": "off",
                 "discount_percent": ".//*[@data-price]/following-sibling::p",
                 "description": ".//*[@class='features-list only-horizontal']",
                 "url": ".//*[@class='product-item__image-wrapper ']/a",
@@ -45,6 +46,7 @@
                 "productcard": "//*[@class='product-faq-container']/section/section/div",
                 "name": ".//*[@class='title']",
                 "price": ".//*[@class='price_margin']/div[1]",
+                "discount_idf_type": "off",
                 "discount_percent": ".//*[@class='discount']",
                 "description": ".//*[@class='subtitle']",
                 "url": "routertype",
@@ -92,6 +94,7 @@
                 "productcard": "//*[@class='product-card']",
                 "name": ".//*[@class='product-title h6 line-clamp']",
                 "price": ".//sale-price/span[2]",
+                "discount_idf_type": "off",
                 "discount_percent": "",
                 "description": "",
                 "url": ".//div/a",
@@ -134,6 +137,7 @@
                 "productcard": "//*[@data-cy='plpCardContainer']",
                 "name": ".//*[@data-cy='plpProductTitle']",
                 "price": ".//*[@data-cy='plpOfferPrice']",
+                "discount_idf_type": "off",
                 "discount_percent": ".//*[@data-cy='plpTitleTypography']",
                 "description": ".//*[@data-cy='plpProductTitle']/following-sibling::div/span",
                 "url": ".//a",
@@ -247,8 +251,44 @@
                 "Caps": "https://www.bewakoof.com/caps",
                 "MobileAccessories+MobileCovers": "https://www.bewakoof.com/mobile-covers-india",
                 "BagsAndLuggage+Bags": "https://www.bewakoof.com/bags",
-                "BagsAndLuggage+SlingBags+ToteBags": "https://www.bewakoof.com/sling-and-tote-bags",
-                "BagsAndLuggage+DuffelBags": "https://www.bewakoof.com/duffel-bags"
+                "BagsAndLuggage+Bags+SlingBags+ToteBags": "https://www.bewakoof.com/sling-and-tote-bags",
+                "BagsAndLuggage+Bags+DuffelBags": "https://www.bewakoof.com/duffel-bags"
+            }
+        },
+        "mokobara": {
+            "store_id": 5,
+            "store_name": "Mokobara",
+            "store_url": "https://mokobara.com",
+            "maincategory": "BagsAndLuggage",
+            "locators": {
+                "productcardsection": "//*[@class='product-list']",
+                "productcard": "//*[@class='product-list']/product-card",
+                "name": ".//*[@class='product-card__title']/a",
+                "price": ".//*[@class='text-on-sale']",
+                "discount_percent": ".//compare-at-price[@class]",
+                "discount_idf_type": "strikethrough",
+                "description": "",
+                "url": ".//*[@class='product-card__title']/a",
+                "imageurl": ".//*[@class='product-card__figure']/a/img",
+                "rating": "",
+                "availability_idf": "",
+                "rating_type": "text"
+            },
+            "subcategories": {
+                "Luggage+CabinLuggage": "https://mokobara.com/collections/cc-cabin-luggage",
+                "Luggage+CheckInLuggage": "https://mokobara.com/collections/cc-check-in-luggage",
+                "Luggage+TrunkLuggage": "https://mokobara.com/collections/trunk-luggage",
+                "Luggage+CheckInLargeLuggage": "https://mokobara.com/collections/cc-check-in-large",
+                "Luggage+LuggageSets": "https://mokobara.com/collections/cc-sets",
+                "Luggage+KidsLuggage": "https://mokobara.com/collections/cc-moko-blocks",
+                "BackPacks+WorkBackPacks": "https://mokobara.com/collections/work-backpacks",
+                "BackPacks+DiaperBackPacks": "https://mokobara.com/collections/cc-diaper-backpacks",
+                "BackPacks+EverydayBackPacks": "https://mokobara.com/collections/everyday-backpack",
+                "BackPacks+TravelBackPacks": "https://mokobara.com/collections/travel-backpack",
+                "BackPacks+KidsBackPacks": "https://mokobara.com/collections/mokobara-kids-backpack",
+                "Bags+Handbags+ToteBags": "https://mokobara.com/collections/explore-totes-handbags",
+                "Briefcases+Duffles": "https://mokobara.com/collections/explore-briefcases",
+                "TravelAccessories": "https://mokobara.com/collections/daily-accessories"
             }
         }
     }
