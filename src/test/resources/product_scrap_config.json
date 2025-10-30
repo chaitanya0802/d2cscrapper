@@ -315,6 +315,37 @@
                 "DryFruits+DryFruitsLadoos": "https://eatbetterco.com/collections/the-better-laddoos",
                 "DryFruits+DryFruitsNutMix": "https://eatbetterco.com/collections/the-better-laddoos"
             }
+        },
+        "supertails": {
+            "store_id": 7,
+            "store_name": "Supertails",
+            "store_url": "https://supertails.com",
+            "maincategory": "PetSupplies",
+            "locators": {
+                "productcardsection": "//*[@id='searchResultsWrapper']/ul",
+                "productcard": "//*[@id='searchResultsWrapper']/ul/li",
+                "name": ".//*[@class='findify-components--text findify-components--cards--product__title']",
+                "price": ".//*[@class='findify-product-card-selling-price']/div[1]",
+                "discount_percent": ".//*[@class='findify-product-card--sale-percentage']",
+                "discount_idf_type": "off",
+                "description": "",
+                "url": ".//a",
+                "imageurl": ".//*[@class='findify-components--cards--product__image']/descendant::img",
+                "rating": ".//*[@class='findify-component-value']",
+                "availability_idf": "Add to cart",
+                "rating_type": "text"
+            },
+            "subcategories": {
+                "CatFood+CatDryFood": "https://supertails.com/collections/cat-dry-food",
+                "CatFood+CatWetFood": "https://supertails.com/collections/cat-wet-food",
+                "CatFood+KittenFood": "https://supertails.com/collections/cat-kitten-food",
+                "CatFood+CatPremiumFood": "https://supertails.com/collections/cat-premium-food",
+                "CatTreat+CatCreamyTreat": "https://supertails.com/collections/creamy-treats-for-cats",
+                "CatTreat+CatJerkyTreat": "https://supertails.com/collections/cat-jerky-treats",
+                "CatTreat+CatCrunchyTreat": "https://supertails.com/collections/cat-crunchy-treats",
+                "CatTreat+CatHealthyTreat": "https://supertails.com/collections/cat-healthy-treat",
+                "CatTreat+CatTrainingTreat": "https://supertails.com/collections/cat-training-treats",
+            }
         }
     }
 }
