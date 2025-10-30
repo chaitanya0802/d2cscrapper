@@ -8,7 +8,8 @@
             "maincategory": "Electronics",
 
             "locators":{
-                "offercards": "//*[@id='MultiCarousel_template--16905581428834__e4e83c48-4e49-4d76-a45b-e25f3061707b1']/div/div/a",
+                "offercards": "//*[@id='MultiCarousel_template--16905581428834__e4e83c48-4e49-4d76-a45b-e25f3061707b1']/div/div",
+                "offerurl": ".//a",
                 "offerimage": ".//picture/img"
                 
             },
@@ -27,6 +28,7 @@
 
             "locators":{
                 "offercards": "//*[@class='banner-image-container']",
+                "offerurl": "",
                 "routertype": "true",
                 "offerimage": ".//img"
                 
@@ -45,7 +47,8 @@
             "maincategory": "BeautyandPersonalCare",
 
             "locators":{
-                "offercards": "//*[@class='prose']/div/a",
+                "offercards": "//*[@class='prose']/div",
+                "offerurl": ".//a",
                 "offerimage": ".//img"
                 
             },
@@ -63,7 +66,8 @@
             "maincategory": "Eyewear",
 
             "locators":{
-                "offercards": "//*[@class='flex offers-w offers-anchor']/a",
+                "offercards": "//*[@class='flex offers-w offers-anchor']",
+                "offerurl": ".//a",
                 "offerimage": ".//img"
                 
             },
@@ -83,6 +87,7 @@
             "locators":{
                 "routertype": "true",
                 "offercards": "//*[@class='container-fluid']/div/div/div/a",
+                "offerurl": ".//a",
                 "offerimage": ".//img"
                 
             },
@@ -98,13 +103,30 @@
             "store_url": "https://mokobara.com",
             "maincategory": "BagsAndLuggage",
             "locators":{
-                "routertype": "false",
-                "offercards": "//*[@class='slideshow__carousel']/a",
+                "offercards": "//*[@class='slideshow__carousel']",
+                "offerurl": ".//a",
                 "offerimage": ".//div/img"
                 
             },
             "offer_page_url": [
                 "https://mokobara.com"
+            ]
+        },
+
+        "eatbetter":{
+            "store_id": 6,
+            "store_name": "EatBetter",
+            "store_url": "https://eatbetterco.com",
+            "maincategory": "NutritionAndHealth+FoodAndDrink",
+            "locators":{
+                "isroutertype": "false",
+                "offercards": "//*[@id='Slideshow-template--23524464886077__slideshow_a4Tqqg']/div/div/div",
+                "offerurl": ".//a",
+                "offerimage": ".//div/image-element[1]/img"
+                
+            },
+            "offer_page_url": [
+                "https://eatbetterco.com"
             ]
         }
 

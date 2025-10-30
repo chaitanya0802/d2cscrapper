@@ -27,11 +27,14 @@ public class CategoryToInt {
 
         try {
             // maincat
-            String mainCatValue = cat_prop.getProperty(maincat);
-            if (mainCatValue == null) {
-                System.out.println("@@@ Property not found for main category: " + maincat);
-            } else {
-                cate_ids.add(Integer.parseInt(mainCatValue));
+            String[] maincat_arr = maincat.split("\\+"); // Escape '+' for regex
+            for (String s : maincat_arr) {
+                String mainCatValue = cat_prop.getProperty(s);
+                if (mainCatValue == null) {
+                    System.out.println("@@@@ Property not found for subcategory: " + s);
+                } else {
+                    cate_ids.add(Integer.parseInt(mainCatValue));
+                }
             }
 
             // subcat

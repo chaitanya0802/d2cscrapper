@@ -1,12 +1,14 @@
 package utils;
 
+import java.util.ArrayList;;
+
 
 public class Offer {
     private String offerId;
     private String offerLink;
     private String offerImage;
     private String offerName;
-    private int maincategory;     // Category
+    private ArrayList<Integer> categories;     //  list of Category
     private String des;
 
     private int store_id;
@@ -15,12 +17,12 @@ public class Offer {
 
     // Constructor
     public Offer(String offerId, String offerLink, String offerImage, String offerName, 
-    int maincategory, String des, int store_id, String store_name, String storeUrl) {
+    ArrayList<Integer> categories, String des, int store_id, String store_name, String storeUrl) {
         this.offerId = offerId;
         this.offerLink = offerLink;
         this.offerImage = offerImage;
         this.offerName = offerName;
-        this.maincategory = maincategory;
+        this.categories = categories;
         this.des = des;
         this.store_id= store_id;
         this.store_name= store_name;
@@ -49,8 +51,8 @@ public class Offer {
         return offerName;
     }
 
-    public Integer getCategory() {
-        return maincategory;
+    public ArrayList<Integer> getCategory() {
+        return categories;
     }
 
     // Setters
@@ -70,9 +72,6 @@ public class Offer {
         this.offerName = offerName;
     }
 
-    public void setCategory(Integer maincategory) {
-        this.maincategory = maincategory;
-    }
 
     // toString (useful for debugging)
     @Override
@@ -81,7 +80,7 @@ public class Offer {
                 "\nofferId=" + offerId + 
                 "\nofferLink=" + offerLink + 
                 "\nofferImage=" + offerImage + 
-                "\nmaincategory=" + maincategory +
+                "\nmaincategory=" + categories +
                 "\ndes=" + des +
                 "\nstore_id=" + store_id +
                 "\nstore_name=" + store_name + 

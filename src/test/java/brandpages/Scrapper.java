@@ -317,13 +317,28 @@ public class Scrapper {
                         System.out.println("[price] Empty XPath — skipping");
                     } else {
                         String pr = currproduct.findElement(By.xpath(priceXp)).getText().trim();
+                        pr = pr.replaceAll("\\s+", " ").trim();
 
-                        Matcher m = Pattern.compile("(\\d+(?:[.,]\\d+)?)").matcher(pr);
+                        // Try to match number after "Sale price"
+                        Matcher m = Pattern
+                                .compile("Sale price\\s*[^\\d]*(\\d+(?:[.,]\\d+)?)", Pattern.CASE_INSENSITIVE)
+                                .matcher(pr);
                         if (m.find()) {
                             String num = m.group(1).replace(",", "");
                             price = (float) Math.round(Double.parseDouble(num));
+                        } else {
+                            // Fallback: use last number if pattern not found
+                            Matcher fallback = Pattern.compile("(\\d+(?:[.,]\\d+)?)").matcher(pr);
+                            String last = null;
+                            while (fallback.find())
+                                last = fallback.group(1);
+                            if (last != null) {
+                                String num = last.replace(",", "");
+                                price = (float) Math.round(Double.parseDouble(num));
+                            } else {
+                                System.out.println("!!! No numeric price found in text: " + pr);
+                            }
                         }
-
                     }
                 } catch (NoSuchElementException ex) {
                     System.out.println("!!! Price not found for: " + id);
@@ -331,7 +346,6 @@ public class Scrapper {
                     System.out.println("!!! [price] XPATH=" + locators.get("price") + " | "
                             + e.getClass().getSimpleName() + " - " + e.getMessage());
                 }
-
                 if (price == 0) {
                     System.out.println("Skipping product #" + (i + 1) + " — as price is 0 ");
                     System.out.println("-------------------------------------------");
@@ -345,8 +359,7 @@ public class Scrapper {
                     String dis_idf = locators.get("discount_idf_type");
                     if (dp == null || dp.trim().isEmpty()) {
                         System.out.println("[discount_percent] Empty XPath — skipping");
-                    }
-                    else if(dis_idf.equalsIgnoreCase("off")){
+                    } else if (dis_idf.equalsIgnoreCase("off")) {
                         String disp = currproduct.findElement(By.xpath(dp)).getText().trim();
                         try {
                             // Minimal: keep digits + dot; adjust as per your formatting needs
@@ -355,18 +368,18 @@ public class Scrapper {
                             System.out.println("!!! [discount_percent] parse failed for value: '" + disp + "' | "
                                     + nfe.getClass().getSimpleName());
                         }
-                    }
-                    else{
-                        //calculate discount from strike-throught(st) text
+                    } else {
+                        // calculate discount from strike-throught(st) text
                         String st_price_text = currproduct.findElement(By.xpath(dp)).getText().trim();
-                        try{
+                        try {
                             int st_price = Math.round(Integer.parseInt(st_price_text.replaceAll("[^0-9.]", "")));
 
-                            int dis_amount = st_price - (int)price;
-                            discount_percent = (dis_amount *100)/st_price;
-                        }catch (NumberFormatException nfe) {
-                            System.out.println("!!! [discount_percent] parse failed for value: '" + st_price_text + "' | "
-                                    + nfe.getClass().getSimpleName());
+                            int dis_amount = st_price - (int) price;
+                            discount_percent = (dis_amount * 100) / st_price;
+                        } catch (NumberFormatException nfe) {
+                            System.out
+                                    .println("!!! [discount_percent] parse failed for value: '" + st_price_text + "' | "
+                                            + nfe.getClass().getSimpleName());
                         }
                     }
                 } catch (NoSuchElementException exc) {
@@ -449,7 +462,8 @@ public class Scrapper {
                     if (idf == null || idf.trim().isEmpty()) {
                         System.out.println("!!! [availability] Empty identifier — skipping");
                     } else {
-                        if(currproduct.findElements(By.xpath(".//descendant::*[contains(text(), '" + idf + "')]")).isEmpty()){
+                        if (currproduct.findElements(By.xpath(".//descendant::*[contains(text(), '" + idf + "')]"))
+                                .isEmpty()) {
                             isAvailable = false;
                         }
                     }
@@ -559,7 +573,7 @@ public class Scrapper {
     }
 
     public static void scrapPageOfferData(String pageurl, String maincat, Map<String, String> locators,
-                                          int store_id, String store_name, String store_url, String brand) {
+            int store_id, String store_name, String store_url, String brand) {
 
         List<Offer> offerList = new ArrayList<>();
         driver.navigate().to(pageurl);
@@ -576,7 +590,7 @@ public class Scrapper {
         boolean isroutertype = Boolean.parseBoolean(locators.getOrDefault("routertype", "false"));
         List<WebElement> offerelements = driver.findElements(By.xpath(locators.get("offercards")));
 
-        String offerlink = "", offerimage = "", offername = "", offerid = "", des="";
+        String offerlink = "", offerimage = "", offername = "", offerid = "", des = "";
 
         for (int i = 0; i < total_offers_found; i++) {
             try {
@@ -587,14 +601,14 @@ public class Scrapper {
 
                 WebDriverWait wait = new WebDriverWait(driver, Duration.ofSeconds(8));
 
-                //offer link
-                try{
+                // offer link
+                try {
                     if (!isroutertype) {
-                        offerlink = e.getAttribute("href");
+                        offerlink = e.findElement(By.xpath(locators.get("offerurl"))).getAttribute("href");
                     } else {
                         // Router-type navigation: click entire card
                         String listingUrl = driver.getCurrentUrl();
-                        //click
+                        // click
                         try {
                             e.click();
                         } catch (ElementNotInteractableException | StaleElementReferenceException clickEx) {
@@ -631,15 +645,16 @@ public class Scrapper {
                     System.out.println("!!! [url] " + ex.getClass().getSimpleName() + " - " + ex.getMessage());
                 }
 
-                //if dom is refreshed
-                if (isroutertype) e = driver.findElements(By.xpath(locators.get("offercards"))).get(i);
+                // if dom is refreshed
+                if (isroutertype)
+                    e = driver.findElements(By.xpath(locators.get("offercards"))).get(i);
 
                 if (offerlink == null || offerlink.trim().isEmpty()) {
                     System.out.println("No offer URL found, Skipping...");
                     continue;
                 }
 
-                //offer name
+                // offer name
                 String lastSegment = offerlink.substring(offerlink.lastIndexOf('/') + 1);
                 String[] words = lastSegment.split("-");
                 StringBuilder formatted = new StringBuilder();
@@ -651,7 +666,7 @@ public class Scrapper {
                 }
                 offername = formatted.toString().trim().replace(".html", "").trim();
 
-                //image-url
+                // image-url
                 if (!isroutertype) {
                     try {
                         WebElement imgEl = e.findElement(By.xpath(locators.get("offerimage")));
@@ -668,8 +683,8 @@ public class Scrapper {
                         System.out.println("Image element became stale, skipping offer");
                         continue;
                     }
-                }else{
-                    try{
+                } else {
+                    try {
                         WebElement imgEl = e.findElement(By.xpath(locators.get("offerimage")));
                         offerimage = imgEl.getAttribute("src");
                     } catch (NoSuchElementException exc) {
@@ -687,11 +702,10 @@ public class Scrapper {
                     continue;
                 }
 
-
-                //offer-id
+                // offer-id
                 offerid = "ofr" + brand.replaceAll(" ", "") + Math.abs(offerlink.hashCode());
 
-                //category
+                // category
                 try (FileInputStream fis = new FileInputStream("src/test/resources/category_ids.properties")) {
                     cat_prop = new Properties();
                     cat_prop.load(fis);
@@ -701,12 +715,12 @@ public class Scrapper {
                     System.out.println(ioe.toString());
                 }
 
-                int catid = Integer.parseInt(cat_prop.getProperty(maincat));
+                ArrayList<Integer> catids = CategoryToInt.getListOfCat(maincat, "");
 
-                //extract data from image (api based)
+                // extract data from image (api based)
                 // des = OCRTextExtraction.getImageText(offerimage);
 
-                Offer ofr = new Offer(offerid, offerlink, offerimage, offername, catid,des,
+                Offer ofr = new Offer(offerid, offerlink, offerimage, offername, catids, des,
                         store_id, store_name, store_url);
                 offerList.add(ofr);
 
@@ -724,6 +738,5 @@ public class Scrapper {
             }
         }
     }
-
 
 }

@@ -290,6 +290,31 @@
                 "Briefcases+Duffles": "https://mokobara.com/collections/explore-briefcases",
                 "TravelAccessories": "https://mokobara.com/collections/daily-accessories"
             }
+        },
+        "eatbetter": {
+            "store_id": 6,
+            "store_name": "EatBetter",
+            "store_url": "https://eatbetterco.com",
+            "maincategory": "NutritionAndHealth+FoodAndDrink",
+            "locators": {
+                "productcardsection": "//*[@class='grid grid--uniform small--grid--flush']",
+                "productcard": "//*[@class='grid grid--uniform small--grid--flush']/div",
+                "name": ".//*[@class='grid-product__title grid-product__title--body']",
+                "price": ".//*[@class='grid-product__price']",
+                "discount_percent": ".//*[@class='grid-product__price--savings']",
+                "discount_idf_type": "off",
+                "description": "",
+                "url": ".//*[@class='grid__item-image-wrapper']/a",
+                "imageurl": "//*[@class='grid-product__image-mask']/div/image-element/img",
+                "rating": ".//*[@class='jdgm-prev-badge__stars']",
+                "availability_idf": "Add to cart",
+                "rating_type": "data-score"
+            },
+            "subcategories": {
+                "Namkeen": "https://eatbetterco.com/collections/savoury-snacks",
+                "DryFruits+DryFruitsLadoos": "https://eatbetterco.com/collections/the-better-laddoos",
+                "DryFruits+DryFruitsNutMix": "https://eatbetterco.com/collections/the-better-laddoos"
+            }
         }
     }
 }
