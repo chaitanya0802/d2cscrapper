@@ -30,7 +30,7 @@ public class CategoryToInt {
             String[] maincat_arr = maincat.split("\\+"); // Escape '+' for regex
             for (String s : maincat_arr) {
                 String mainCatValue = cat_prop.getProperty(s);
-                if (mainCatValue == null) {
+                if (mainCatValue == null && maincat != "") {
                     System.out.println("@@@@ Property not found for subcategory: " + s);
                 } else {
                     cate_ids.add(Integer.parseInt(mainCatValue));
@@ -41,7 +41,7 @@ public class CategoryToInt {
             String[] subcat_arr = subcat.split("\\+"); // Escape '+' for regex
             for (String s : subcat_arr) {
                 String subCatValue = cat_prop.getProperty(s);
-                if (subCatValue == null) {
+                if (subCatValue == null && subcat != "") {
                     System.out.println("@@@@ Property not found for subcategory: " + s);
                 } else {
                     cate_ids.add(Integer.parseInt(subCatValue));
