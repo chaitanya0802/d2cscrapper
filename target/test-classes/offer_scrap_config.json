@@ -87,7 +87,7 @@
             "locators":{
                 "routertype": "true",
                 "offercards": "//*[@class='container-fluid']/div/div/div/a",
-                "offerurl": ".//a",
+                "offerurl": "",
                 "offerimage": ".//img"
                 
             },
@@ -127,6 +127,22 @@
             },
             "offer_page_url": [
                 "https://eatbetterco.com"
+            ]
+        },
+        "supertails": {
+            "store_id": 7,
+            "store_name": "Supertails",
+            "store_url": "https://supertails.com",
+            "maincategory": "PetSupplies",
+            "locators":{
+                "routertype": "true",
+                "offercards": "//*[@class='slick-track']/div",
+                "offerurl": "",
+                "offerimage": ".//img[2]"
+                
+            },
+            "offer_page_url": [
+                "https://supertails.com"
             ]
         }
 

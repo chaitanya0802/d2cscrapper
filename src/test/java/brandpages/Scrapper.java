@@ -609,11 +609,12 @@ public class Scrapper {
                         // Router-type navigation: click entire card
                         String listingUrl = driver.getCurrentUrl();
                         // click
+                        WebElement img = e.findElement(By.xpath(locators.get("offerimage")));
                         try {
-                            e.click();
+                            img.click();
                         } catch (ElementNotInteractableException | StaleElementReferenceException clickEx) {
                             System.out.println("Card not interactable/stale, retrying with JS click...");
-                            ((JavascriptExecutor) driver).executeScript("arguments[0].click();", e);
+                            ((JavascriptExecutor) driver).executeScript("arguments[0].click();", img);
                         }
 
                         // Wait for URL change
@@ -665,6 +666,7 @@ public class Scrapper {
                     }
                 }
                 offername = formatted.toString().trim().replace(".html", "").trim();
+                offername = formatted.toString().trim().replace("?page=1", "").trim();
 
                 // image-url
                 if (!isroutertype) {
