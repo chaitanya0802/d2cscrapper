@@ -336,15 +336,26 @@
                 "rating_type": "text"
             },
             "subcategories": {
-                "CatFood+CatDryFood": "https://supertails.com/collections/cat-dry-food",
-                "CatFood+CatWetFood": "https://supertails.com/collections/cat-wet-food",
-                "CatFood+KittenFood": "https://supertails.com/collections/cat-kitten-food",
-                "CatFood+CatPremiumFood": "https://supertails.com/collections/cat-premium-food",
-                "CatTreat+CatCreamyTreat": "https://supertails.com/collections/creamy-treats-for-cats",
-                "CatTreat+CatJerkyTreat": "https://supertails.com/collections/cat-jerky-treats",
-                "CatTreat+CatCrunchyTreat": "https://supertails.com/collections/cat-crunchy-treats",
-                "CatTreat+CatHealthyTreat": "https://supertails.com/collections/cat-healthy-treat",
-                "CatTreat+CatTrainingTreat": "https://supertails.com/collections/cat-training-treats",
+                "Cats+CatFood": "https://supertails.com/collections/cat-food",
+                "Cats+CatTreats": "https://supertails.com/collections/cat-treats",
+                "Cats+CatLitterSupplies": "https://supertails.com/collections/cat-litter-supplies",
+                "Cats+CatToys": "https://supertails.com/collections/cat-toys",
+                "Cats+CatPharmacy": "https://supertails.com/collections/pharmacy-cats",
+                "Cats+CatWalkAndTravelSupplies": "https://supertails.com/collections/cat-collar-leash",
+                "Cats+CatClothing": "https://supertails.com/collections/cat-clothing",
+                "Cats+CatBowlsAndFeeders": "https://supertails.com/collections/cat-bowls-feeders",
+                "Cats+CatGroomingProducts": "https://supertails.com/collections/cat-grooming-products",
+                "BedsMatsAndTents": "https://supertails.com/collections/beds-mats-tents",
+                "Cat+CatHealthAndWellness": "https://supertails.com/collections/cat-health-wellness",
+                "Dogs+DogFood": "https://supertails.com/collections/dog-food",
+                "Dogs+DogTreats": "https://supertails.com/collections/dog-treats",
+                "Dogs+DogPharmacy": "https://supertails.com/collections/pharmacy-dogs",
+                "Dogs+DogWalkAndTravelEssentials": "https://supertails.com/collections/walking-travel-essentials",
+                "Dogs+DogToys": "https://supertails.com/collections/dog-toys",
+                "Dogs+DogClothing": "https://supertails.com/collections/dog-clothes",
+                "Dogs+DogGrooming": "https://supertails.com/collections/dog-grooming",
+                "Dogs+DogBedsAndMats": "https://supertails.com/collections/dog-beds-mats",
+                "Dogs+DogBowlsAndFeeders": "https://supertails.com/collections/dog-bowls-feeders"
             }
         }
     }
