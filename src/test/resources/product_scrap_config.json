@@ -357,6 +357,36 @@
                 "Dogs+DogBedsAndMats": "https://supertails.com/collections/dog-beds-mats",
                 "Dogs+DogBowlsAndFeeders": "https://supertails.com/collections/dog-bowls-feeders"
             }
+        },
+        "koparo": {
+            "store_id": 8,
+            "store_name": "Koparo",
+            "store_url": "https://koparoclean.com",
+            "maincategory": "HomeAndKitchen",
+            "locators": {
+                "productcardsection": "//*[@class='cc-product-filter-container']/div[2]/div",
+                "productcard": "//*[@class='product-block__inner']",
+                "name": ".//*[@class='title']",
+                "price": ".//*[@class='amount theme-money']",
+                "discount_percent": ".//*[@class='price on-sale']/span/span",
+                "discount_idf_type": "off",
+                "description": "",
+                "url": ".//*[@class='title']",
+                "imageurl": ".//*[@class='rimage-outer-wrapper']/div/img",
+                "rating": ".//*[@class='jdgm-prev-badge__stars']",
+                "availability_idf": "Add to cart",
+                "rating_type": "data-score"
+            },
+            "subcategories": {
+                "DishAndKitchenCare": "https://koparoclean.com/collections/natural-kitchen-cleaners-range",
+                "LaundryAndFabricCare": "https://koparoclean.com/collections/natural-laundry-cleaners-range",
+                "BathroomAndToiletCare": "https://koparoclean.com/collections/bathroom-range",
+                "CleaningAccessories": "https://koparoclean.com/collections/cleaning-accessories",
+                "FloorAndSurfaceCare": "https://koparoclean.com/collections/natural-household-cleaners-range",
+                "Handwashes": "https://koparoclean.com/collections/single-packs",
+                "DelicateSurfaceCleaners": "https://koparoclean.com/collections/delicate-surfaces",
+                "CleaningCombos": "https://koparoclean.com/collections/explore-combos"
+            }
         }
     }
 }
