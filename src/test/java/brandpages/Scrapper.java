@@ -223,6 +223,18 @@ public class Scrapper {
             scrolls++;
         }
 
+
+        not working
+        //close popup if displayed
+        try{
+            driver.findElement(By.xpath(locators.get("close_popup_btn"))).click();
+            Thread.sleep(1000);
+        }catch(NoSuchElementException e){
+            System.out.println("close btn not found");
+        }catch(InterruptedException e){
+            System.out.println(e.toString());
+        }
+
         // ------------------------------------------------
         // extracting data
 

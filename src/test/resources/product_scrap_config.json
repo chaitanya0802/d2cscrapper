@@ -415,6 +415,30 @@
                 "Muesli": "https://alpino.store/collections/super-muesli-flavours",
                 "CornFlakes" : "https://alpino.store/collections/corn-flakes"
             }
+        },
+        "slurrpfarm": {
+            "store_id": 10,
+            "store_name": "Slurrp Farm",
+            "store_url": "https://slurrpfarm.com/",
+            "maincategory": "ToyKidsAndBaby",
+            "locators": {
+                "productcardsection": "windowtype",
+                "close_popup_btn": "//*[@id='desktop_close_button']", check
+                "productcard": "//*[@id='js-product-loop']/div",
+                "name": ".//*[@class='titleweight-box']/descendant::a",
+                "price": ".//*[@class='price']/descendant::ins/span",
+                "discount_percent": ".//*[@class='product-discount-badge']/span",
+                "discount_idf_type": "off",
+                "description": ".//*[@class='key_indicator']",
+                "url": ".//*[@class='titleweight-box']/descendant::a",
+                "imageurl": ".//*[@class='plp-images__splide']/descendant::img[1]",
+                "rating": "",
+                "availability_idf": "Add to cart",
+                "rating_type": "text"
+            },
+            "subcategories": {
+                "BabyFood+Cereals": "https://slurrpfarm.com/collections/cereals-for-little-ones"
+            }
         }
     }
 }
