@@ -370,15 +370,38 @@ public class Scrapper {
                         }
                     } else {
                         // calculate discount from strike-throught(st) text
-                        String st_price_text = currproduct.findElement(By.xpath(dp)).getText().trim();
+                        String pr = currproduct.findElement(By.xpath(dp)).getText().trim();
+                        float st_price = 0;
                         try {
-                            int st_price = Math.round(Integer.parseInt(st_price_text.replaceAll("[^0-9.]", "")));
 
-                            int dis_amount = st_price - (int) price;
-                            discount_percent = (dis_amount * 100) / st_price;
+                            pr = pr.replaceAll("\\s+", " ").trim();
+
+                            // Try to match number after "Sale price"
+                            Matcher m = Pattern
+                                    .compile("Sale price\\s*[^\\d]*(\\d+(?:[.,]\\d+)?)", Pattern.CASE_INSENSITIVE)
+                                    .matcher(pr);
+                            if (m.find()) {
+                                String num = m.group(1).replace(",", "");
+                                st_price = (float) Math.round(Double.parseDouble(num));
+                            } else {
+                                // Fallback: use last number if pattern not found
+                                Matcher fallback = Pattern.compile("(\\d+(?:[.,]\\d+)?)").matcher(pr);
+                                String last = null;
+                                while (fallback.find())
+                                    last = fallback.group(1);
+                                if (last != null) {
+                                    String num = last.replace(",", "");
+                                    st_price = (float) Math.round(Double.parseDouble(num));
+                                } else {
+                                    System.out.println("!!! No numeric price found in text: " + pr);
+                                }
+                            }
+
+                            int dis_amount = (int)st_price - (int) price;
+                            discount_percent = (dis_amount * 100) / (int)st_price;
                         } catch (NumberFormatException nfe) {
                             System.out
-                                    .println("!!! [discount_percent] parse failed for value: '" + st_price_text + "' | "
+                                    .println("!!! [discount_percent] parse failed for value: '" + pr + "' | "
                                             + nfe.getClass().getSimpleName());
                         }
                     }

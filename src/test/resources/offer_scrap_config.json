@@ -145,6 +145,21 @@
             "offer_page_url": [
                 "https://supertails.com"
             ]
+        },
+        "alpino":{
+            "store_id": 8,
+            "store_name": "Alpino",
+            "store_url": "https://alpino.store",
+            "maincategory": "HealthAndNutrition",
+            "locators":{
+                "routertype": "false",
+                "offercards": "//*[@class='swiper-wrapper']/div[@data-slide]",
+                "offerurl": ".//*[@class='m-slide__media']/a",
+                "offerimage": ".//*[@class='m-slide__bg']/picture/img"
+            },
+            "offer_page_url": [
+                "https://alpino.store"
+            ]
         }
 
     }
