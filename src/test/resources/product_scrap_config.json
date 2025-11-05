@@ -423,7 +423,8 @@
             "maincategory": "ToyKidsAndBaby",
             "locators": {
                 "productcardsection": "windowtype",
-                "close_popup_btn": "//*[@id='desktop_close_button']", check
+                "popup_iframe": "//*[@id='iframe-kp']",
+                "close_popup_btn": "//*[@id='desktop_close_button']",
                 "productcard": "//*[@id='js-product-loop']/div",
                 "name": ".//*[@class='titleweight-box']/descendant::a",
                 "price": ".//*[@class='price']/descendant::ins/span",
@@ -437,8 +438,16 @@
                 "rating_type": "text"
             },
             "subcategories": {
-                "BabyFood+Cereals": "https://slurrpfarm.com/collections/cereals-for-little-ones"
+                "BabyKidsFood+BabyCereals": "https://slurrpfarm.com/collections/cereals-for-little-ones",
+                "BabyKidsFood+Noodles+Pasta": "https://slurrpfarm.com/collections/noodles-pasta",
+                "BabyKidsFood+MilkMixes": "https://slurrpfarm.com/collections/milk-mixes",
+                "BabyKidsFood+Cookies+Cakes": "https://slurrpfarm.com/collections/cookies",
+                "BabyKidsFood+KidsCereals": "https://slurrpfarm.com/collections/kids-cereals",
+                "BabyKidsFood+PanCakeMix+DosaMix+UpmaMix": "https://slurrpfarm.com/collections/pancakes-dosas-upmas",
+                "BabyKidsFood+NaturalSweetners": "https://slurrpfarm.com/collections/natural-sweeteners",
+                "Books": "https://slurrpfarm.com/collections/books-merchandise"
             }
         }
+        
     }
 }

@@ -160,6 +160,21 @@
             "offer_page_url": [
                 "https://alpino.store"
             ]
+        },
+        "slurrpfarm":{
+            "store_id": 10,
+            "store_name": "Slurrp Farm",
+            "store_url": "https://slurrpfarm.com",
+            "maincategory": "ToyKidsAndBaby",
+            "locators":{
+                "routertype": "false",
+                "offercards": "//*[@id='splide06-list']/li",
+                "offerurl": ".//*[@class='slideshow__banner-container']/descendant::a",
+                "offerimage": ".//*[@class='slideshow__banner-container']/descendant::img"
+            },
+            "offer_page_url": [
+                "https://slurrpfarm.com"
+            ]
         }
 
     }

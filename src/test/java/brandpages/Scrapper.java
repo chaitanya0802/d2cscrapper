@@ -156,6 +156,7 @@ public class Scrapper {
         List<Product> productList = new ArrayList<>();
         driver.navigate().to(catURL);
         System.out.println("Navigated to: " + catURL);
+        boolean isPopUpDisabled = false;
 
         // ------------------------------------------------
         // scrolling
@@ -176,6 +177,10 @@ public class Scrapper {
                     js.executeScript("arguments[0].scrollIntoView(false);", loopElement);
                 }
 
+                //close popup if displayed
+                if(!isPopUpDisabled){ 
+                    isPopUpDisabled = closePopUp(locators);
+                }
                 System.out.println("Scrolling...");
 
             } catch (NoSuchElementException e) {
@@ -210,6 +215,11 @@ public class Scrapper {
                 int limit = productcardsectionType.equalsIgnoreCase("windowtype") ? 10 : 5;
 
                 System.out.println("sameCountTries: " + sameCountTries);
+
+                //close popup if displayed
+                if(!isPopUpDisabled){ 
+                    isPopUpDisabled = closePopUp(locators);
+                }
                 if (sameCountTries >= limit) {
                     System.out.println(">>> Breaking scrolling as sameCountTries >= " + limit);
                     break;
@@ -223,16 +233,9 @@ public class Scrapper {
             scrolls++;
         }
 
-
-        not working
         //close popup if displayed
-        try{
-            driver.findElement(By.xpath(locators.get("close_popup_btn"))).click();
-            Thread.sleep(1000);
-        }catch(NoSuchElementException e){
-            System.out.println("close btn not found");
-        }catch(InterruptedException e){
-            System.out.println(e.toString());
+        if(!isPopUpDisabled){ 
+            isPopUpDisabled = closePopUp(locators);
         }
 
         // ------------------------------------------------
@@ -519,10 +522,32 @@ public class Scrapper {
                 System.out.println(p);
                 System.out.println("===============================================================");
 
+                //close popup
+                if(!isPopUpDisabled) {
+                    isPopUpDisabled = closePopUp(locators);
+                }
+
             } catch (Exception e) {
                 System.out.println("!!!" + e);
             }
         }
+    }
+
+    //to close the popup if appread
+    public static boolean closePopUp(Map<String, String> locators){
+        try{
+            driver.switchTo().frame(driver.findElement(By.xpath(locators.get("popup_iframe"))));
+            driver.findElement(By.xpath(locators.get("close_popup_btn"))).click();
+            System.out.println("== popup closed");
+            driver.switchTo().parentFrame();
+            return true;
+        }catch(NoSuchElementException e){
+        }catch(Exception e){
+        }
+        finally{
+            driver.switchTo().parentFrame();
+        }
+        return false;
     }
 
     // ==============================================================================================
