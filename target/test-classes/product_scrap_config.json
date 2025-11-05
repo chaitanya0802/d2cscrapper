@@ -166,7 +166,7 @@
             "store_id": 4,
             "store_name": "Bewakoof",
             "store_url": "https://www.bewakoof.com",
-            "maincategory": "Fashion",
+            "maincategory": "FashionAndClothing",
             "locators": {
                 "productcardsection": "//*[@data-testid='plp-product-listing-section']",
                 "productcard": "//*[@data-testid='plp-product-listing-section']/section",
@@ -378,14 +378,14 @@
                 "rating_type": "data-score"
             },
             "subcategories": {
-                "DishAndKitchenCare": "https://koparoclean.com/collections/natural-kitchen-cleaners-range",
-                "LaundryAndFabricCare": "https://koparoclean.com/collections/natural-laundry-cleaners-range",
-                "BathroomAndToiletCare": "https://koparoclean.com/collections/bathroom-range",
-                "CleaningAccessories": "https://koparoclean.com/collections/cleaning-accessories",
-                "FloorAndSurfaceCare": "https://koparoclean.com/collections/natural-household-cleaners-range",
-                "Handwashes": "https://koparoclean.com/collections/single-packs",
-                "DelicateSurfaceCleaners": "https://koparoclean.com/collections/delicate-surfaces",
-                "CleaningCombos": "https://koparoclean.com/collections/explore-combos"
+                "Cleaning+DishAndKitchenCare": "https://koparoclean.com/collections/natural-kitchen-cleaners-range",
+                "Cleaning+LaundryAndFabricCare": "https://koparoclean.com/collections/natural-laundry-cleaners-range",
+                "Cleaning+BathroomAndToiletCare": "https://koparoclean.com/collections/bathroom-range",
+                "Cleaning+CleaningAccessories": "https://koparoclean.com/collections/cleaning-accessories",
+                "Cleaning+FloorAndSurfaceCare": "https://koparoclean.com/collections/natural-household-cleaners-range",
+                "Cleaning+": "https://koparoclean.com/collections/single-packs",
+                "Cleaning+DelicateSurfaceCleaners": "https://koparoclean.com/collections/delicate-surfaces",
+                "Cleaning+CleaningCombos": "https://koparoclean.com/collections/explore-combos"
             }
         },
         "alpino": {
@@ -446,6 +446,37 @@
                 "BabyKidsFood+PanCakeMix+DosaMix+UpmaMix": "https://slurrpfarm.com/collections/pancakes-dosas-upmas",
                 "BabyKidsFood+NaturalSweetners": "https://slurrpfarm.com/collections/natural-sweeteners",
                 "Books": "https://slurrpfarm.com/collections/books-merchandise"
+            }
+        },
+        "myfrido": {
+            "store_id": 11,
+            "store_name": "My Frido",
+            "store_url": "https://myfrido.com",
+            "maincategory": "HomeAndKitchen+FashionAndClothing+HealthAndNutrition",
+            "locators": {
+                "productcardsection": "//*[@class='te-vuuw4p4h1h34yh1jl9whohsl ts-default']",
+                "productcard": "//*[@class='te-vuuw4p4h1h34yh1jl9whohsl ts-default']/div",
+                "name": ".//*[@class='te-w5xpb1xydhggq3yfruzi7p8q']",
+                "price": ".//*[@class='te-ouehhu3fzpw85oo9ynl6zdyg']",
+                "discount_percent": ".//*[@class='te-ly0prpgclacsq8t0abbb5q90']",
+                "discount_idf_type": "off",
+                "description": "",
+                "url": ".//*[@class='te-w5xpb1xydhggq3yfruzi7p8q']",
+                "imageurl": ".//*[@class='te-pyolikxo3qk2mhbjtlf48mnr']/descendant::img",
+                "rating": ".//*[@class='te-flt00iftxoa2pr4l0x36u2dg']/descendant::div[@data-rating]",
+                "availability_idf": "Add To Cart",
+                "rating_type": "data-rating"
+            },
+            "subcategories": {
+                "MenFootwear+WomenFootwear+Orthotics+OrthoticsFootwear": "https://myfrido.com/collections/footwear",
+                "Chairs+DeskChairs": "https://myfrido.com/collections/tt-chairs-all-products",
+                "Orthotics+Cushions+OrthoticsCushions": "https://myfrido.com/collections/tt-cushions-all-products",
+                "Orthotics": "https://myfrido.com/collections/tt-orthotics",
+                "Orthotics+Pillows+OrthoticsPillows": "https://myfrido.com/collections/tt-pillows",
+                "Orthotics+OrthoticsShoeInsoles+ShoeInsoles": "https://myfrido.com/collections/tt-insoles-all-products",
+                "Orthotics+OrthoticsBareFootSockShoes+BareFootSockShoes": "https://myfrido.com/collections/tt-barefoot-shoes",
+                "CushionCovers": "https://myfrido.com/collections/cushion-covers",
+                "Masks": "https://myfrido.com/collections/tt-best-seller-masks"
             }
         }
         

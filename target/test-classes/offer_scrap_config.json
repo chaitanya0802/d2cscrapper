@@ -175,6 +175,21 @@
             "offer_page_url": [
                 "https://slurrpfarm.com"
             ]
+        },
+        "myfrido":{
+            "store_id": 11,
+            "store_name": "My Frido",
+            "store_url": "https://myfrido.com",
+            "maincategory": "HomeAndKitchen+FashionAndClothing+HealthAndNutrition",
+            "locators":{
+                "routertype": "false",
+                "offercards": "//*[@class='te-ljymelkpqmjy0yr772gwonl0 ts-default']/parent::div",
+                "offerurl": ".//*[@class='te-ljymelkpqmjy0yr772gwonl0 ts-default']",
+                "offerimage": ".//*[@class='te-ljymelkpqmjy0yr772gwonl0 ts-default']/descendant::img[@src][1]"
+            },
+            "offer_page_url": [
+                "https://myfrido.com"
+            ]
         }
 
     }

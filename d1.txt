@@ -1,4 +1,4 @@
-//current stores 
+//current stores = 12
 
 ---------------electronics--------------------------
 boat
@@ -19,5 +19,6 @@ supertails
 koparo
 ---------------------HealthAndNutition---------------------
 alpino
+myfrido
 -------------------ToyKidsAndBaby-----------------------
 slurrpfarm

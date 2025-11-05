@@ -727,6 +727,7 @@ public class Scrapper {
                 }
                 offername = formatted.toString().trim().replace(".html", "").trim();
                 offername = formatted.toString().trim().replace("?page=1", "").trim();
+                if(offername.length() <= 2) offername += store_name + " Offer";
 
                 // image-url
                 if (!isroutertype) {
