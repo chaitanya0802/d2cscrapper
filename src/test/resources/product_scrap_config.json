@@ -478,6 +478,39 @@
                 "CushionCovers": "https://myfrido.com/collections/cushion-covers",
                 "Masks": "https://myfrido.com/collections/tt-best-seller-masks"
             }
+        },
+        "noise": {
+            "store_id": 12,
+            "store_name": "Noise",
+            "store_url": "https://www.gonoise.com",
+            "maincategory": "Electronics",
+            "locators": {
+                "productcardsection": "//*[@class='collection-content']/div[2]/div",
+                "productcard": "//*[@class='collection-content']/div[2]/div/div",
+                "name": ".//*[@class='product-title paddingBottom']",
+                "price": ".//*[@class='price']",
+                "discount_percent": ".//*[@class='discount-percent']",
+                "discount_idf_type": "off",
+                "description": ".//*[@class='product-tag']",
+                "url": ".//*[@class='product-head']/parent::a",
+                "imageurl": ".//*[@class='product-head']/descendant::img[1]",
+                "rating": ".//*[@class='rating']/descendant::p",
+                "availability_idf": "",
+                "rating_type": "text"
+            },
+            "subcategories": {
+                "Smartwatches": "https://www.gonoise.com/collections/amoled-smartwatches",
+                "Smartwatches+a": "https://www.gonoise.com/collections/sports-smartwatch",
+                "Smartwatches+b": "https://www.gonoise.com/collections/leather-straps-smartwatch",
+                "Smartwatches+c": "https://www.gonoise.com/collections/metal-straps-smartwatch",
+                "Smartwatches+d": "https://www.gonoise.com/collections/round-dials-smartwatch",
+                "AudioDevices+WirelessEarbuds+WirelessHeadphones": "https://www.gonoise.com/collections/hybrid-anc-earbuds",
+                "AudioDevices+WirelessEarbuds+WirelessHeadphones+a": "https://www.gonoise.com/collections/ows",
+                "AudioDevices+WirelessEarbuds+WirelessHeadphones+b": "https://www.gonoise.com/collections/long-playtime-earphones-and-headphones",
+                "AudioDevices+WirelessEarbuds+WirelessHeadphones+c": "https://www.gonoise.com/collections/stylish-design",
+                "Cables": "https://www.gonoise.com/collections/power-cables",
+                "Cables+Chargers": "https://www.gonoise.com/collections/combo"
+            }
         }
         
     }

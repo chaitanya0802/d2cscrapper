@@ -190,6 +190,21 @@
             "offer_page_url": [
                 "https://myfrido.com"
             ]
+        },
+        "noise":{
+            "store_id": 12,
+            "store_name": "Noise",
+            "store_url": "https://www.gonoise.com",
+            "maincategory": "Electronics",
+            "locators":{
+                "routertype": "false",
+                "offercards": "//*[@class='slider-wrapper']/div",
+                "offerurl": ".//*[@class='img-link']",
+                "offerimage": ".//*[@class='img-link']/descendant::img"
+            },
+            "offer_page_url": [
+                "https://www.gonoise.com"
+            ]
         }
 
     }
