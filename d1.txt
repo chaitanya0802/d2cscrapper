@@ -2,6 +2,7 @@
 
 ---------------electronics--------------------------
 boat
+noise
 ------------------beautyandpersonalcare--------------
 mamaearth 
 sugarcosmetics
@@ -22,3 +23,28 @@ alpino
 myfrido
 -------------------ToyKidsAndBaby-----------------------
 slurrpfarm
+
+
+"": {
+            "store_id": ,
+            "store_name": "",
+            "store_url": "",
+            "maincategory": "",
+            "locators": {
+                "productcardsection": "",
+                "productcard": "",
+                "name": "",
+                "price": "",
+                "discount_percent": "",
+                "discount_idf_type": "off",
+                "description": "",
+                "url": "",
+                "imageurl": "",
+                "rating": "",
+                "availability_idf": "",
+                "rating_type": "text"
+            },
+            "subcategories": {
+                "": "",
+            }
+}
