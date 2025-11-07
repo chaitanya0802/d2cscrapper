@@ -511,7 +511,7 @@ public class Scrapper {
                 }
 
                 // Convert categories to list of Integer
-                ArrayList<Integer> cate_ids = CategoryToInt.getListOfCat(maincat, subcat);
+                ArrayList<Integer> cate_ids = CategoryToInt.getListOfCat(subcat);
 
                 // display
                 Product p = new Product(id, name, url, imageurl, cate_ids, price, discount_percent, des, rating,
@@ -778,7 +778,7 @@ public class Scrapper {
                     System.out.println(ioe.toString());
                 }
 
-                ArrayList<Integer> catids = CategoryToInt.getListOfCat(maincat, "");
+                ArrayList<Integer> catids = CategoryToInt.getListOfCat(maincat);
 
                 // extract data from image (api based)
                 // des = OCRTextExtraction.getImageText(offerimage);

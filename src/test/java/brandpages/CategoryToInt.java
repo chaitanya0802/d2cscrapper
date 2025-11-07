@@ -10,7 +10,7 @@ public class CategoryToInt {
     static Properties cat_prop;
 
     // convert category names to list of their ids
-    public static ArrayList<Integer> getListOfCat(String maincat, String subcat){
+    public static ArrayList<Integer> getListOfCat(String subcat){
         //load props
         try {
             FileInputStream fis = new FileInputStream("src/test/resources/category_ids.properties");
@@ -26,16 +26,6 @@ public class CategoryToInt {
         ArrayList<Integer> cate_ids = new ArrayList<>();
 
         try {
-            // maincat
-            String[] maincat_arr = maincat.split("\\+"); // Escape '+' for regex
-            for (String s : maincat_arr) {
-                String mainCatValue = cat_prop.getProperty(s);
-                if (mainCatValue == null && maincat != "") {
-                    System.out.println("@@@@ Property not found for subcategory: " + s);
-                } else {
-                    cate_ids.add(Integer.parseInt(mainCatValue));
-                }
-            }
 
             // subcat
             String[] subcat_arr = subcat.split("\\+"); // Escape '+' for regex
