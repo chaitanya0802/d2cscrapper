@@ -556,6 +556,40 @@
                 "FashionAndClothing+WomenFootwear+WomenSneakers+": "https://www.thesouledstore.com/women-footwear?page=1&filters=sort%7C%7CDEFAULT%7C%7C%7Ccategory%7C%7C1079%7C%7C%7Cprice%7C%7C1649%7C2699",
                 "FashionAndClothing+WomenFootwear+WomenMules": "https://www.thesouledstore.com/women-footwear?page=1&filters=sort%7C%7CDEFAULT%7C%7C%7Ccategory%7C%7C1923%7C%7C%7Cprice%7C%7C1649%7C2699"
             }
-        }
+        },
+        "nashermiles": {
+            "store_id": 14,
+            "store_name": "Nasher Miles",
+            "store_url": "https://nashermiles.com",
+            "maincategory": "BagsAndLuggage",
+            "locators": {
+                "productcardsection": "//*[@id='AjaxinateLoop']",
+                "productcard": "//*[@id='AjaxinateLoop']/div",
+                "name": ".//*[@class='product-grid-item__details']/descendant::a",
+                "price": ".//*[@class='product-grid-item__price__new']",
+                "discount_percent": ".//*[@data-price-off-amount]",
+                "discount_idf_type": "off",
+                "description": "",
+                "url": ".//*[@class='product-grid-item__details']/descendant::a",
+                "imageurl": ".//*[@class='product__media__holder']/descendant::img[1]",
+                "rating": ".//*[@class='rating__star']",
+                "availability_idf": "Add to Cart",
+                "rating_type": "text"
+            },
+            "subcategories": {
+                "BagsAndLuggage+BackPacks+PremiumBackPacks": "https://nashermiles.com/collections/premium-backpacks",
+                "BagsAndLuggage+Luggage+LuggageSets": "https://nashermiles.com/collections/luggage-sets",
+                "BagsAndLuggage+Luggage+HardsideLuggage": "https://nashermiles.com/collections/hardside",
+                "BagsAndLuggage+Luggage+SoftsideLuggage": "https://nashermiles.com/collections/softside",
+                "BagsAndLuggage+Luggage+BusinessLuggage": "https://nashermiles.com/collections/laptop-trolley-bags",
+                "BagsAndLuggage+Luggage+KidsLuggage": "https://nashermiles.com/collections/kids-trolley-bags",
+                "BagsAndLuggage+Bags+Handbags+ToteBags+SlingBags+DuffelBags": "https://nashermiles.com/collections/gen-z-bags",
+                "BagsAndLuggage+BackPacks+WorkBackPacks": "https://nashermiles.com/collections/laptop-backpacks",
+                "BagsAndLuggage+BackPacks+CollegeBackPacks": "https://nashermiles.com/collections/college-bags",
+                "BagsAndLuggage+TravelAccessories+LuggageCover": "https://nashermiles.com/collections/luggage-cover",
+                "BagsAndLuggage+TravelAccessories+LuggageTags": "https://nashermiles.com/collections/luggage-tags",
+                "BagsAndLuggage+TravelAccessories": "https://nashermiles.com/collections/others"
+            }
+}
     }
 }

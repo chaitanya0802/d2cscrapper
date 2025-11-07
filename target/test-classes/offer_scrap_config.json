@@ -215,11 +215,26 @@
                 "routertype": "false",
                 "offercards": "//*[@class='VueCarousel-slide']",
                 "offerurl": ".//*[@class='shimmerBgColor']/descendant::a",
-                "offerimage": "..//*[@class='shimmerBgColor']/descendant::img"
+                "offerimage": ".//*[@class='shimmerBgColor']/descendant::img"
             },
             "offer_page_url": [
                 "https://www.thesouledstore.com/men",
                 "https://www.thesouledstore.com/sneakers"
+            ]
+        },
+        "nashermiles":{
+            "store_id": 14,
+            "store_name": "Nasher Miles",
+            "store_url": "https://nashermiles.com",
+            "maincategory": "BagsAndLuggage",
+            "locators":{
+                "routertype": "false",
+                "offercards": "//*[@data-slide and @data-slide-position]",
+                "offerurl": ".//a[@class='slide__link']",
+                "offerimage": ".//*[@class='background-size-cover']/descendant::img"
+            },
+            "offer_page_url": [
+                "https://nashermiles.com"
             ]
         }
 
