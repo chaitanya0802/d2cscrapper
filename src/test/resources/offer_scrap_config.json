@@ -205,6 +205,22 @@
             "offer_page_url": [
                 "https://www.gonoise.com"
             ]
+        },
+        "thesouledstore":{
+            "store_id": 13,
+            "store_name": "The Souled Store",
+            "store_url": "https://www.thesouledstore.com",
+            "maincategory": "FashionAndClothing+BagsAndLuggage+Fragrances",
+            "locators":{
+                "routertype": "false",
+                "offercards": "//*[@class='VueCarousel-slide']",
+                "offerurl": ".//*[@class='shimmerBgColor']/descendant::a",
+                "offerimage": "..//*[@class='shimmerBgColor']/descendant::img"
+            },
+            "offer_page_url": [
+                "https://www.thesouledstore.com/men",
+                "https://www.thesouledstore.com/sneakers"
+            ]
         }
 
     }
