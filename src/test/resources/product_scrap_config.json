@@ -148,14 +148,14 @@
             },
             "maincategory": "Eyewear",
             "subcategories": {
-                "Eyewear+Men+Women+MensClassicEyeglasses+WomensClassicEyeglasses": "https://www.lenskart.com/eyeglasses/marketing/vc-air-bestseller-eyeglasses.html",
-                "Eyewear+Men+Women+MensPremiumEyeglasses+WomensPremiumEyeglasses": "https://www.lenskart.com/eyeglasses/marketing/bestsellers-premium-eyeglasses.html",
-                "Eyewear+Kids+KidsClassicEyeglasses+": "https://www.lenskart.com/eyeglasses/promotions/all-kids-eyeglasses.html",
+                "Eyewear+Men+Women+MensEyeglasses+WomensEyeglasses": "https://www.lenskart.com/eyeglasses/marketing/vc-air-bestseller-eyeglasses.html",
+                "Eyewear+Men+Women+MensEyeglasses+WomensEyeglasses+a": "https://www.lenskart.com/eyeglasses/marketing/bestsellers-premium-eyeglasses.html",
+                "Eyewear+Kids+KidsEyeglasses+": "https://www.lenskart.com/eyeglasses/promotions/all-kids-eyeglasses.html",
                 "Eyewear+Mens+MensScreenEyeglasses+Women+WomensScreenEyeglasses+Kids+KidsScreenEyeglasses": "https://www.lenskart.com/eyeglasses/collections/all-computer-glasses.html",
                 "Eyewear+Kids+KidsScreenEyeglasses": "https://www.lenskart.com/eyeglasses/promotions/all-kids-computer-glasses.html",
                 "Eyewear+Kids+KidsSunglasses": "https://www.lenskart.com/sunglasses/collections/kids-sunglasses.html",
                 "Eyewear+Mens+Womens+MensSunglasses+WomensSunglasses": "https://www.lenskart.com/sunglasses.html",
-                "Eyewear+Mens+Womens+MensPremiumSunglasses+WomensPremiumSunglasses": "https://www.lenskart.com/sunglasses/collections/premium-sunglasses.html",
+                "Eyewear+Mens+Womens+MensSunglasses+WomensSunglasses+a": "https://www.lenskart.com/sunglasses/collections/premium-sunglasses.html",
                 "Eyewear+Lenses+negSPHPowerCYL<0.5": "https://www.lenskart.com/contact-lenses/popular-searches/negative-sph-power.html",
                 "Eyewear+Lenses+posSPHPowerCYL<0.5": "https://www.lenskart.com/contact-lenses/popular-searches/positive-sph-power.html",
                 "Eyewear+Lenses+CYLPowerCYL>0.75": "https://www.lenskart.com/contact-lenses/popular-searches/toric-cyl-power.html",
@@ -590,6 +590,41 @@
                 "BagsAndLuggage+TravelAccessories+LuggageTags": "https://nashermiles.com/collections/luggage-tags",
                 "BagsAndLuggage+TravelAccessories": "https://nashermiles.com/collections/others"
             }
-}
+        },
+        "cleardekho": {
+            "store_id": 15,
+            "store_name": "ClearDekho",
+            "store_url": "https://www.cleardekho.com",
+            "maincategory": "Eyewear",
+            "locators": {
+                "productcardsection": "//*[@class='shop-container']/div[3]",
+                "productcard": "//*[@class='shop-container']/div[3]/div",
+                "name": ".//*[@class='title-wrapper']/descendant::a",
+                "price": ".//*[@class='price']/ins/descendant::span/bdi",
+                "discount_percent": ".//*[@class='onsale']",
+                "discount_idf_type": "off",
+                "description": "",
+                "url": ".//*[@class='title-wrapper']/descendant::a",
+                "imageurl": ".//*[@class='image-zoom_in']/descendant::img[1]",
+                "rating": "",
+                "availability_idf": "( incl. of all taxes )",
+                "rating_type": "text"
+            },
+            "subcategories": {
+                "Eyewear+Men+MensEyeglasses": "https://www.cleardekho.com/product-category/eyeglasses/?filter_gender=men",
+                "Eyewear+Women+WomensEyeglasses": "https://www.cleardekho.com/product-category/eyeglasses/?filter_gender=women",
+                "Eyewear+Men+Women+MensEyeglasses+WomensEyeglasses": "https://www.cleardekho.com/product-category/eyeglasses/?filter_gender=unisex",
+                "Eyewear+Men+MensSunglasses": "https://www.cleardekho.com/product-category/sunglasses/?filter_gender=men",
+                "Eyewear+Women+WomensSunglasses": "https://www.cleardekho.com/product-category/sunglasses/?filter_gender=women",
+                "Eyewear+Men+Women+MensSunglasses+WomensSunglasses": "https://www.cleardekho.com/product-category/sunglasses/?filter_gender=unisex",
+                "Eyewear+Men+MensScreenEyeglasses": "https://www.cleardekho.com/product-category/computer-glasses/?filter_gender=men",
+                "Eyewear+Women+WomensScreenEyeglasses": "https://www.cleardekho.com/product-category/computer-glasses/?filter_gender=women",
+                "Eyewear+Men+Women+MensScreenEyeglasses+WomensScreenEyeglasses": "https://www.cleardekho.com/product-category/computer-glasses/?filter_gender=unisex",
+                "Eyewear+Kids+KidsScreenEyeglasses": "https://www.cleardekho.com/product-category/computer-glasses/?filter_gender=kids",
+                "Eyewear+Kids+KidsEyeglasses": "https://www.cleardekho.com/product-category/gender/kids/?filter_product-type=eyeglass",
+                "Eyewear+Kids+KidsSunglasses": "https://www.cleardekho.com/product-category/gender/kids/?filter_product-type=sunglases"
+            }
+        }
+
     }
 }

@@ -1,4 +1,4 @@
-//current stores = 12
+//current stores = 15
 
 ---------------electronics--------------------------
 boat
@@ -13,13 +13,14 @@ bewakoof
 thesouledstore
 -----------------------bagsandluggage-------------------
 mokobara
+nashermiles
 -----------------------FoodAndDrink------------------
 eatbetter
-------------pet supplies-----------------------
+------------pet supplies----------------------------
 supertails
-----------------homeandkitchen------------------
+----------------homeandkitchen----------------------
 koparo
----------------------HealthAndNutition---------------------
+---------------------HealthAndNutition---------------
 alpino
 myfrido
 -------------------ToyKidsAndBaby-----------------------

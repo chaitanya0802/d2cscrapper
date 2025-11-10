@@ -236,6 +236,21 @@
             "offer_page_url": [
                 "https://nashermiles.com"
             ]
+        },
+        "cleardekho":{
+            "store_id": 15,
+            "store_name": "ClearDekho",
+            "store_url": "https://www.cleardekho.com",
+            "maincategory": "Eyewear",
+            "locators":{
+                "routertype": "false",
+                "offercards": "//*[@id='slider-1842514139']/descendant::div[@class='flickity-slider']/div",
+                "offerurl": ".//a[@href]",
+                "offerimage": ".//a[@href]/descendant::img"
+            },
+            "offer_page_url": [
+                "https://www.cleardekho.com"
+            ]
         }
 
     }
