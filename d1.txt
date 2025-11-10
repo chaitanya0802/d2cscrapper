@@ -1,4 +1,4 @@
-//current stores = 15
+//current stores = 17
 
 ---------------electronics--------------------------
 boat
@@ -8,6 +8,7 @@ mamaearth
 sugarcosmetics
 ----------------EyeWear-------------------------
 lenskart
+cleardekho
 -------------------Fashion-----------------------
 bewakoof
 thesouledstore
@@ -16,6 +17,7 @@ mokobara
 nashermiles
 -----------------------FoodAndDrink------------------
 eatbetter
+wickedgud
 ------------pet supplies----------------------------
 supertails
 ----------------homeandkitchen----------------------

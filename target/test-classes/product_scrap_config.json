@@ -624,6 +624,32 @@
                 "Eyewear+Kids+KidsEyeglasses": "https://www.cleardekho.com/product-category/gender/kids/?filter_product-type=eyeglass",
                 "Eyewear+Kids+KidsSunglasses": "https://www.cleardekho.com/product-category/gender/kids/?filter_product-type=sunglases"
             }
+        },
+        "wickedgud": {
+            "store_id": 16 ,
+            "store_name": "Wicked Gud",
+            "store_url": "https://wickedgud.com",
+            "maincategory": "FoodAndDrink",
+            "locators": {
+                "productcardsection": "//*[@class='ProductListWrapper']/div",
+                "productcard": "//*[@class='ProductListWrapper']/div/div",
+                "name": ".//*[@class='ProductItem__Info ProductItem__Info--center ProductItem__Info--bestseller']/descendant::a",
+                "price": ".//*[@class='ProductItem__Price Price Price--highlight Text--subdued']",
+                "discount_percent": ".//*[@class='ProductItem__Price Price Price--compareAt Text--subdued']",
+                "discount_idf_type": "strikethrough",
+                "description": ".//*[@class='ProductItem__Label Bestseller__Tag Heading Text--subdued']",
+                "url": ".//*[@class='ProductItem__Info ProductItem__Info--center ProductItem__Info--bestseller']/descendant::a",
+                "imageurl": ".//*[@class='AspectRatio']/descendant::img",
+                "rating": "",
+                "availability_idf": "",
+                "rating_type": "text"
+            },
+            "subcategories": {
+                "FoodAndDrink+Pasta": "https://wickedgud.com/collections/pasta-durum-wheat",
+                "FoodAndDrink+Noodles": "https://wickedgud.com/collections/noodles",
+                "FoodAndDrink+PoppedChips": "https://wickedgud.com/collections/popped-chips",
+                "FoodAndDrink+PoppedChips+Noodles+Pasta+Combos": "https://wickedgud.com/collections/combos"
+            }
         }
 
     }

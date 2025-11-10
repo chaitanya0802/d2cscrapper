@@ -251,6 +251,21 @@
             "offer_page_url": [
                 "https://www.cleardekho.com"
             ]
+        },
+        "wickedgud":{
+            "store_id": 16 ,
+            "store_name": "Wicked Gud",
+            "store_url": "https://wickedgud.com",
+            "maincategory": "FoodAndDrink",
+            "locators":{
+                "routertype": "false",
+                "offercards": "//*[@id='section-slideshow']/descendant::div[@class='flickity-slider']/a",
+                "offerurl": "./div/parent::a",
+                "offerimage": ".//*[@class='Slideshow__Image Image--lazyLoad']/parent::div/following-sibling::div/descendant::img"
+            },
+            "offer_page_url": [
+                "https://wickedgud.com"
+            ]
         }
 
     }

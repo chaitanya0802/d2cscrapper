@@ -435,14 +435,24 @@ public class Scrapper {
                         System.out.println("[imageurl] Empty XPath — skipping");
                     } else {
                         imageurl = currproduct.findElement(By.xpath(imgXp)).getAttribute("src");
-                        if (imageurl == null)
-                            imageurl = "";
+                        if (imageurl == null){    
+                            WebElement img = currproduct.findElement(By.xpath(imgXp));
+                            JavascriptExecutor js = (JavascriptExecutor) driver;
+                            imageurl = (String) js.executeScript("return arguments[0].currentSrc;", img);
+
+                        }
                     }
                 } catch (NoSuchElementException exc) {
                     System.out.println("!!!  Image not found for: " + id);
                 } catch (Exception e) {
                     System.out.println("!!! [imageurl] XPATH=" + locators.get("imageurl") + " | "
                             + e.getClass().getSimpleName() + " - " + e.getMessage());
+                }
+
+                if (imageurl == null || imageurl.equalsIgnoreCase("")) {
+                    System.out.println("Skipping product #" + (i + 1) + " — as image is null ");
+                    System.out.println("-------------------------------------------");
+                    continue;
                 }
 
                 // description
@@ -734,6 +744,11 @@ public class Scrapper {
                     try {
                         WebElement imgEl = e.findElement(By.xpath(locators.get("offerimage")));
                         String src = imgEl.getAttribute("src");
+                        if (src == null || src.trim().isEmpty()) {
+                            JavascriptExecutor js = (JavascriptExecutor) driver;
+                            src = (String) js.executeScript("return arguments[0].currentSrc;", imgEl);
+                        }
+
                         if (src == null || src.trim().isEmpty()) {
                             System.out.println("Skipping: Image src missing for this offer");
                             continue;
