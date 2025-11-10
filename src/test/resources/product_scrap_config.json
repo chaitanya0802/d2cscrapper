@@ -332,7 +332,7 @@
                 "PetSupplies+Dogs+DogWalkAndTravelEssentials": "https://supertails.com/collections/walking-travel-essentials",
                 "PetSupplies+Dogs+DogToys": "https://supertails.com/collections/dog-toys",
                 "PetSupplies+Dogs+DogClothing": "https://supertails.com/collections/dog-clothes",
-                "PetSupplies+Dogs+DogGrooming": "https://supertails.com/collections/dog-grooming",
+                "PetSupplies+Dogs+DogGroomingProducts": "https://supertails.com/collections/dog-grooming",
                 "PetSupplies+Dogs+DogBedsAndMats": "https://supertails.com/collections/dog-beds-mats",
                 "PetSupplies+Dogs+DogBowlsAndFeeders": "https://supertails.com/collections/dog-bowls-feeders"
             }
@@ -650,7 +650,49 @@
                 "FoodAndDrink+PoppedChips": "https://wickedgud.com/collections/popped-chips",
                 "FoodAndDrink+PoppedChips+Noodles+Pasta+Combos": "https://wickedgud.com/collections/combos"
             }
+        },
+        "headsupfortails": {
+            "store_id": 17,
+            "store_name": "Heads Up For Tails",
+            "store_url": "https://headsupfortails.com",
+            "maincategory": "PetSupplies",
+            "locators": {
+                "productcardsection": "windowtype",
+                "productcard": "//*[@id='product-grid']/li",
+                "name": ".//*[@class='hw_protitle']",
+                "price": ".//*[@class='hw_productPrice']",
+                "discount_percent": ".//*[@class='hw_offs']",
+                "discount_idf_type": "off",
+                "description": ".//*[@class='hw_product_brand']/a",
+                "url": ".//*[@class='hw_product_box']/descendant::a",
+                "imageurl": ".//*[@class='hw_product_box']/descendant::img",
+                "rating": ".//*[@class='hw_product_review']/descendant::p",
+                "availability_idf": "",
+                "rating_type": "text"
+            },
+            "subcategories": {
+                "PetSupplies+Dogs+DogFood": "https://headsupfortails.com/collections/dog-food",
+                "PetSupplies+Dogs+DogGroomingProducts": "https://headsupfortails.com/collections/dog-grooming",
+                "PetSupplies+Dogs+DogTreats": "https://headsupfortails.com/collections/dog-treats-biscuits",
+                "PetSupplies+Dogs+DogWalkAndTravelEssentials": "https://headsupfortails.com/collections/collars-leashes-harnesses",
+                "PetSupplies+Dogs+DogToys": "https://headsupfortails.com/collections/dog-toys",
+                "PetSupplies+Dogs+DogBedsAndMats": "https://headsupfortails.com/collections/dog-bedding",
+                "PetSupplies+Dogs+DogClothing": "https://headsupfortails.com/collections/clothing-accessories",
+                "PetSupplies+Dogs+DogBowlsAndFeeders": "https://headsupfortails.com/collections/dog-bowls-feeders-food-mats",
+                "PetSupplies+Dogs+DogPharmacy": "https://headsupfortails.com/collections/pet-wellness",
+                "PetSupplies+Dogs+DogWalkAndTravelEssentials+a": "https://headsupfortails.com/collections/travel-supplies",
+                "PetSupplies+Dogs+DogTraining": "https://headsupfortails.com/collections/dog-training",
+                "PetSupplies+Dogs+DogPharmacy+a": "https://headsupfortails.com/collections/pharmacy-dog",
+                "PetSupplies+Cats+CatFood": "https://headsupfortails.com/collections/cat-food",
+                "PetSupplies+Cats+CatTreats": "https://headsupfortails.com/collections/cat-treats",
+                "PetSupplies+Cats+CatLitterSupplies": "https://headsupfortails.com/collections/cat-litter-accessories",
+                "PetSupplies+Cats+CatToys": "https://headsupfortails.com/collections/cat-toys",
+                "PetSupplies+Cats+CatBedsAndMats": "https://headsupfortails.com/collections/cat-beds-tents",
+                "PetSupplies+Cats+CatBowlsAndFeeders": "https://headsupfortails.com/collections/cat-bowls-diners",
+                "PetSupplies+Cats+CatWalkAndTravelSupplies": "https://headsupfortails.com/collections/cat-collars-accessories",
+                "PetSupplies+Cats+CatGroomingProducts": "https://headsupfortails.com/collections/cat-grooming",
+                "PetSupplies+Cats+CatPharmacy": "https://headsupfortails.com/collections/pharmacy-cat"
+            }
         }
-
     }
 }

@@ -266,6 +266,21 @@
             "offer_page_url": [
                 "https://wickedgud.com"
             ]
+        },
+        "headsupfortails":{
+            "store_id": 17,
+            "store_name": "Heads Up For Tails",
+            "store_url": "https://headsupfortails.com",
+            "maincategory": "PetSupplies",
+            "locators":{
+                "routertype": "false",
+                "offercards": "//*[@data-swiper-slide-index]",
+                "offerurl": ".//descendant::a",
+                "offerimage": ".//*[@src]"
+            },
+            "offer_page_url": [
+                "https://headsupfortails.com"
+            ]
         }
 
     }

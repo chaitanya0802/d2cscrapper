@@ -1,4 +1,4 @@
-//current stores = 17
+//current stores = 18
 
 ---------------electronics--------------------------
 boat
@@ -20,6 +20,7 @@ eatbetter
 wickedgud
 ------------pet supplies----------------------------
 supertails
+headsupfortails
 ----------------homeandkitchen----------------------
 koparo
 ---------------------HealthAndNutition---------------

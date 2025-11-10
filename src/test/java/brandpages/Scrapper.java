@@ -212,7 +212,7 @@ public class Scrapper {
                     js.executeScript("window.scrollBy(0, 10);");
                 }
                 sameCountTries++;
-                int limit = productcardsectionType.equalsIgnoreCase("windowtype") ? 10 : 5;
+                int limit = productcardsectionType.equalsIgnoreCase("windowtype") ? 18 : 5;
 
                 System.out.println("sameCountTries: " + sameCountTries);
 
@@ -747,6 +747,7 @@ public class Scrapper {
                         if (src == null || src.trim().isEmpty()) {
                             JavascriptExecutor js = (JavascriptExecutor) driver;
                             src = (String) js.executeScript("return arguments[0].currentSrc;", imgEl);
+                            System.out.println("88888888888");
                         }
 
                         if (src == null || src.trim().isEmpty()) {
