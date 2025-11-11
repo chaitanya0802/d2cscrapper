@@ -693,6 +693,37 @@
                 "PetSupplies+Cats+CatGroomingProducts": "https://headsupfortails.com/collections/cat-grooming",
                 "PetSupplies+Cats+CatPharmacy": "https://headsupfortails.com/collections/pharmacy-cat"
             }
-        }
+        },
+        "boult": {
+            "store_id":18 ,
+            "store_name": "Boult",
+            "store_url": "https://goboult.co.in",
+            "maincategory": "Electronics",
+            "locators": {
+                "productcardsection": "//*[@class='wizzy-search-results']",
+                "productcard": "//*[@class='wizzy-search-results']/ul/li",
+                "name": ".//*[@class='WI_fC_title']/descendant::h2",
+                "price": ".//*[@class='new_price']",
+                "discount_percent": ".//*[@class='old_price']",
+                "discount_idf_type": "strikethrough",
+                "description": ".//*[@class='ptext']",
+                "url": ".//*[@class='wizzy-image-swatch-styles']/a",
+                "imageurl": ".//*[@class='wizzy-image-swatch-styles']/descendant::img",
+                "rating": ".//*[@class='decimal-rating']",
+                "availability_idf": "",
+                "rating_type": "text"
+            },
+            "subcategories": {
+                "Electronics+AudioDevices+WirelessEarbuds": "https://goboult.co.in/collections/true-wireless-bluetooth-earbuds-with-mic",
+                "Electronics+AudioDevices+WirelessHeadphones": "https://goboult.co.in/collections/over-ear-bluetooth-headphone-with-mic",
+                "Electronics+AudioDevices+PartySpeakers": "https://goboult.co.in/collections/wireless-bluetooth-speaker",
+                "Electronics+AudioDevices+HomeAudio": "https://goboult.co.in/collections/home-audio",
+                "Electronics+Smartwatches": "https://goboult.co.in/collections/smart-watches",
+                "Electronics+Powerbanks": "https://goboult.co.in/collections/powerbanks",
+                "Electronics+AudioDevices+Neckbands": "https://goboult.co.in/collections/neckband-in-ear-bluetooth-headphone-with-mic",
+                "Electronics+AudioDevices+MobileAccessories": "https://goboult.co.in/collections/accessories"
+
+            }
+        }   
     }
 }

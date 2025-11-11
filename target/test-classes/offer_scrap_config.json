@@ -281,6 +281,21 @@
             "offer_page_url": [
                 "https://headsupfortails.com"
             ]
+        },
+        "boult": {
+            "store_id":18 ,
+            "store_name": "Boult",
+            "store_url": "https://goboult.co.in",
+            "maincategory": "Electronics",
+            "locators":{
+                "routertype": "false",
+                "offercards": "//div[@class='slide-item']/parent::div",
+                "offerurl": ".//descendant::a",
+                "offerimage": ".//descendant::img"
+            },
+            "offer_page_url": [
+                "https://goboult.co.in"
+            ]
         }
 
     }

@@ -1,8 +1,9 @@
-//current stores = 18
+//current stores = 19
 
 ---------------electronics--------------------------
 boat
 noise
+boult
 ------------------beautyandpersonalcare--------------
 mamaearth 
 sugarcosmetics
@@ -30,6 +31,8 @@ myfrido
 slurrpfarm
 
 
+===> add the todler thing
+
 "": {
             "store_id": ,
             "store_name": "",
@@ -52,4 +55,4 @@ slurrpfarm
             "subcategories": {
                 "": "",
             }
-}
+    }
