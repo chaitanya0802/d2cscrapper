@@ -724,6 +724,49 @@
                 "Electronics+AudioDevices+MobileAccessories": "https://goboult.co.in/collections/accessories"
 
             }
-        }   
+        },
+        "mcaffeine": {
+            "store_id":19 ,
+            "store_name": "Mcaffeine",
+            "store_url": "https://www.mcaffeine.com",
+            "maincategory": "BeautyandPersonalCare",
+            "locators": {
+                "productcardsection": "//*[@id='product-grid']",
+                "productcard": "//*[@id='product-grid']/li",
+                "name": ".//*[@class='card__information']/descendant::a[@id]",
+                "price": ".//*[@class='price__container']/descendant::*[@class='mrp']",
+                "discount_percent": ".//*[@class='price-item--compare']",
+                "discount_idf_type": "strikethrough",
+                "description": ".//*[@class='mCaffeine__meta-tags']",
+                "url": ".//*[@class='card__information']/descendant::a[@id]",
+                "imageurl": ".//*[@class='card__media']/descendant::img",
+                "rating": ".//*[@class='product-reviews-ratings']",
+                "availability_idf": "Add to cart",
+                "rating_type": "data-score"
+            },
+            "subcategories": {
+                "BeautyandPersonalCare+BodyCare+BodyLotion": "https://www.mcaffeine.com/collections/lotions-butters",
+                "BeautyandPersonalCare+BodyCare+BodyWash": "https://www.mcaffeine.com/collections/body-wash",
+                "BeautyandPersonalCare+BodyCare+BodyScrubs": "https://www.mcaffeine.com/collections/body-scrubs",
+                "BeautyandPersonalCare+BodyCare+BodySunscreen": "https://www.mcaffeine.com/collections/body-sunscreen-1",
+                "BeautyandPersonalCare+BodyCare+BodyShimmer": "https://www.mcaffeine.com/collections/body-shimmer",
+                "Fragrances+BodyPerfume": "https://www.mcaffeine.com/collections/body-mists",
+                "BeautyandPersonalCare+BodyCare+BodyCareCombos": "https://www.mcaffeine.com/collections/body-care-combos-1",
+                "BeautyandPersonalCare+FaceCare+Facewash": "https://www.mcaffeine.com/collections/face-wash",
+                "BeautyandPersonalCare+FaceCare+FaceMask": "https://www.mcaffeine.com/collections/face-mask",
+                "BeautyandPersonalCare+FaceCare+Moisturizer": "https://www.mcaffeine.com/collections/face-moisturisers",
+                "BeautyandPersonalCare+FaceCare+FaceScrub": "https://www.mcaffeine.com/collections/face-scrub",
+                "BeautyandPersonalCare+FaceCare+FaceSerum": "https://www.mcaffeine.com/collections/face-serum",
+                "BeautyandPersonalCare+FaceCare+Sunscreen": "https://www.mcaffeine.com/collections/sunscreen",
+                "BeautyandPersonalCare+Lips+LipBalm": "https://www.mcaffeine.com/collections/lip-care",
+                "BeautyandPersonalCare+FaceCare+FaceCareCombos": "https://www.mcaffeine.com/collections/face-care-combos-1",
+                "BeautyandPersonalCare+Eyes+Eyepatches": "https://www.mcaffeine.com/collections/eye-patches-1",
+                "BeautyandPersonalCare+Eyes+UnderEyeCream": "https://www.mcaffeine.com/collections/under-eye-cream",
+                "BeautyandPersonalCare+HairCare+Shampoo": "https://www.mcaffeine.com/collections/shampoo",
+                "BeautyandPersonalCare+HairCare+HairOil": "https://www.mcaffeine.com/collections/hair-oil",
+                "BeautyandPersonalCare+HairCare+HairConditioner": "https://www.mcaffeine.com/collections/conditioner",
+                "BeautyandPersonalCare+HairCare+HairSerum": "https://www.mcaffeine.com/collections/hair-serum"
+            }
+        }
     }
 }
