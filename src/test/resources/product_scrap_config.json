@@ -767,6 +767,46 @@
                 "BeautyandPersonalCare+HairCare+HairConditioner": "https://www.mcaffeine.com/collections/conditioner",
                 "BeautyandPersonalCare+HairCare+HairSerum": "https://www.mcaffeine.com/collections/hair-serum"
             }
+        },
+        "snitch": {
+            "store_id": 20,
+            "store_name": "Snitch",
+            "store_url": "https://www.snitch.com",
+            "maincategory": "FashionAndClothing+Fragrances+Eyewear",
+            "locators": {
+                "productcardsection": "//*[@class='w-full']/descendant::div[@class='relative ']/parent::div",
+                "productcard": "//*[@class='w-full']/descendant::div[@class='relative ']",
+                "name": ".//*[@class='px-2  pb-2']/descendant::h2",
+                "price": ".//*[@class='flex gap-2 undefined']/descendant::p[last()]",
+                "discount_percent": ".//*[@class='flex gap-2 undefined']/descendant::p[last()-1]",
+                "discount_idf_type": "strikethrough",
+                "description": "",
+                "url": ".//descendant::a",
+                "imageurl": ".//descendant::img",
+                "rating": "",
+                "availability_idf": "",
+                "rating_type": "text"
+            },
+            "subcategories": {
+                "FashionAndClothing+MenTopwear+MenCasualShirts": "https://www.snitch.com/men-shirts/buy",
+                "FashionAndClothing+MenTopwear+MenTshirts": "https://www.snitch.com/men-t-shirts/buy",
+                "FashionAndClothing+MenBottomwear+MenBaggyJeans+MenJeans": "https://www.snitch.com/men-jeans/buy",
+                "FashionAndClothing+MenBottomwear+MenTrousersAndPants": "https://www.snitch.com/men-trousers/buy",
+                "FashionAndClothing+MenTopwear+MenCasualShirts+MenOvershirt": "https://www.snitch.com/men-overshirt/buy",
+                "FashionAndClothing+MenBottomwear+MenCargos": "https://www.snitch.com/men-cargo-pants/buy",
+                "FashionAndClothing+MenTopwear+MenWinterwear": "https://www.snitch.com/men-sweaters/buy",
+                "FashionAndClothing+MenTopwear+MenWinterwear+a": "https://www.snitch.com/men-hoodies-and-sweatshirts/buy",
+                "Fragrances+BodyPerfume": "https://www.snitch.com/men-perfumes/buy",
+                "FashionAndClothing+MenBottomwear+MenShorts": "https://www.snitch.com/men-shorts/buy",
+                "FashionAndClothing+MenBottomwear+MenJoggers+MenTrackPants": "https://www.snitch.com/men-joggers-and-trackpants/buy",
+                "FashionAndClothing+MenTopwear+MenWinterwear+b": "https://www.snitch.com/men-jackets/buy",
+                "FashionAndClothing+MenBelts": "https://www.snitch.com/men-belts/buy",
+                "Eyewear+Men+MensSunglasses": "https://www.snitch.com/men-sunglasses/buy",
+                "BagsAndLuggage+Bags": "https://www.snitch.com/men-bags/buy",
+                "FashionAndClothing+MenFootwear": "https://www.snitch.com/men-shoes/buy",
+                "FashionAndClothing+MenPlusSize": "https://www.snitch.com/men-snitch-plus/281344016546/buy",
+                "FashionAndClothing+MenLoungewear": "https://www.snitch.com/men-loungewear/buy"
+            }
         }
     }
 }

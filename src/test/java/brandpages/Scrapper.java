@@ -163,18 +163,25 @@ public class Scrapper {
 
         int prevProductCount = 0, sameCountTries = 0, scrolls = 0, maxScrolls = 1500;
 
+        JavascriptExecutor jsex = (JavascriptExecutor) driver;
+        String productcardsectionType = locators.get("productcardsection");
+
+        //wait till productcardsection is visible in dom
+        if(!productcardsectionType.equalsIgnoreCase("windowtype")){
+            WebDriverWait wait = new WebDriverWait(driver, Duration.ofSeconds(3));
+            wait.until(ExpectedConditions.visibilityOfElementLocated(By.xpath(productcardsectionType)));
+        }
+
         while (scrolls < maxScrolls) {
-            JavascriptExecutor js = (JavascriptExecutor) driver;
-            String productcardsectionType = locators.get("productcardsection");
 
             try {
                 if (productcardsectionType.equalsIgnoreCase("windowtype")) {
-                    js.executeScript("window.scrollBy(0, 300);");
+                    jsex.executeScript("window.scrollBy(0, 300);");
                 }
                 // scroll to bottom of product container
                 else {
                     WebElement loopElement = driver.findElement(By.xpath(locators.get("productcardsection")));
-                    js.executeScript("arguments[0].scrollIntoView(false);", loopElement);
+                    jsex.executeScript("arguments[0].scrollIntoView(false);", loopElement);
                 }
 
                 //close popup if displayed
@@ -209,10 +216,10 @@ public class Scrapper {
             if (currProducts == prevProductCount) {
                 // only do tiny scrolls for non-windowtype sites
                 if (!productcardsectionType.equalsIgnoreCase("windowtype")) {
-                    js.executeScript("window.scrollBy(0, 10);");
+                    jsex.executeScript("window.scrollBy(0, 10);");
                 }
                 sameCountTries++;
-                int limit = productcardsectionType.equalsIgnoreCase("windowtype") ? 18 : 5;
+                int limit = productcardsectionType.equalsIgnoreCase("windowtype") ? 18 : 8;
 
                 System.out.println("sameCountTries: " + sameCountTries);
 
