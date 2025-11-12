@@ -33,7 +33,7 @@ myfrido
 slurrpfarm
 
 
-===> add the todler thing
+===> add the todler thing, wakefit
 
 "": {
             "store_id": ,

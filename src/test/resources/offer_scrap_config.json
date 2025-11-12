@@ -311,6 +311,21 @@
             "offer_page_url": [
                 "https://www.mcaffeine.com"
             ]
+        },
+        "borngood": {
+            "store_id": 21,
+            "store_name": "BormGood",
+            "store_url": "https://www.borngood.in",
+            "maincategory": "HomeAndKitchen",
+            "locators":{
+                "routertype": "false",
+                "offercards": "//*[@id='MainContent']/descendant::div[@class='slick-track'][1]/div",
+                "offerurl": ".//descendant::a",
+                "offerimage": ".//descendant::img[1]"
+            },
+            "offer_page_url": [
+                "https://www.borngood.in"
+            ]
         }
 
     }

@@ -807,6 +807,35 @@
                 "FashionAndClothing+MenPlusSize": "https://www.snitch.com/men-snitch-plus/281344016546/buy",
                 "FashionAndClothing+MenLoungewear": "https://www.snitch.com/men-loungewear/buy"
             }
+        },
+        "borngood": {
+            "store_id": 21,
+            "store_name": "BormGood",
+            "store_url": "https://www.borngood.in/",
+            "maincategory": "HomeAndKitchen",
+            "locators": {
+                "productcardsection": "//*[@id='MainContent']",
+                "productcard": "//*[@class='products']",
+                "name": ".//*[@class='details']/descendant::a",
+                "price": ".//*[@class='price__regular']/span[last()]",
+                "discount_percent": "",
+                "discount_idf_type": "off",
+                "description": ".//*[@class='select__select']/option[1]",
+                "url": ".//*[@class='details']/descendant::a",
+                "imageurl": ".//*[@class='product-image']/descendant::img",
+                "rating": ".//*[@class='jdgm-prev-badge__stars']",
+                "availability_idf": "",
+                "rating_type": "data-score"
+            },
+            "subcategories": {
+                "HomeAndKitchen+Cleaning+Handwashes": "https://www.borngood.in/collections/hand-wash",
+                "HomeAndKitchen+Cleaning+LaundryAndFabricCare": "https://www.borngood.in/collections/clothing-care-laundry-products",
+                "HomeAndKitchen+Cleaning+Cleaning+BathroomAndToiletCare+FloorAndSurfaceCare": "https://www.borngood.in/collections/household-cleaning-products",
+                "HomeAndKitchen+Cleaning+InsectRepellents": "https://www.borngood.in/collections/insect-repellents",
+                "HomeAndKitchen+Cleaning+DelicateSurfaceCleaners+FloorAndSurfaceCare": "https://www.borngood.in/collections/concentrate-cleaners",
+                "HomeAndKitchen+Cleaning+": "https://www.borngood.in/collections/ecofriendly-cleaning-products-pack",
+                "HomeAndKitchen+Cleaning+CleaningCombos": "https://www.borngood.in/collections/value-combo-packs"
+            }
         }
     }
 }
