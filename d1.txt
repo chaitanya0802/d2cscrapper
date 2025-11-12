@@ -1,4 +1,4 @@
-//current stores = 21
+//current stores = 22
 
 ---------------electronics--------------------------
 boat
@@ -26,6 +26,7 @@ supertails
 headsupfortails
 ----------------homeandkitchen----------------------
 koparo
+borngood
 ---------------------HealthAndNutition---------------
 alpino
 myfrido

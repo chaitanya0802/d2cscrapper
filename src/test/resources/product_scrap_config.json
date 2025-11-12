@@ -448,13 +448,13 @@
             },
             "subcategories": {
                 "FashionAndClothing+MenFootwear+WomenFootwear+Orthotics+OrthoticsFootwear": "https://myfrido.com/collections/footwear",
-                "HomeAndKitchen+Chairs+DeskChairs": "https://myfrido.com/collections/tt-chairs-all-products",
-                "HomeAndKitchen+Orthotics+Cushions+OrthoticsCushions": "https://myfrido.com/collections/tt-cushions-all-products",
+                "HomeAndKitchen+Chairs+Furniture": "https://myfrido.com/collections/tt-chairs-all-products",
+                "HomeAndKitchen+Orthotics+Bedding+Cushions+OrthoticsCushions": "https://myfrido.com/collections/tt-cushions-all-products",
                 "HomeAndKitchen+HealthAndNutrition+Orthotics": "https://myfrido.com/collections/tt-orthotics",
-                "HomeAndKitchen+Orthotics+Pillows+OrthoticsPillows": "https://myfrido.com/collections/tt-pillows",
+                "HomeAndKitchen+Orthotics+Pillows+Bedding+OrthoticsPillows": "https://myfrido.com/collections/tt-pillows",
                 "FashionAndClothing+HomeAndKitchen+Orthotics+OrthoticsShoeInsoles+ShoeInsoles": "https://myfrido.com/collections/tt-insoles-all-products",
                 "FashionAndClothing+HomeAndKitchen+Orthotics+OrthoticsBareFootSockShoes+BareFootSockShoes": "https://myfrido.com/collections/tt-barefoot-shoes",
-                "HomeAndKitchen+CushionCovers": "https://myfrido.com/collections/cushion-covers",
+                "HomeAndKitchen+Bedding+CushionCovers": "https://myfrido.com/collections/cushion-covers",
                 "FashionAndClothing+Masks": "https://myfrido.com/collections/tt-best-seller-masks"
             }
         },
@@ -835,6 +835,55 @@
                 "HomeAndKitchen+Cleaning+DelicateSurfaceCleaners+FloorAndSurfaceCare": "https://www.borngood.in/collections/concentrate-cleaners",
                 "HomeAndKitchen+Cleaning+": "https://www.borngood.in/collections/ecofriendly-cleaning-products-pack",
                 "HomeAndKitchen+Cleaning+CleaningCombos": "https://www.borngood.in/collections/value-combo-packs"
+            }
+        },
+        "wakefit": {
+            "store_id": 22,
+            "store_name": "Wakefit",
+            "store_url": "https://www.wakefit.co",
+            "maincategory": "HomeAndKitchen",
+            "locators": {
+                "productcardsection": "//*[@data-sentry-component='ProductCard'][1]/parent::div",
+                "productcard": "//*[@data-sentry-component='ProductCard']",
+                "name": ".//p[@title]",
+                "price": ".//*[@class='grid items-baseline']/p/span[1]",
+                "discount_percent": ".//*[@class='grid items-baseline']/p/span[last()]",
+                "discount_idf_type": "off",
+                "description": "",
+                "url": ".//child::a",
+                "imageurl": ".//descendant::img",
+                "rating": ".//descendant::img/following-sibling::div/descendant::p[1]",
+                "availability_idf": "",
+                "rating_type": "text"
+            },
+            "subcategories": {
+                "HomeAndKitchen+Beds+Furniture": "https://www.wakefit.co/bed",
+                "HomeAndKitchen+Bedding+Mattress": "https://www.wakefit.co/mattress",
+                "HomeAndKitchen+bedding": "https://www.wakefit.co/bedding",
+                "HomeAndKitchen+Cushions+Bedding+Pillows": "https://www.wakefit.co/pillows-and-cushions",
+                "HomeAndKitchen+Wardrobes+Furniture": "https://www.wakefit.co/wardrobes",
+                "HomeAndKitchen+Tables+Furniture": "https://www.wakefit.co/bedside-tables",
+                "HomeAndKitchen+Tables+Furniture+a": "https://www.wakefit.co/bedside-tables/solid-wood-bedside-tables",
+                "HomeAndKitchen+Tables+Furniture+b": "https://www.wakefit.co/dressing-table",
+                "HomeAndKitchen+Tables+Furniture+c": "https://www.wakefit.co/study-tables/computer-tables",
+                "HomeAndKitchen+Decor": "https://www.wakefit.co/bedroom-decor",
+                "HomeAndKitchen+Decor+a": "https://www.wakefit.co/lights-and-lamps/hanging-pendants",
+                "HomeAndKitchen+Decor+b": "https://www.wakefit.co/wall-decor/wall-clock",
+                "HomeAndKitchen+Decor+c": "https://www.wakefit.co/wall-art",
+                "HomeAndKitchen+Decor+d": "https://www.wakefit.co/lights-and-lamps/table-lamps",
+                "HomeAndKitchen+Decor+e": "https://www.wakefit.co/wall-decor/wall-mirror",
+                "HomeAndKitchen+Decor+f": "https://www.wakefit.co/wall-decor/paintings",
+                "HomeAndKitchen+Curtains": "https://www.wakefit.co/curtains",
+                "HomeAndKitchen+Tiles": "https://www.wakefit.co/floor-furnishing/deck-tiles",
+                "HomeAndKitchen+ArtificialGrass": "https://www.wakefit.co/floor-furnishing/artificial-grass",
+                "HomeAndKitchen+Sofaset+Furniture": "https://www.wakefit.co/sofa-set",
+                "HomeAndKitchen+Chairs+Furniture": "https://www.wakefit.co/chair",
+                "HomeAndKitchen+TVUnits+Furniture": "https://www.wakefit.co/tv-units",
+                "HomeAndKitchen+BookShelves+Furniture": "https://www.wakefit.co/bookshelf",
+                "HomeAndKitchen+tables+Furniture": "https://www.wakefit.co/tables",
+                "HomeAndKitchen+Decor+g": "https://www.wakefit.co/wall-decor",
+                "HomeAndKitchen+Decor+h": "https://www.wakefit.co/lights-and-lamps",
+                done upto 'Living'
             }
         }
     }
