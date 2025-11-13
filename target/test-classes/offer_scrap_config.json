@@ -341,6 +341,21 @@
             "offer_page_url": [
                 "https://www.wakefit.co"
             ]
+        },
+        "aulilifestyle": {
+            "store_id": 23,
+            "store_name": "Auli Lifestyle",
+            "store_url": "https://aulilifestyle.com",
+            "maincategory": "BeautyandPersonalCare",
+            "locators":{
+                "routertype": "false",
+                "offercards": "//*[@id='splide01-list']/div",
+                "offerurl": ".//descendant::a",
+                "offerimage": ".//descendant::img[1]"
+            },
+            "offer_page_url": [
+                "https://aulilifestyle.com"
+            ]
         }
 
     }

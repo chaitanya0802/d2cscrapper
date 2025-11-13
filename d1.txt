@@ -1,4 +1,4 @@
-//current stores = 23
+//current stores = 24
 
 ---------------electronics--------------------------
 boat
@@ -8,6 +8,7 @@ boult
 mamaearth 
 sugarcosmetics
 mcaffeine
+aulilifestyle
 ----------------EyeWear-------------------------
 lenskart
 cleardekho
@@ -35,7 +36,7 @@ myfrido
 slurrpfarm
 
 
-===> add the todler thing
+===> add 
 
 "": {
             "store_id": ,
