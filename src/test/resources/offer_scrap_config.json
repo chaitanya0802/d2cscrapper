@@ -326,6 +326,21 @@
             "offer_page_url": [
                 "https://www.borngood.in"
             ]
+        },
+        "wakefit": {
+            "store_id": 22,
+            "store_name": "Wakefit",
+            "store_url": "https://www.wakefit.co",
+            "maincategory": "HomeAndKitchen",
+            "locators":{
+                "routertype": "false",
+                "offercards": "//*[@data-sentry-component='HomePrimaryBannersCarousel']/descendant::div[@role='group']",
+                "offerurl": ".//descendant::a",
+                "offerimage": ".//descendant::img[1]"
+            },
+            "offer_page_url": [
+                "https://www.wakefit.co"
+            ]
         }
 
     }

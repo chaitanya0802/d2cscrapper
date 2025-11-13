@@ -1,4 +1,4 @@
-//current stores = 22
+//current stores = 23
 
 ---------------electronics--------------------------
 boat
@@ -27,6 +27,7 @@ headsupfortails
 ----------------homeandkitchen----------------------
 koparo
 borngood
+wakefit
 ---------------------HealthAndNutition---------------
 alpino
 myfrido
@@ -34,7 +35,7 @@ myfrido
 slurrpfarm
 
 
-===> add the todler thing, wakefit
+===> add the todler thing
 
 "": {
             "store_id": ,
