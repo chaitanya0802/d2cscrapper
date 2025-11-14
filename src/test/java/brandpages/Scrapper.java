@@ -18,6 +18,8 @@ import java.util.regex.Pattern;
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 import java.io.IOException;
+import org.openqa.selenium.chrome.ChromeOptions;
+
 
 //  !!! = issue
 
@@ -36,7 +38,23 @@ public class Scrapper {
     public void scrapController() {
         // driver config
         WebDriverManager.chromedriver().setup();
+
         driver = new ChromeDriver();
+
+        //headless
+        // ChromeOptions options = new ChromeOptions();
+        // options.addArguments("--headless=new");
+        // options.addArguments(
+        //         "--disable-gpu",         
+        //         "--window-size=1920,1080",
+        //         "--no-sandbox",
+        //         "--disable-dev-shm-usage"
+        // );
+        // options.addArguments(
+        //         "--disable-infobars",
+        //         "--disable-extensions"
+        // );
+        // driver = new ChromeDriver(options);
 
         if (Boolean.parseBoolean(ConfigReader.getProperty("product"))) {
             scrapProdData();
