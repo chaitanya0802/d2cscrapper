@@ -939,6 +939,31 @@
                 "BeautyandPersonalCare+FaceCare+Toner": "https://aulilifestyle.com/collections/toner",
                 "BeautyandPersonalCare+Eyes+UnderEyeCream": "https://aulilifestyle.com/collections/under-eye-cream"
             }
+        },
+        "sudathi": {
+            "store_id": 23,
+            "store_name": "Sudathi",
+            "store_url": "https://sudathi.com",
+            "maincategory": "FashionAndClothing",
+            "locators": {
+                "productcardsection": "//*[@id='product-grid']",
+                "productcard": "//*[@id='product-grid']/li",
+                "name": ".//*[@class='card-information__wrapper']/a",
+                "price": ".//*[@class='price-item price-item--sale']/descendant::bdi",
+                "discount_percent": ".//*[@class='price__compare']/descendant::bdi",
+                "discount_idf_type": "strikethrough",
+                "description": "",
+                "url": ".//*[@class='card-information__wrapper']/a",
+                "imageurl": ".//*[@class='card-wrapper']/descendant::img[1]",
+                "rating": "",
+                "availability_idf": "",
+                "rating_type": "text"
+            },
+            "subcategories": {
+                "FashionAndClothing+WomenTraditionalWear+Sarees": "https://sudathi.com/collections/saree",
+                "FashionAndClothing+WomenTraditionalWear+WomenShapewear": "https://sudathi.com/collections/shapewear",
+                "FashionAndClothing+WomenTraditionalWear+Blouses": "https://sudathi.com/collections/blouse"
+            }
         }
     }
 }

@@ -1,4 +1,4 @@
-//current stores = 24
+//current stores = 25
 
 ---------------electronics--------------------------
 boat
@@ -16,6 +16,7 @@ cleardekho
 bewakoof
 thesouledstore
 snitch
+sudathi
 -----------------------bagsandluggage-------------------
 mokobara
 nashermiles
